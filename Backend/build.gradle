@@ -4,6 +4,10 @@ plugins {
     id 'java'
 }
 
+jar {
+    enabled = false
+}
+
 group = 'com.ssafy.ssam'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
