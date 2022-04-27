@@ -7,16 +7,22 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const Sidebar = props => {
-  // const [selected, setSelected] = useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  // // 다 false로 놓고 클릭한 것만 selected로
-  // const toggleSelected = () => {
-  //   setSelected(!selected);
-  //   console.log(selected);
-  //   console.log("toggle");
-  // };
+  const handleMenuClick = (event, index) => {
+    setSelectedIndex(index);
+  };
 
   const sidebarWidth = 250;
+  const myPoint = 100;
+  // 로그인한 경우 => "나만의 팀" 메뉴 추가
+  const menus = [
+    "공지사항",
+    "자유게시판",
+    "배틀게시판",
+    "시뮬레이션",
+    "선수정보",
+  ];
 
   return (
     <Box
@@ -60,29 +66,30 @@ const Sidebar = props => {
           >
             <Typography textAlign="left">마이 페이지</Typography>
           </Button>
-          <Typography textAlign="right">내 포인트 : 100점</Typography>
-          <Typography textAlign="right">내 포인트 : 100점</Typography>
+          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
+          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
         </Box>
 
         <Divider color="white" />
 
-        {/* 로그인한 경우 나만의 팀 추가 */}
         <List sx={{ py: 4 }}>
-          {[
-            "공지사항",
-            "자유게시판",
-            "배틀게시판",
-            "시뮬레이션",
-            "선수정보",
-          ].map((text, index) => (
-            <ListItem button key={text} color="white" className="nav-item">
+          {menus.map((text, index) => (
+            <ListItem
+              sx={{ borderRadius: 1 }}
+              button
+              selected={selectedIndex === index}
+              onClick={event => handleMenuClick(event, index)}
+              key={text}
+              color="white"
+              className="nav-item"
+            >
               <ListItemText align="right" primary={text} />
             </ListItem>
           ))}
         </List>
       </div>
 
-      {/* 로그인한 경우 */}
+      {/* 유저가 로그인한 경우 */}
       <Box sx={{ mb: 6 }}>
         <Button
           sx={{ color: "white" }}
@@ -93,8 +100,6 @@ const Sidebar = props => {
           <Typography textAlign="left">로그아웃</Typography>
         </Button>
       </Box>
-
-      {/* 로그인한 경우 하단 로그아웃 버튼 */}
     </Box>
   );
 };
