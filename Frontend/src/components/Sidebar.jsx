@@ -2,27 +2,30 @@ import React, { useState } from "react";
 import "./Sidebar.css";
 
 import { Box, Divider, Button, Typography, Drawer } from "@mui/material";
-import { List, ListItem, ListItemText } from "@mui/material";
+import { List, ListItem, ListItemText, Collapse } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 const Sidebar = props => {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [playerInfoOpen, setPlayerInfoOpen] = React.useState(false);
 
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
+
+    if (index === 4) {
+      setPlayerInfoOpen(!playerInfoOpen);
+    } else {
+      setPlayerInfoOpen(false);
+    }
   };
 
   const sidebarWidth = 250;
   const myPoint = 100;
   // 로그인한 경우 => "나만의 팀" 메뉴 추가
-  const menus = [
-    "공지사항",
-    "자유게시판",
-    "배틀게시판",
-    "시뮬레이션",
-    "선수정보",
-  ];
+  const menus = ["공지사항", "자유게시판", "배틀게시판", "시뮬레이션"];
 
   return (
     <Box
@@ -86,6 +89,30 @@ const Sidebar = props => {
               <ListItemText align="right" primary={text} />
             </ListItem>
           ))}
+          {/* 선수정보 메뉴 */}
+          <ListItem
+            sx={{ borderRadius: 1 }}
+            button
+            selected={selectedIndex === 4}
+            onClick={event => handleMenuClick(event, 4)}
+            key="선수정보"
+            color="white"
+            className="nav-item"
+          >
+            <ListItemText sx={{ mr: 1 }} align="right" primary="선수정보" />
+            {playerInfoOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          {/* 선수정보 하위 메뉴 */}
+          <Collapse in={playerInfoOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem sx={{ borderRadius: 1 }} button key="타자">
+                <ListItemText align="right" primary="타자" />
+              </ListItem>
+              <ListItem sx={{ borderRadius: 1 }} button key="투수">
+                <ListItemText align="right" primary="투수" />
+              </ListItem>
+            </List>
+          </Collapse>
         </List>
       </div>
 
