@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import Header from "./components/Header";
+import theme from "./Theme";
+import { ThemeProvider } from "@mui/material/styles";
+import { Box, Button } from "@mui/material";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          ! Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Header />
+        <Box
+          sx={{
+            display: "flex",
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Sidebar />
+          <div sx={{ flexGrow: 1 }}>
+            <p>메인 화면 자리</p>
+            <Button variant="contained" color="primary">
+              버튼 Primary
+            </Button>
+            <Button variant="contained" color="secondary">
+              버튼 Secondary
+            </Button>
+          </div>
+        </Box>
+        <footer>
+          <p>footer 자리</p>
+        </footer>
+      </div>
+    </ThemeProvider>
   );
 }
 
