@@ -19,7 +19,7 @@ function App() {
           }}
         >
           <Sidebar />
-          <div sx={{ flexGrow: 1 }}>
+          <div>
             <Main />
           </div>
         </Box>

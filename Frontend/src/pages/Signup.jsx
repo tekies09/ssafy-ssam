@@ -1,7 +1,10 @@
 import React, {useState} from 'react'
+import axios from 'axios'
 import { Container, TextField, Button, Box, Grid, Typography } from '@mui/material'
 
-export default function Signup() {
+export default function Signup({ history }) {
+
+  // 회원가입 폼
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -10,6 +13,7 @@ export default function Signup() {
     nickname: ''
   })
 
+  // 폼 입력
   const onInput = (event) => {
     const { id, value } = event.target
     setForm({
@@ -18,13 +22,38 @@ export default function Signup() {
     })
   }
 
+  // "회원가입" 버튼
+  const onSignup = (event) => {
+    event.preventDefault()
+    console.log(form)
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 2000,
+      method: 'POST',
+      url: '/accounts/signup',
+      data: form
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
-
-
+  // "뒤로" 버튼
+  const onBack = (event) => {
+    console.log(history)
+    history.goBack()
+  }
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="md" sx={{
+      display: "flex",
+      flexGrow: 1,
+    }}>
       <Box
+        mt={5}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -117,6 +146,7 @@ export default function Signup() {
                 type="submit"
                 color="primary"
                 variant="contained"
+                onClick={onSignup}
               >회원가입</Button>
             </Grid>
             <Grid item xs={12}  alignItems="stretch" sx={{display: "flex"}}>
@@ -124,14 +154,12 @@ export default function Signup() {
                 fullWidth
                 color="secondary"
                 variant="contained"
+                onClick={onBack}
               >뒤로</Button>
             </Grid>
           </Grid>
-
         </Box>
-
       </Box>
-      
     </Container>
   )
 }
