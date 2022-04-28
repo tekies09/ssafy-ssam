@@ -38,7 +38,7 @@ const Sidebar = props => {
         justifyContent: "space-between",
       }}
       width={sidebarWidth}
-      height="calc(100vh - 64px)"
+      height="calc(100vh - 100px)"
       variant="permanent"
     >
       <div>
