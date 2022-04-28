@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
+import { Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { Box, Divider, Button, Typography, Drawer } from "@mui/material";
 import { List, ListItem, ListItemText, Collapse } from "@mui/material";
@@ -25,7 +27,12 @@ const Sidebar = props => {
   const sidebarWidth = 250;
   const myPoint = 100;
   // 로그인한 경우 => "나만의 팀" 메뉴 추가
-  const menus = ["공지사항", "자유게시판", "배틀게시판", "시뮬레이션"];
+  const menus = [
+    { name: "공지사항", url: "/board/notice" },
+    { name: "자유게시판", url: "/board/free" },
+    { name: "배틀게시판", url: "/board/battle" },
+    { name: "시뮬레이션", url: "/" },
+  ];
 
   return (
     <Box
@@ -41,7 +48,7 @@ const Sidebar = props => {
       height="calc(100vh - 100px)"
       variant="permanent"
     >
-      <div>
+      <Box>
         <Box
           sx={{
             height: "20vh",
@@ -75,57 +82,66 @@ const Sidebar = props => {
 
         <Divider color="white" />
 
-        <List sx={{ py: 4 }}>
-          {menus.map((text, index) => (
+        <Box>
+          <List sx={{ py: 4 }}>
+            {menus.map((menu, index) => (
+              <ListItem
+                sx={{ borderRadius: 1 }}
+                button
+                selected={selectedIndex === index}
+                onClick={event => handleMenuClick(event, index)}
+                key={menu.name}
+                color="white"
+                className="nav-item"
+                component={Link}
+                to={menu.url}
+              >
+                <ListItemText align="right" primary={menu.name} />
+                {/* <ListItemText align="right" primary={menu.name} /> */}
+              </ListItem>
+            ))}
+            {/* 선수정보 메뉴 */}
             <ListItem
               sx={{ borderRadius: 1 }}
               button
-              selected={selectedIndex === index}
-              onClick={event => handleMenuClick(event, index)}
-              key={text}
+              selected={selectedIndex === 4}
+              onClick={event => handleMenuClick(event, 4)}
+              key="선수정보"
               color="white"
               className="nav-item"
+              component={Link}
+              to="/"
             >
-              <ListItemText align="right" primary={text} />
+              <ListItemText sx={{ mr: 1 }} align="right" primary="선수정보" />
+              {playerInfoOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-          ))}
-          {/* 선수정보 메뉴 */}
-          <ListItem
-            sx={{ borderRadius: 1 }}
-            button
-            selected={selectedIndex === 4}
-            onClick={event => handleMenuClick(event, 4)}
-            key="선수정보"
-            color="white"
-            className="nav-item"
-          >
-            <ListItemText sx={{ mr: 1 }} align="right" primary="선수정보" />
-            {playerInfoOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          {/* 선수정보 하위 메뉴 */}
-          <Collapse in={playerInfoOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem sx={{ borderRadius: 1 }} button key="타자">
-                <ListItemText align="right" primary="타자" />
-              </ListItem>
-              <ListItem sx={{ borderRadius: 1 }} button key="투수">
-                <ListItemText align="right" primary="투수" />
-              </ListItem>
-            </List>
-          </Collapse>
-          <ListItem
-            sx={{ borderRadius: 1 }}
-            button
-            selected={selectedIndex === 5}
-            onClick={event => handleMenuClick(event, 5)}
-            key="나만의 팀"
-            color="white"
-            className="nav-item"
-          >
-            <ListItemText sx={{ mr: 1 }} align="right" primary="나만의 팀" />
-          </ListItem>
-        </List>
-      </div>
+            {/* 선수정보 하위 메뉴 */}
+            <Collapse in={playerInfoOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem sx={{ borderRadius: 1 }} button key="타자">
+                  <ListItemText align="right" primary="타자" />
+                </ListItem>
+                <ListItem sx={{ borderRadius: 1 }} button key="투수">
+                  <ListItemText align="right" primary="투수" />
+                </ListItem>
+              </List>
+            </Collapse>
+            <ListItem
+              sx={{ borderRadius: 1 }}
+              button
+              selected={selectedIndex === 5}
+              onClick={event => handleMenuClick(event, 5)}
+              key="나만의 팀"
+              color="white"
+              className="nav-item"
+              component={Link}
+              to="/"
+            >
+              <ListItemText sx={{ mr: 1 }} align="right" primary="나만의 팀" />
+            </ListItem>
+          </List>
+        </Box>
+      </Box>
 
       {/* 유저가 로그인한 경우 */}
       <Box sx={{ mb: 6 }}>

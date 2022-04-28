@@ -4,9 +4,8 @@ import Header from "./components/Header";
 import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { Box, Button } from "@mui/material";
-import Sidebar from "./components/Sidebar";
-import Main from "./pages/Main";
 import Footer from "./components/Footer";
+import Router from "./routes/router";
 
 function App() {
   return (
@@ -18,10 +17,7 @@ function App() {
             display: "flex",
           }}
         >
-          <Sidebar />
-          <Box sx={{ flexGrow: 1 }}>
-            <Main />
-          </Box>
+          <Router />
         </Box>
         <Footer />
       </div>
