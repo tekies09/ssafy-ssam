@@ -10,7 +10,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 
 const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
-  const [playerInfoOpen, setPlayerInfoOpen] = React.useState(false);
+  const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
 
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
@@ -38,7 +38,7 @@ const Sidebar = props => {
         justifyContent: "space-between",
       }}
       width={sidebarWidth}
-      height="calc(100vh - 60px)"
+      height="calc(100vh - 64px)"
       variant="permanent"
     >
       <div>
@@ -113,6 +113,17 @@ const Sidebar = props => {
               </ListItem>
             </List>
           </Collapse>
+          <ListItem
+            sx={{ borderRadius: 1 }}
+            button
+            selected={selectedIndex === 5}
+            onClick={event => handleMenuClick(event, 5)}
+            key="나만의 팀"
+            color="white"
+            className="nav-item"
+          >
+            <ListItemText sx={{ mr: 1 }} align="right" primary="나만의 팀" />
+          </ListItem>
         </List>
       </div>
 
