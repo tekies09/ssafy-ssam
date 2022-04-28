@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Box, Button } from "@mui/material";
 import Sidebar from "./components/Sidebar";
 import Main from "./pages/Main"
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -23,9 +24,7 @@ function App() {
             <Main />
           </div>
         </Box>
-        <footer>
-          <p>footer 자리</p>
-        </footer>
+        <Footer />
       </div>
     </ThemeProvider>
   );
