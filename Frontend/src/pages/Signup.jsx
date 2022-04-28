@@ -13,6 +13,14 @@ export default function Signup({ history }) {
     nickname: ''
   })
 
+  const [errors, setErrors] = useState({
+    username: [false, ''],
+    password: [false, ''],
+    passwordConfirm: [false, ''],
+    email: [false, ''],
+    nickname: [false, ''],
+  })
+
   // 폼 입력
   const onInput = (event) => {
     const { id, value } = event.target
@@ -20,25 +28,55 @@ export default function Signup({ history }) {
       ...form,
       [id]: value,
     })
+    setErrors({
+      ...errors,
+      [id]: [false, ''],
+    })
+  }
+
+  // Validation
+  const validate = (form) => {
+    const required = ['username', 'password', 'passwordConfirm', 'email', 'nickname']
+    let isValid = true
+
+    required.forEach(field => {
+      if (form[field] === '') {
+        setErrors(() => {
+          return {...errors, field: [true, '필수 항목입니다.']}
+        })
+        isValid = false
+      }
+    })
+
+    if (form.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(errors.email[0])) {
+      setErrors(() => { return {...errors, field: [true, '잘못된 이메일입니다.']}
+      })
+      isValid = false
+    }
+    return isValid
   }
 
   // "회원가입" 버튼
   const onSignup = (event) => {
     event.preventDefault()
     console.log(form)
-    axios({
-      baseURL: process.env.REACT_APP_SERVER_URL,
-      timeout: 2000,
-      method: 'POST',
-      url: '/accounts/signup',
-      data: form
-    })
-    .then(response => {
-      console.log(response)
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    console.log(errors)
+    const isValid = validate(form)
+    if (isValid) {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        timeout: 2000,
+        method: 'POST',
+        url: '/accounts/signup',
+        data: form
+      })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
   }
 
   // "뒤로" 버튼
@@ -74,6 +112,8 @@ export default function Signup({ history }) {
                 onChange={onInput}
                 label="아이디"
                 fullWidth
+                error={errors.username[0]}
+                helperText={errors.username[1]}
                 />
             </Grid>
             <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
@@ -95,6 +135,8 @@ export default function Signup({ history }) {
                 onChange={onInput}
                 label="비밀번호"
                 fullWidth
+                error={errors.password[0]}
+                helperText={errors.password[1]}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -106,6 +148,8 @@ export default function Signup({ history }) {
                 onChange={onInput}
                 label="비밀번호 확인"
                 fullWidth
+                error={errors.passwordConfirm[0]}
+                helperText={errors.passwordConfirm[1]}
                 />
             </Grid>
             <Grid item xs={12} sm={8}>
@@ -117,6 +161,8 @@ export default function Signup({ history }) {
                 onChange={onInput}
                 label="이메일"
                 fullWidth
+                error={errors.email[0]}
+                helperText={errors.email[1]}
                 />
             </Grid>
             <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
@@ -135,6 +181,8 @@ export default function Signup({ history }) {
                 onChange={onInput}
                 label="닉네임"
                 fullWidth
+                error={errors.nickname[0]}
+                helperText={errors.nickname[1]}
                 />
             </Grid>
 
