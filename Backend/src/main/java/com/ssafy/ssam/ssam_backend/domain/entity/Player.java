@@ -31,13 +31,13 @@ public class Player {
     private String graudate;
 
     @Enumerated(EnumType.STRING)
-    private PlayerState is_retired;
+    private PlayerState state;
 
     @Column
     private String payroll;
 
     @Enumerated(EnumType.STRING)
-    private PlayerType from_abroad;
+    private PlayerType playerType;
 
 
 

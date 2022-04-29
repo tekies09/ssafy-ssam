@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-	// 주소: http://localhost:8080/swagger-ui/index.html
+	// 주소: http://localhost:8081/swagger-ui/index.html
 	
     @Bean
     public Docket swaggerAPI(){

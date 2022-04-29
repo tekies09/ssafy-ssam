@@ -55,7 +55,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-def querydslDir = "src/main/java/com/ssafy/ssam/ssam_backend/api/domain/querydsl"
+def querydslDir = "src/main/java/querydsl"
 
 querydsl {
 	library = "com.querydsl:querydsl-apt"

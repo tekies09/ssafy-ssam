@@ -28,7 +28,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private RoleType is_admin;
+    private RoleType role;
 
     @Column
     private LocalDateTime joined_date;

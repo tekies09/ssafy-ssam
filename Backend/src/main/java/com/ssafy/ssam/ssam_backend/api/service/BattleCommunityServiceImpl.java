@@ -6,8 +6,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.ssam.ssam_backend.api.domain.board.BattleBoard;
 import com.ssafy.ssam.ssam_backend.api.repository.BattleBoardRepository;
+import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
 import lombok.RequiredArgsConstructor;
 

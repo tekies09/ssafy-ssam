@@ -3,7 +3,7 @@ package com.ssafy.ssam.ssam_backend.api.dto.response;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ssafy.ssam.ssam_backend.api.domain.board.BattleBoard;
+import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

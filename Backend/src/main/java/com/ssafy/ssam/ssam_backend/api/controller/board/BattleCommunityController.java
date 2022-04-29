@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.ssam.ssam_backend.api.domain.board.BattleBoard;
 import com.ssafy.ssam.ssam_backend.api.service.BattleCommunityService;
+import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
