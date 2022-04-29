@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 @EnableScheduling
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-@EnableJpaRepositories(basePackages = {"com.ssafy.ssam.ssam_backend"})
 public class SsamBackendApplication {
 
     public static void main(String[] args) {
