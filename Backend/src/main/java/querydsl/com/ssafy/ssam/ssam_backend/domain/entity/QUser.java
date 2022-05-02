@@ -1,12 +1,13 @@
-package querydsl.com.ssafy.ssam.ssam_backend.domain.entity;
+package com.ssafy.ssam.ssam_backend.domain.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
 import com.querydsl.core.types.dsl.*;
-import com.ssafy.ssam.ssam_backend.domain.entity.User;
+
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -27,7 +28,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath password = createString("password");
 
-    public final EnumPath<com.ssafy.ssam.ssam_backend.domain.RoleType> role = createEnum("role", com.ssafy.ssam.ssam_backend.domain.RoleType.class);
+    public final ListPath<String, StringPath> roles = this.<String, StringPath>createList("roles", String.class, StringPath.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> userId = createNumber("userId", Long.class);
 
