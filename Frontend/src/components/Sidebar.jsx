@@ -10,6 +10,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
+import {useSelector} from 'react-redux'
+
 const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
@@ -34,6 +36,54 @@ const Sidebar = props => {
     { name: "시뮬레이션", url: "/" },
   ];
 
+  const user = useSelector((state) => state.user)
+  const LogoutButton = (props) => {
+    if (user.isLoggedIn) {
+      return (
+      <Box sx={{ mb: 6 }}>
+        <Button
+          sx={{ color: "white" }}
+          size="large"
+          // align="left"
+          startIcon={<LogoutIcon />}
+        >
+          <Typography textAlign="left">로그아웃</Typography>
+        </Button>
+      </Box>)
+    } else {
+      return (<div>로그인하세요.</div>)
+    }
+  }
+  const LoginMenu = (props) => {
+    switch(user.isLoggedIn) {
+      case true:
+        return (<>
+          <Button
+            sx={{ mt: 3, mb: 1, color: "white" }}
+            align="left"
+            size="large"
+            textAlign="left"
+            startIcon={<AccountCircleIcon />}
+          >
+            <Typography textAlign="left">마이 페이지</Typography>
+          </Button>
+          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
+          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
+        </>)
+      default:
+        return (
+        <Button
+            sx={{ m: "auto", width: "100px", height: "60px" }}
+            variant="contained"
+            color="sub_300"
+            size="large"
+          >
+            <Typography sx={{}}>로그인</Typography>
+          </Button>
+        )
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -57,27 +107,10 @@ const Sidebar = props => {
             justifyContent: "center",
           }}
         >
+          <LoginMenu />
           {/* 유저가 로그인하지 않은 경우 */}
-          {/* <Button
-            sx={{ m: "auto", width: "100px", height: "60px" }}
-            variant="contained"
-            color="sub_300"
-            size="large"
-          >
-            <Typography sx={{}}>로그인</Typography>
-          </Button> */}
           {/* 유저가 로그인한 경우 */}
-          <Button
-            sx={{ mt: 3, mb: 1, color: "white" }}
-            align="left"
-            size="large"
-            textAlign="left"
-            startIcon={<AccountCircleIcon />}
-          >
-            <Typography textAlign="left">마이 페이지</Typography>
-          </Button>
-          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
-          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
+
         </Box>
 
         <Divider color="white" />
@@ -86,15 +119,15 @@ const Sidebar = props => {
           <List sx={{ py: 4 }}>
             {menus.map((menu, index) => (
               <ListItem
-                sx={{ borderRadius: 1 }}
-                button
-                selected={selectedIndex === index}
-                onClick={event => handleMenuClick(event, index)}
-                key={menu.name}
-                color="white"
-                className="nav-item"
-                component={Link}
-                to={menu.url}
+              sx={{ borderRadius: 1 }}
+              button
+              selected={selectedIndex === index}
+              onClick={event => handleMenuClick(event, index)}
+              key={menu.name}
+              color="white"
+              className="nav-item"
+              component={Link}
+              to={menu.url}
               >
                 <ListItemText align="right" primary={menu.name} />
                 {/* <ListItemText align="right" primary={menu.name} /> */}
@@ -144,16 +177,9 @@ const Sidebar = props => {
       </Box>
 
       {/* 유저가 로그인한 경우 */}
-      <Box sx={{ mb: 6 }}>
-        <Button
-          sx={{ color: "white" }}
-          size="large"
-          // align="left"
-          startIcon={<LogoutIcon />}
-        >
-          <Typography textAlign="left">로그아웃</Typography>
-        </Button>
-      </Box>
+      <LogoutButton />
+      
+      
     </Box>
   );
 };
