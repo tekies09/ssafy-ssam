@@ -51,7 +51,7 @@ const Sidebar = props => {
         </Button>
       </Box>)
     } else {
-      return (<div>로그인하세요.</div>)
+      return (<div></div>)
     }
   }
   const LoginMenu = (props) => {
@@ -72,14 +72,25 @@ const Sidebar = props => {
         </>)
       default:
         return (
-        <Button
-            sx={{ m: "auto", width: "100px", height: "60px" }}
-            variant="contained"
-            color="sub_300"
-            size="large"
-          >
-            <Typography sx={{}}>로그인</Typography>
-          </Button>
+          <>
+            <Button
+              sx={{ mx: "auto", my: 1, height: "50px" }}
+              variant="contained"
+              color="sub_300"
+              size="large"
+              fullWidth
+            >
+              <Typography sx={{}}>로그인</Typography>
+            </Button>
+            <Typography
+            textAlign="right"
+            color="lightgrey"
+            component={Link}
+            to="/signup"
+            >
+              회원가입
+            </Typography>
+          </>
         )
     }
   }
