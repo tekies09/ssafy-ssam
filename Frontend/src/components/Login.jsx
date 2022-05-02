@@ -1,22 +1,22 @@
 import {useState} from 'react'
 import Button from '@mui/material/Button'
 import axios from 'axios'
-import Box from '@mui/material/Box'
+
 import { Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, TextField, Link, Grid } from '@mui/material'
 function Login(props) {
 
+  // const open = useSelector((state) => state.modal.login)
   const {open, setOpen} = props;
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   
   const handleClose = function () {
-    // Login Modal 닫기
     setOpen(false)
   }
 
   const handleLogin = function () {
-    // 로그인 부분 구현하기
-    console.log('login')
+    
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
@@ -26,10 +26,11 @@ function Login(props) {
         'password': password
       }
     })
-    .then( response => {
+    .then(response => {
       console.log(response)
+      setOpen(false)
     })
-    .catch( error => {
+    .catch(error => {
       console.log(error)
     })
   }

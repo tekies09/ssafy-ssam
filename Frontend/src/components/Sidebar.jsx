@@ -10,11 +10,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
+import Login from '../components/Login'
 import {useSelector} from 'react-redux'
 
 const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
+  const [loginModal, setLoginModal] = useState(false)
 
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
@@ -79,6 +81,7 @@ const Sidebar = props => {
               color="sub_300"
               size="large"
               fullWidth
+              onClick={() => {setLoginModal(true)}}
             >
               <Typography sx={{}}>로그인</Typography>
             </Button>
@@ -109,6 +112,7 @@ const Sidebar = props => {
       height="calc(100vh - 100px)"
       variant="permanent"
     >
+      <Login open={loginModal} setOpen={setLoginModal}></Login>
       <Box>
         <Box
           sx={{
@@ -119,6 +123,7 @@ const Sidebar = props => {
           }}
         >
           <LoginMenu />
+
           {/* 유저가 로그인하지 않은 경우 */}
           {/* 유저가 로그인한 경우 */}
 
