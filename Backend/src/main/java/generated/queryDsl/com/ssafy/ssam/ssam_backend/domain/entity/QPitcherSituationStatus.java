@@ -1,4 +1,4 @@
-package querydsl.com.ssafy.ssam.ssam_backend.domain.entity;
+package generated.queryDsl.com.ssafy.ssam.ssam_backend.domain.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 

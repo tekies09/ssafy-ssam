@@ -10,6 +10,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
 import lombok.RequiredArgsConstructor;
+import static generated.queryDsl.com.ssafy.ssam.ssam_backend.domain.entity.QBattleBoard.battleBoard;
+import static generated.queryDsl.com.ssafy.ssam.ssam_backend.domain.entity.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,30 +19,26 @@ import lombok.RequiredArgsConstructor;
 public class BattleBoardCustomRepositoryImpl implements BattleBoardCustomRepository {
 
 	private final JPAQueryFactory query;
-//	QBattleBoard battleboard = new QBattleBoard("battleboard");
-//	QUser user = new QUser("user");
 	
 	@Override
 	public Optional<BattleBoard> findBoardById(Long boardId) {
-//		return Optional.ofNullable(query
-//				.select(battleboard)
-//				.from(battleboard)
-////				.innerJoin(battleboard.user, user)
-//				.fetchOne()
-//				);
-		return null;
+		return Optional.ofNullable(query
+				.select(battleBoard)
+				.from(battleBoard)
+//				.innerJoin(battleboard.user, user)
+				.fetchOne()
+				);
 	}
 
 	@Override
 	public List<BattleBoard> findPage(String title, String userid, int page, int limit) {
 		// query dsl 쓰는 파-트
-//		return query
-//				.select(battleboard)
-//				.orderBy(battleboard.battleBoardId.desc())
-//				.offset(page)
-//				.limit(limit)
-//				.fetch();
-		return null;
+		return query
+				.select(battleBoard)
+				.orderBy(battleBoard.battleBoardId.desc())
+				.offset(page)
+				.limit(limit)
+				.fetch();
 	}
 
 }
