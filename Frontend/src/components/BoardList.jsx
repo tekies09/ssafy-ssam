@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { styled } from "@mui/material/styles";
 import { Box, Button, Divider, Paper, Typography } from "@mui/material";
@@ -92,6 +93,8 @@ const BoardList = props => {
           variant="contained"
           color="mint"
           size="large"
+          component={Link}
+          to="./create"
           startIcon={<CreateIcon />}
         >
           <Typography textAlign="left">작성하기</Typography>
