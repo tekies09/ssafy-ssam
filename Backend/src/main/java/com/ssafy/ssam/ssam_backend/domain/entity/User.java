@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
@@ -38,8 +39,8 @@ public class User implements UserDetails {
     @Column
     private String email;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
 
     @Column
     private LocalDateTime joined_date;
@@ -50,9 +51,14 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+        auth.add(new SimpleGrantedAuthority(role.toString()));
+        return auth;
+    }
+    public void update(String email, String password, String nickname){
+        this.email=email;
+        this.password=password;
+        this.nickname=nickname;
     }
 
     @Override

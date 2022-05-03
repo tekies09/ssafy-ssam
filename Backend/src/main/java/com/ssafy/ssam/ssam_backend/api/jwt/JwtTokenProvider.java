@@ -1,5 +1,6 @@
 package com.ssafy.ssam.ssam_backend.api.jwt;
 
+import com.ssafy.ssam.ssam_backend.api.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -21,12 +22,12 @@ import java.util.List;
 @Component
 public class JwtTokenProvider {
 
-    private String secretKey = "pollar";
+    private String secretKey = "ssam";
 
     // 토큰 유효시간 1일
     private long tokenValidTime = 24 * 60 * 60 * 1000L;
 
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
@@ -35,9 +36,10 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String userPk,List<String> roles) {
-        Claims claims = Jwts.claims().setSubject("accessToken"); // JWT payload 에 저장되는 정보단위
-        claims.put(userPk, roles); // 정보는 key / value 쌍으로 저장된다.
+    public String createToken(String userPk,String role) {
+        Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
+        claims.put("userPk",userPk);
+        claims.put("role", role); // 정보는 key / value 쌍으로 저장된다.
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -50,13 +52,15 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = userService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // 토큰에서 회원 정보 추출
     public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("userId").toString();
+        String pk = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("userPk").toString();
+        System.out.println("key is : " + pk);
+        return pk;
     }
 
     // Request의 Header에서 token 값을 가져옵니다. "Bearer " : "TOKEN값'

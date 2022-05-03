@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
-@RequestMapping("/battle")
+@RequestMapping("api/battle")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(value = "배틀 커뮤니티 API", tags = "배틀 커뮤니티")
 public class BattleCommunityController {

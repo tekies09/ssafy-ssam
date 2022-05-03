@@ -53,8 +53,10 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    // 엥 이거 왜안들어가있지.. 이거때문이였던것같은 쌔한느낌.. - tekies0909
+
     implementation 'com.h2database:h2'
+    //메일 임포트
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     

@@ -19,28 +19,69 @@ import javax.transaction.Transactional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+    private final MailService mailService;
     @Override
+    @Transactional
     public boolean DeleteUser(String username) {
-        return false;
+        User entity = userRepository.findUserByUsername(username);
+        try {
+            userRepository.delete(entity);
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean CreateUser(String username, UserCreateRequestDto requestDto) {
-        return false;
+    @Transactional
+    public boolean CreateUser(UserCreateRequestDto requestDto) {
+        try {
+            userRepository.save(requestDto.toEntity());
+        }
+        catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 
     @Override
+    @Transactional
     public boolean UpdateUser(String username, UserUpdateRequestDto requestDto) {
-        return false;
+        User entity = userRepository.findUserByUsername(username);
+        try {
+            entity.update(requestDto.getEmail(), requestDto.getPassword(), requestDto.getNickname());
+        }
+        catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public boolean DuplicateUsernameCheck(String username) {
+        User entity = userRepository.findUserByUsername(username);
+
+        if(entity==null) return true;
+
         return false;
     }
 
     @Override
     public boolean DuplicateNicknameCheck(String nickname) {
+        User entity = userRepository.findUserByNickname(nickname);
+
+        if(entity==null) return true;
+        return false;
+    }
+
+    @Override
+    public boolean DuplicateEmailCheck(String email) {
+        User entity = userRepository.findUserByEmail(email);
+
+        if(entity==null) return true;
         return false;
     }
 
@@ -63,13 +104,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User FindUsernameByEmail(String email) {
-        return null;
+    public boolean FindUsernameByEmail(String email) {
+        User entity = userRepository.findUserByEmail(email);
+        if(entity!=null) {
+            mailService.sendMail(entity,"id");
+        }
+        return true;
     }
 
     @Override
-    public User FindUserPasswordByEmailAndUsername(String email, String username) {
-        return null;
+    public boolean FindUserPasswordByEmailAndUsername(String email, String username) {
+        User entity = userRepository.findUserByEmailAndUsername(email,username);
+        if(entity!=null){
+            mailService.sendMail(entity,"pw");
+        }
+        return true;
     }
 
     @Override

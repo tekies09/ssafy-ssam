@@ -11,12 +11,14 @@ import java.util.List;
 public interface UserService {
 
     public boolean DeleteUser(String username);
-    public boolean CreateUser(String username, UserCreateRequestDto requestDto);
+    public boolean CreateUser( UserCreateRequestDto requestDto);
     public boolean UpdateUser(String username, UserUpdateRequestDto requestDto);
     public boolean DuplicateUsernameCheck(String username);
     public boolean DuplicateNicknameCheck(String nickname);
+    public boolean DuplicateEmailCheck(String email);
     public User LoginUser(UserLoginRequestDto requestDto);
+    public User loadUserByUsername(String username);
     public User FindUserByUsername(String username);
-    public User FindUsernameByEmail(String email);
-    public User FindUserPasswordByEmailAndUsername(String email,String username);
+    public boolean FindUsernameByEmail(String email);
+    public boolean FindUserPasswordByEmailAndUsername(String email,String username);
 }
