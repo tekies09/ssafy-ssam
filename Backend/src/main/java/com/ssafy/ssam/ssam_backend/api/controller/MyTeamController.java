@@ -62,4 +62,25 @@ public class MyTeamController {
 
     }
 
+    @ApiOperation(value = "나만의 팀 수정")
+    @PutMapping("/modifyMyTeam")
+    public ResponseEntity<BaseResponseBody> modifyMyTeam(@RequestBody MyTeamReqDto myTeamReqDto)throws Exception{
+        BaseResponseBody resBody;
+        HttpStatus status = null;
+        try {
+
+            myTeamService.modifyMyTeam(myTeamReqDto);
+
+            resBody = new BaseResponseBody(200,"OK");
+            status = HttpStatus.OK;
+
+        }
+        catch(Exception e){
+            resBody = new BaseResponseBody(500,"INTERNAL_SERVER_ERROR");
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<BaseResponseBody>(resBody,status);
+    }
+
 }

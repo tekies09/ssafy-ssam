@@ -53,6 +53,34 @@ public class MyTeamServiceImpl implements MyTeamService {
     @Override
     public void deleteMyTeam(Long teamId) throws Exception {
         MyTeam myTeam = myTeamRepository.findById(teamId).get();
+        //해당 팀 id 삭제 : cascade 옵션으로 밑에 연결된 선수들은 my_team_player 테이블에서 자동 삭제
         myTeamRepository.delete(myTeam);
+    }
+
+    @Override
+    public void modifyMyTeam(MyTeamReqDto myTeamReqDto) throws Exception {
+
+        MyTeam newMyTeam = MyTeam.builder()
+                .myTeamId(myTeamReqDto.getMyTeamId())
+                .user(userRepository.findById(myTeamReqDto.getUserId()).get())
+                .myTeamName(myTeamReqDto.getMyTeamName())
+                .build();
+
+        myTeamRepository.save(newMyTeam);
+
+        for(MyTeamPlayerReqDto playerDto : myTeamReqDto.getMyTeamPlayerReqDtoList()){
+
+            MyTeamPlayer modPlayer = MyTeamPlayer.builder()
+                    //여기 아이디를 잘 맞추지 않으면 새로운 컬럼으로 인식해서 수정이 안되고 새로 들어감 조심!
+                    .myTeamPlayerId(playerDto.getMyTeamPlayerId())
+                    .player(playerRepository.findById(playerDto.getPlayerId()).get())
+                    .myTeam(newMyTeam)
+                    .backNumber(playerDto.getBackNumber())
+                    .battingOrder(playerDto.getBattingOrder())
+                    .defensePosition(playerDto.getDefensePosition())
+                    .build();
+            myTeamPlayerRepository.save(modPlayer);
+        }
+
     }
 }
