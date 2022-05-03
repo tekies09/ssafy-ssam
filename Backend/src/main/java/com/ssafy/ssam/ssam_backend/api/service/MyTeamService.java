@@ -6,4 +6,6 @@ import org.springframework.stereotype.Service;
 
 public interface MyTeamService {
     void createMyTeam(MyTeamReqDto myTeamReqDto) throws Exception;
+
+    void deleteMyTeam(Long teamId)throws Exception;
 }

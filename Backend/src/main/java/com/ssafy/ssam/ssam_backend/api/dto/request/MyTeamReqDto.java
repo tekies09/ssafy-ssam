@@ -12,8 +12,6 @@ public class MyTeamReqDto {
 
     @ApiModelProperty(value = "유저 아이디")
     private Long userId;
-    @ApiModelProperty(value = "나만의 팀 아이디")
-    private Long myTeamId;
     @ApiModelProperty(value = "나만의 팀 이름")
     private String myTeamName;
     @ApiModelProperty(value = "나만의 팀 선수 리스트")

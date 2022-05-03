@@ -49,4 +49,10 @@ public class MyTeamServiceImpl implements MyTeamService {
 
 
     }
+
+    @Override
+    public void deleteMyTeam(Long teamId) throws Exception {
+        MyTeam myTeam = myTeamRepository.findById(teamId).get();
+        myTeamRepository.delete(myTeam);
+    }
 }

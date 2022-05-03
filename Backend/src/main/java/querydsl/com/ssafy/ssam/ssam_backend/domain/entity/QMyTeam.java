@@ -1,4 +1,4 @@
-package querydsl.com.ssafy.ssam.ssam_backend.domain.entity;
+package com.ssafy.ssam.ssam_backend.domain.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -8,7 +8,6 @@ import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
-import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
 
 
 /**
@@ -26,6 +25,8 @@ public class QMyTeam extends EntityPathBase<MyTeam> {
     public final NumberPath<Long> myTeamId = createNumber("myTeamId", Long.class);
 
     public final StringPath myTeamName = createString("myTeamName");
+
+    public final ListPath<MyTeamPlayer, QMyTeamPlayer> myTeamPlayerList = this.<MyTeamPlayer, QMyTeamPlayer>createList("myTeamPlayerList", MyTeamPlayer.class, QMyTeamPlayer.class, PathInits.DIRECT2);
 
     public final QUser user;
 

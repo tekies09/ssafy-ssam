@@ -1,4 +1,4 @@
-package querydsl.com.ssafy.ssam.ssam_backend.domain.entity;
+package com.ssafy.ssam.ssam_backend.domain.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -8,7 +8,6 @@ import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
-import com.ssafy.ssam.ssam_backend.domain.entity.HitterDaysStatus;
 
 
 /**
