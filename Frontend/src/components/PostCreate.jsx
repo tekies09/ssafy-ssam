@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Divider, Paper, Typography, Grid } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import {
   InputLabel,
   FormControl,
@@ -8,8 +9,12 @@ import {
   Input,
   TextField,
 } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const PostCreate = props => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     title: "",
     content: "",
@@ -47,15 +52,26 @@ const PostCreate = props => {
       >
         {/* 타이틀 */}
         <h3>&nbsp;&nbsp;{props.title}</h3>
-        {/* 등록 버튼 */}
-        <Button
-          sx={{ m: 0, color: "white", borderRadius: 8 }}
-          variant="contained"
-          color="sub_300"
-          size="large"
-        >
-          <Typography textAlign="left">등록</Typography>
-        </Button>
+        <Box>
+          {/* 뒤로가기 버튼 */}
+          <IconButton
+            sx={{ px: 2 }}
+            aria-label="back"
+            size="large"
+            onClick={() => navigate(-1)}
+          >
+            <KeyboardBackspaceIcon fontSize="large" />
+          </IconButton>
+          {/* 등록 버튼 */}
+          <Button
+            sx={{ m: 0, color: "white", borderRadius: 8 }}
+            variant="contained"
+            color="sub_300"
+            size="large"
+          >
+            <Typography textAlign="left">등록</Typography>
+          </Button>
+        </Box>
       </Box>
 
       <Divider sx={{ mt: 1, mb: 2, width: "100%" }} />
