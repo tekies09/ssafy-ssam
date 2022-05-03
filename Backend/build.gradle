@@ -55,7 +55,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-def querydslDir = "src/main/java/querydsl"
+def querydslDir = "src/main/java/generated/queryDsl"
 
 querydsl {
 	library = "com.querydsl:querydsl-apt"
