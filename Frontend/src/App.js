@@ -1,5 +1,4 @@
 import React from "react";
-import { configureStore } from '@reduxjs/toolkit'
 import "./App.css";
 import Header from "./components/Header";
 import theme from "./Theme";
@@ -9,20 +8,7 @@ import Footer from "./components/Footer";
 import Router from "./routes/router";
 
 import { Provider, useSelector, useDispatch, connect } from 'react-redux'
-
-function reducer(currentState, action) {
-  if (currentState === undefined) {
-    return {
-      user: {
-        isLoggedIn: false
-      }
-    }
-  }
-  const newState = { ...currentState }
-  return newState
-}
-
-const store = configureStore({reducer: reducer})
+import store from "./store"
 
 function App() {
   return (
