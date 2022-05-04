@@ -11,9 +11,9 @@ import FreeCreatePage from "../pages/Board/FreeCreatePage";
 import FreeBoardDetail from "../pages/Board/FreeBoardDetail";
 import BattleBoardList from "../pages/Board/BattleBoardList";
 import MainPage from "../pages/MainPage";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/layout/Sidebar";
 import Account from "../pages/Account";
-import ScrollTop from "../components/ScrollTop";
+import ScrollTop from "../components/layout/ScrollTop";
 
 export default function RouterComponent() {
   return (

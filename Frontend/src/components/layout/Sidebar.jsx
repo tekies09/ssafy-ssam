@@ -9,7 +9,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import Login from "./Login";
+import Login from "../modal/Login";
 import { useSelector } from "react-redux";
 
 const Sidebar = props => {
