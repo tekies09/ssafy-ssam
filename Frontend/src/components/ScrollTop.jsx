@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Button } from "@mui/material";
+import { Box, Button, Zoom } from "@mui/material";
 import PropTypes from "prop-types";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fab from "@mui/material/Fab";
@@ -29,11 +29,15 @@ const ScrollTop = props => {
     };
 
     return (
-      <Button sx={{ color: "white", zIndex: 0 }} in={trigger}>
-        <Box onClick={handleBackToTopClick} role="presentation">
+      <Zoom in={trigger}>
+        <Box
+          sx={{ position: "fixed", bottom: 42, right: 12 }}
+          onClick={handleBackToTopClick}
+          role="presentation"
+        >
           {children}
         </Box>
-      </Button>
+      </Zoom>
     );
   }
 

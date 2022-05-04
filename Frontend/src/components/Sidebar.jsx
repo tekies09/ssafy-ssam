@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router } from "react-router-dom";
 
 import { Box, Divider, Button, Typography, Drawer } from "@mui/material";
 import { List, ListItem, ListItemText, Collapse } from "@mui/material";
@@ -10,13 +9,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import Login from '../components/Login'
-import {useSelector} from 'react-redux'
+import Login from "./Login";
+import { useSelector } from "react-redux";
 
 const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
-  const [loginModal, setLoginModal] = useState(false)
+  const [loginModal, setLoginModal] = useState(false);
 
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
@@ -28,7 +27,7 @@ const Sidebar = props => {
     }
   };
 
-  const sidebarWidth = 250;
+  const sidebarWidth = 202;
   const myPoint = 100;
   // 로그인한 경우 => "나만의 팀" 메뉴 추가
   const menus = [
@@ -38,40 +37,43 @@ const Sidebar = props => {
     { name: "시뮬레이션", url: "/" },
   ];
 
-  const user = useSelector((state) => state.user)
-  const LogoutButton = (props) => {
+  const user = useSelector(state => state.user);
+  const LogoutButton = props => {
     if (user.isLoggedIn) {
       return (
-      <Box sx={{ mb: 6 }}>
-        <Button
-          sx={{ color: "white" }}
-          size="large"
-          // align="left"
-          startIcon={<LogoutIcon />}
-        >
-          <Typography textAlign="left">로그아웃</Typography>
-        </Button>
-      </Box>)
-    } else {
-      return (<div></div>)
-    }
-  }
-  const LoginMenu = (props) => {
-    switch(user.isLoggedIn) {
-      case true:
-        return (<>
+        <Box sx={{ mb: 6 }}>
           <Button
-            sx={{ mt: 3, mb: 1, color: "white" }}
-            align="left"
+            sx={{ color: "white" }}
             size="large"
-            textAlign="left"
-            startIcon={<AccountCircleIcon />}
+            // align="left"
+            startIcon={<LogoutIcon />}
           >
-            <Typography textAlign="left">마이 페이지</Typography>
+            <Typography textAlign="left">로그아웃</Typography>
           </Button>
-          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
-          <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
-        </>)
+        </Box>
+      );
+    } else {
+      return <div></div>;
+    }
+  };
+  const LoginMenu = props => {
+    switch (user.isLoggedIn) {
+      case true:
+        return (
+          <>
+            <Button
+              sx={{ mt: 3, mb: 1, color: "white" }}
+              align="left"
+              size="large"
+              textAlign="left"
+              startIcon={<AccountCircleIcon />}
+            >
+              <Typography textAlign="left">마이 페이지</Typography>
+            </Button>
+            <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
+            <Typography textAlign="right">내 포인트 : {myPoint}점</Typography>
+          </>
+        );
       default:
         return (
           <>
@@ -81,22 +83,24 @@ const Sidebar = props => {
               color="sub_300"
               size="large"
               fullWidth
-              onClick={() => {setLoginModal(true)}}
+              onClick={() => {
+                setLoginModal(true);
+              }}
             >
               <Typography sx={{}}>로그인</Typography>
             </Button>
             <Typography
-            textAlign="right"
-            color="lightgrey"
-            component={Link}
-            to="/signup"
+              textAlign="right"
+              color="lightgrey"
+              component={Link}
+              to="/signup"
             >
               회원가입
             </Typography>
           </>
-        )
+        );
     }
-  }
+  };
 
   return (
     <Box
@@ -107,6 +111,8 @@ const Sidebar = props => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        position: "fixed",
+        top: "64px",
       }}
       width={sidebarWidth}
       height="calc(100vh - 100px)"
@@ -123,10 +129,6 @@ const Sidebar = props => {
           }}
         >
           <LoginMenu />
-
-          {/* 유저가 로그인하지 않은 경우 */}
-          {/* 유저가 로그인한 경우 */}
-
         </Box>
 
         <Divider color="white" />
@@ -135,15 +137,15 @@ const Sidebar = props => {
           <List sx={{ py: 4 }}>
             {menus.map((menu, index) => (
               <ListItem
-              sx={{ borderRadius: 1 }}
-              button
-              selected={selectedIndex === index}
-              onClick={event => handleMenuClick(event, index)}
-              key={menu.name}
-              color="white"
-              className="nav-item"
-              component={Link}
-              to={menu.url}
+                sx={{ borderRadius: 1 }}
+                button
+                selected={selectedIndex === index}
+                onClick={event => handleMenuClick(event, index)}
+                key={menu.name}
+                color="white"
+                className="nav-item"
+                component={Link}
+                to={menu.url}
               >
                 <ListItemText align="right" primary={menu.name} />
                 {/* <ListItemText align="right" primary={menu.name} /> */}
@@ -194,8 +196,6 @@ const Sidebar = props => {
 
       {/* 유저가 로그인한 경우 */}
       <LogoutButton />
-      
-      
     </Box>
   );
 };

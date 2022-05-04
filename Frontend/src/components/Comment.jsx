@@ -1,14 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardActions, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,7 +17,6 @@ const Comment = props => {
         my: 1,
       }}
     >
-      {/* <CardHeader title="Title" /> */}
       <CardContent
         sx={{
           display: "flex",
@@ -71,11 +62,6 @@ const Comment = props => {
         </IconButton>
       </CardActions>
     </Card>
-    // <Box sx={{ width: "100%", p: 1 }}>
-    //   {props.comment.author}
-    //   {props.comment.created_at}
-    //   {props.comment.content}
-    // </Box>
   );
 };
 
