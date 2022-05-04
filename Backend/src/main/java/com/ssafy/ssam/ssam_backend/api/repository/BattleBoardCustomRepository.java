@@ -1,11 +1,11 @@
 package com.ssafy.ssam.ssam_backend.api.repository;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
 public interface BattleBoardCustomRepository {
-	Optional<BattleBoard> findBoardById(Long id);
-	List<BattleBoard> findPage(String title, String userid, int page, int limit);
+	Page<BattleBoard> findPageByBbTitle(String title, Pageable pageable);
+	Page<BattleBoard> findPageByAuthor(long userId, Pageable pageable);
 }

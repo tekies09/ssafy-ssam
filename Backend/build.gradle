@@ -13,7 +13,7 @@ group = 'com.ssafy.ssam'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
+// apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 configurations {
     compileOnly {
@@ -55,6 +55,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
+/*
 def querydslDir = "src/main/java/generated/queryDsl"
 
 querydsl {
@@ -78,6 +79,7 @@ compileQuerydsl{
 tasks.withType(JavaCompile) {
 	options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
 }
+*/
 
 tasks.named('test') {
     useJUnitPlatform()
