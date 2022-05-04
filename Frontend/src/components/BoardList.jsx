@@ -122,7 +122,12 @@ const BoardList = props => {
                 <StyledTableCell component="th" scope="row" align="center">
                   {data.id}
                 </StyledTableCell>
-                <StyledTableCell sx={{ maxWidth: "300px" }} align="center">
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${data.id}`}
+                >
                   <Typography noWrap>{data.title}</Typography>
                 </StyledTableCell>
                 <StyledTableCell align="center">{data.author}</StyledTableCell>
