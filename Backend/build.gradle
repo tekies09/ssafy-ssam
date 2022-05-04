@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
 }
 
@@ -41,9 +41,9 @@ dependencies {
     // swagger 버전 문제 해결
     implementation('org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE')
     
-    // query dsl
-    implementation 'com.querydsl:querydsl-jpa'
-	implementation 'com.querydsl:querydsl-apt'
+//    // query dsl
+//    implementation 'com.querydsl:querydsl-jpa'
+//	implementation 'com.querydsl:querydsl-apt'
     
     // mysql
     implementation 'mysql:mysql-connector-java'
