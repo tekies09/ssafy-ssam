@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 
 export default function Header() {
   return (
-    <header className='ssam-header'>
+    <header className='ssam-header' id="back-to-top-anchor">
       <AppBar position='sticky' sx={{
         background: 'linear-gradient(135deg, #37468B, #638493)'
       }}
