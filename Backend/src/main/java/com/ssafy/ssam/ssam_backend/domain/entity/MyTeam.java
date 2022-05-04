@@ -25,6 +25,7 @@ public class MyTeam {
     @JoinColumn(name = "userId")
     private User user;
 
+    @Builder.Default
     @OneToMany( mappedBy = "myTeam",cascade = CascadeType.REMOVE)
     private List<MyTeamPlayer> myTeamPlayerList = new ArrayList<>();
 }
