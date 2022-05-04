@@ -2,6 +2,8 @@ package com.ssafy.ssam.ssam_backend.api.service;
 
 import com.ssafy.ssam.ssam_backend.api.dto.request.MyTeamPlayerReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.MyTeamReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamPlayerResDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamResDto;
 import com.ssafy.ssam.ssam_backend.api.repository.MyTeamPlayerRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.MyTeamRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.PlayerRepository;
@@ -12,6 +14,9 @@ import com.ssafy.ssam.ssam_backend.domain.entity.Player;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -82,5 +87,31 @@ public class MyTeamServiceImpl implements MyTeamService {
             myTeamPlayerRepository.save(modPlayer);
         }
 
+    }
+
+    @Override
+    public List<MyTeamResDto> getMyTeamList(Long userId) throws Exception {
+        List<MyTeamResDto> teamDtoList=new ArrayList<>();
+
+        List<MyTeam> entityList = myTeamRepository.findAllByUser(userRepository.findById(userId).get());
+
+        for(MyTeam myTeam : entityList){
+            MyTeamResDto myTeamResDto = new MyTeamResDto(myTeam);
+            teamDtoList.add(myTeamResDto);
+        }
+
+        return teamDtoList;
+    }
+
+    @Override
+    public MyTeamResDto getMyTeamPlayerList(Long myTeamId) throws Exception {
+        MyTeam myTeam = myTeamRepository.findById(myTeamId).get();
+        List<MyTeamPlayerResDto> dtoList = new ArrayList<>();
+        for(MyTeamPlayer myTeamPlayer : myTeam.getMyTeamPlayerList()){
+            MyTeamPlayerResDto teamPlayer= new MyTeamPlayerResDto(myTeamPlayer);
+            dtoList.add(teamPlayer);
+        }
+
+        return new MyTeamResDto(myTeam.getMyTeamId(),myTeam.getMyTeamName(),dtoList);
     }
 }
