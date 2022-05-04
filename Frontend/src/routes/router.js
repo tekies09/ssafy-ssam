@@ -11,6 +11,7 @@ import MainPage from "../pages/MainPage";
 import Sidebar from "../components/Sidebar";
 import { Box } from "@mui/material";
 import CommentForm from "../components/CommentForm";
+import Account from "../pages/Account"
 
 export default function RouterComponent() {
   return (
@@ -21,6 +22,7 @@ export default function RouterComponent() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/account" element={<Account />} />
 
             <Route path="/board/notice" element={<NoticeBoardList />} />
             <Route path="/board/notice/create" element={<NoticeCreatePage />} />

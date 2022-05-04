@@ -6,7 +6,8 @@ function reducer(currentState, action) {
   if (currentState === undefined) {
     return {
       user: {
-        isLoggedIn: false
+        isLoggedIn: false,
+        nickname: 'AnonymousUser'
       }
     }
   }
@@ -18,6 +19,8 @@ function reducer(currentState, action) {
   switch (action.type) {
     case 'login':
       newState.user = action.payload
+      
+    
   }
 
 
