@@ -28,14 +28,14 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(tags = {"유저관리 API"})
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     @JsonProperty("requestDto")
     @ApiOperation(value = "로그인")
     public ResponseEntity<String>  login(@RequestBody UserLoginRequestDto requestDto, HttpServletResponse response ){
@@ -55,7 +55,7 @@ public class UserController {
         return ResponseEntity.status(200).body(token);
     }
 
-    @PostMapping("/user/logout")
+    @PostMapping("/logout")
     @ApiOperation(value = "로그아웃")
     public void logout(HttpServletResponse response){
         // 로그아웃파트는 Redis랑 연동해서 했을때 처리해야되는부분 그래서 사실상 유효기간이 지날때까지 써야되고 그냥 쿠키 초기화
@@ -71,7 +71,7 @@ public class UserController {
         */
     }
 
-    @PutMapping("/user/modify")
+    @PutMapping("/modify")
     @ApiOperation(value = "토큰을 이용한 회원 정보 수정")
     public ResponseEntity<Boolean> update(HttpServletRequest request, @RequestBody UserUpdateRequestDto requestDto){
 
@@ -84,7 +84,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/info")
+    @GetMapping("/info")
     @ApiOperation(value = "마이페이지토큰이용")
     public ResponseEntity<UserResponseDto> getInfo(HttpServletRequest request){
 
@@ -96,34 +96,34 @@ public class UserController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/user/join")
+    @PostMapping("/join")
     @ApiOperation(value = "회원가입")
     public ResponseEntity<Boolean> save(@RequestBody UserCreateRequestDto requestDto){
         return ResponseEntity.status(200).body(userService.CreateUser(requestDto));
     }
 
-    @GetMapping("/user/iddupcheck/{username}")
+    @GetMapping("/iddupcheck/{username}")
     @ApiOperation(value = "유저 아이디 중복체크")
     public ResponseEntity<Boolean> duplicateCheckUsername(@PathVariable String username){
 
         return ResponseEntity.status(200).body(userService.DuplicateUsernameCheck(username));
     }
 
-    @GetMapping("/user/nickdupcheck/{nickname}")
+    @GetMapping("/nickdupcheck/{nickname}")
     @ApiOperation(value = "유저 닉네임 중복체크")
     public ResponseEntity<Boolean> duplicateCheckNickname(@PathVariable String nickname){
 
         return ResponseEntity.status(200).body(userService.DuplicateNicknameCheck(nickname));
     }
 
-    @GetMapping("/user/emaildupcheck/{email}")
+    @GetMapping("/emaildupcheck/{email}")
     @ApiOperation(value = "이메일 중복체크")
     public ResponseEntity<Boolean> duplicateCheckEmail(@PathVariable String email){
 
         return ResponseEntity.status(200).body(userService.DuplicateEmailCheck(email));
     }
 
-    @DeleteMapping("/user/resign")
+    @DeleteMapping("/resign")
     @ApiOperation(value = "토큰이용 회원탈퇴")
     public ResponseEntity<Boolean> delete(HttpServletRequest request){
 
@@ -135,13 +135,13 @@ public class UserController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/user/findid/{email}")
+    @GetMapping("/findid/{email}")
     @ApiOperation(value = "이메일을 이용해서 id 찾기 ")
     public ResponseEntity<Boolean> findidByEmail(@PathVariable String email){
         return ResponseEntity.status(200).body(userService.FindUsernameByEmail(email));
     }
 
-    @GetMapping("/user/findpw/{email}/{username}")
+    @GetMapping("/findpw/{email}/{username}")
     @ApiOperation(value = "이메일을 과 id 이용해서 비밀번호 찾기 ")
     public ResponseEntity<Boolean> findidByEmail(@PathVariable String email,@PathVariable String username){
         return ResponseEntity.status(200).body(userService.FindUserPasswordByEmailAndUsername(email,username));
