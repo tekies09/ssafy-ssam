@@ -29,7 +29,6 @@ public class BattleCommunityRes extends BaseResponseBody {
 
 	@ApiModelProperty(name = "배틀 커뮤니티 글 리스트")
 	List<BattleBoard> battleCommunityList = new ArrayList<>();
-	
 	public static BattleCommunityRes of(Integer statusCode, String message, List<BattleBoard> battleCommunityList) {
 		BattleCommunityRes res = new BattleCommunityRes();
 		res.setMessage(message);

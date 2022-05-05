@@ -31,7 +31,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new  ApiInfoBuilder()
-                .title("SSAM")
+        		.title("SSAM")
                 .description("SSAM, SSAFY Manager의 API입니다.")
                 .version("1.0")
                 .build();

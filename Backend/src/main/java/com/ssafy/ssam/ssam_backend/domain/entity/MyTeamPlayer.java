@@ -31,7 +31,7 @@ public class MyTeamPlayer {
     private String battingOrder;
 
     @Column
-    private String defencePosition;
+    private String defensePosition;
 
 
 }
