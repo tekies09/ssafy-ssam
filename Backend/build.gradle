@@ -27,6 +27,8 @@ repositories {
 
 dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
+
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -49,6 +51,9 @@ dependencies {
     implementation 'mysql:mysql-connector-java'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     
+    //regex 그래들
+    implementation 'com.sun.org.apache:jaxp-ri:1.4'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
