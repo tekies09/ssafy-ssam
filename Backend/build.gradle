@@ -28,7 +28,7 @@ repositories {
 dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     runtimeOnly 'mysql:mysql-connector-java'
     
@@ -44,15 +44,31 @@ dependencies {
     // query dsl
     implementation 'com.querydsl:querydsl-jpa'
 	implementation 'com.querydsl:querydsl-apt'
-    
+
+    //regex 그래들
+    implementation 'com.sun.org.apache:jaxp-ri:1.4'
+
+
     // mysql
     implementation 'mysql:mysql-connector-java'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    
+
+    //jwt token & security
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
+    implementation 'com.h2database:h2'
+    //메일 임포트
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+
+
 }
 
 def querydslDir = "src/main/java/querydsl"
