@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
 }
 
@@ -13,7 +13,7 @@ group = 'com.ssafy.ssam'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
+// apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 configurations {
     compileOnly {
@@ -27,6 +27,8 @@ repositories {
 
 dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
+
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -40,7 +42,7 @@ dependencies {
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     // swagger 버전 문제 해결
     implementation('org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE')
-    
+
     // query dsl
     implementation 'com.querydsl:querydsl-jpa'
 	implementation 'com.querydsl:querydsl-apt'
@@ -61,6 +63,9 @@ dependencies {
     implementation 'com.h2database:h2'
     //메일 임포트
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    
+    //regex 그래들
+    implementation 'com.sun.org.apache:jaxp-ri:1.4'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     
@@ -71,7 +76,8 @@ dependencies {
 
 }
 
-def querydslDir = "src/main/java/querydsl"
+/*
+def querydslDir = "src/main/java/generated/queryDsl"
 
 querydsl {
 	library = "com.querydsl:querydsl-apt"
@@ -94,6 +100,7 @@ compileQuerydsl{
 tasks.withType(JavaCompile) {
 	options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
 }
+*/
 
 tasks.named('test') {
     useJUnitPlatform()
