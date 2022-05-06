@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Box, Button, Typography } from "@mui/material";
+import PostDeleteModal from "./modal/PostDeleteModal";
 
 const DetailBottomMenu = props => {
+  const [postDeleteModal, setPostDeleteModal] = useState(false);
+
   return (
     <Box
       sx={{
@@ -15,6 +18,11 @@ const DetailBottomMenu = props => {
         p: 2,
       }}
     >
+      {/* 게시글 삭제 확인 모달 */}
+      <PostDeleteModal
+        open={postDeleteModal}
+        setOpen={setPostDeleteModal}
+      ></PostDeleteModal>
       {/* 수정, 삭제 버튼 */}
       <Box>
         <Button
@@ -24,6 +32,11 @@ const DetailBottomMenu = props => {
           size="large"
           component={Link}
           to="./update"
+          // TODO: 제목, 내용 데이터 axios 요청으로 받아와서 넘기기
+          state={{
+            title: "수정할 글의 제목",
+            content: "수정할 글의 내용\n\n두 줄 아래 글의 내용",
+          }}
         >
           <Typography textAlign="left">수정</Typography>
         </Button>
@@ -32,6 +45,9 @@ const DetailBottomMenu = props => {
           variant="contained"
           color="mint"
           size="large"
+          onClick={() => {
+            setPostDeleteModal(true);
+          }}
         >
           <Typography textAlign="left">삭제</Typography>
         </Button>
