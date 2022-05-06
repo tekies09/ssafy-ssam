@@ -122,6 +122,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public long FindUserIdByUsername(String username) {
+        User entity = userRepository.findUserByUsername(username);
+        return entity.getUserId();
+    }
+
+    @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserByUsername(username);
     }

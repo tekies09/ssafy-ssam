@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.ssam.ssam_backend.api.dto.request.UserCreateRequestDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.UserLoginRequestDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.UserUpdateRequestDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
 import com.ssafy.ssam.ssam_backend.api.dto.response.UserLoginResponseDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.UserResponseDto;
 import com.ssafy.ssam.ssam_backend.api.jwt.JwtTokenProvider;
@@ -38,21 +39,22 @@ public class UserController {
     @PostMapping("/login")
     @JsonProperty("requestDto")
     @ApiOperation(value = "로그인")
-    public ResponseEntity<String>  login(@RequestBody UserLoginRequestDto requestDto, HttpServletResponse response ){
+    public ResponseEntity<BaseResponseBody> login(@RequestBody UserLoginRequestDto requestDto, HttpServletResponse response ){
         User user= userService.LoginUser(requestDto);
-        if(user==null){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        String result = "Fail";
+        int statusCode = 404;
+        if(user!=null){
+            result = jwtTokenProvider.createToken(user.getUsername(), user.getRole().toString());
+            statusCode = 200;
         }
-        String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().toString());
+        return ResponseEntity.status(statusCode).body(new BaseResponseBody(statusCode, result));
        /* response.setHeader("X-AUTH-TOKEN", token);
-
         Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         response.addCookie(cookie);
         */
-        return ResponseEntity.status(200).body(token);
     }
 
     @PostMapping("/logout")
@@ -73,14 +75,19 @@ public class UserController {
 
     @PutMapping("/modify")
     @ApiOperation(value = "토큰을 이용한 회원 정보 수정")
-    public ResponseEntity<Boolean> update(HttpServletRequest request, @RequestBody UserUpdateRequestDto requestDto){
+    public ResponseEntity<BaseResponseBody> update(HttpServletRequest request, @RequestBody UserUpdateRequestDto requestDto){
 
+        String result = "Fail";
+        int statusCode = 404;
         Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(details != null && !(details instanceof  String)) {
             User user = (User) details;
-            return ResponseEntity.status(200).body(userService.UpdateUser(user.getUsername(), requestDto));
+            if((userService.UpdateUser(user.getUsername(), requestDto))){
+                result = "Success";
+                statusCode = 200;
+            }
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(statusCode).body(new BaseResponseBody(statusCode, result));
     }
 
 
@@ -98,42 +105,71 @@ public class UserController {
 
     @PostMapping("/join")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<Boolean> save(@RequestBody UserCreateRequestDto requestDto){
-        return ResponseEntity.status(200).body(userService.CreateUser(requestDto));
+    public ResponseEntity<BaseResponseBody> save(@RequestBody UserCreateRequestDto requestDto){
+        String result = "Fail";
+        int statuscode = 404;
+        if(userService.CreateUser(requestDto)){
+            result = "Success";
+            statuscode = 200;
+        }
+        return ResponseEntity.status(statuscode).body(new BaseResponseBody(statuscode, result));
+    }
+    @DeleteMapping("/resign")
+    @ApiOperation(value = "토큰이용 회원탈퇴")
+    public ResponseEntity<BaseResponseBody> delete(HttpServletRequest request){
+        String result = "Fail";
+        int statuscode = 404;
+        Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(details != null && !(details instanceof  String)) {
+            User user = (User) details;
+            if(userService.DeleteUser(user.getUsername())){
+                result = "Success";
+                statuscode = 200;
+            }
+        }
+        return ResponseEntity.status(statuscode).body(new BaseResponseBody(statuscode, result));
     }
 
     @GetMapping("/iddupcheck/{username}")
     @ApiOperation(value = "유저 아이디 중복체크")
-    public ResponseEntity<Boolean> duplicateCheckUsername(@PathVariable String username){
+    public ResponseEntity<BaseResponseBody> duplicateCheckUsername(@PathVariable String username){
+        String result = "Fail";
+        int statuscode = 404;
 
-        return ResponseEntity.status(200).body(userService.DuplicateUsernameCheck(username));
+        if(userService.DuplicateUsernameCheck(username)){
+            statuscode=200;
+            result="Success";
+        }
+        return ResponseEntity.status(statuscode).body(new BaseResponseBody(statuscode, result));
     }
 
     @GetMapping("/nickdupcheck/{nickname}")
     @ApiOperation(value = "유저 닉네임 중복체크")
-    public ResponseEntity<Boolean> duplicateCheckNickname(@PathVariable String nickname){
+    public ResponseEntity<BaseResponseBody> duplicateCheckNickname(@PathVariable String nickname){
+        String result = "Fail";
+        int statuscode = 404;
 
-        return ResponseEntity.status(200).body(userService.DuplicateNicknameCheck(nickname));
+        if(userService.DuplicateNicknameCheck(nickname)){
+            statuscode=200;
+            result="Success";
+        }
+        return ResponseEntity.status(statuscode).body(new BaseResponseBody(statuscode, result));
     }
 
     @GetMapping("/emaildupcheck/{email}")
     @ApiOperation(value = "이메일 중복체크")
-    public ResponseEntity<Boolean> duplicateCheckEmail(@PathVariable String email){
+    public ResponseEntity<BaseResponseBody> duplicateCheckEmail(@PathVariable String email){
+        String result = "Fail";
+        int statuscode = 404;
 
-        return ResponseEntity.status(200).body(userService.DuplicateEmailCheck(email));
-    }
-
-    @DeleteMapping("/resign")
-    @ApiOperation(value = "토큰이용 회원탈퇴")
-    public ResponseEntity<Boolean> delete(HttpServletRequest request){
-
-        Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(details != null && !(details instanceof  String)) {
-            User user = (User) details;
-            return ResponseEntity.status(200).body(userService.DeleteUser(user.getUsername()));
+        if(userService.DuplicateEmailCheck(email)){
+            statuscode=200;
+            result="Success";
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(statuscode).body(new BaseResponseBody(statuscode, result));
     }
+
+
 
     @GetMapping("/findid/{email}")
     @ApiOperation(value = "이메일을 이용해서 id 찾기 ")

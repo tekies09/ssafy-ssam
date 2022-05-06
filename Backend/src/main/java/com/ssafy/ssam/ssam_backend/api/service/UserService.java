@@ -21,4 +21,5 @@ public interface UserService {
     public User FindUserByUsername(String username);
     public boolean FindUsernameByEmail(String email);
     public boolean FindUserPasswordByEmailAndUsername(String email,String username);
+    public long FindUserIdByUsername(String username);
 }
