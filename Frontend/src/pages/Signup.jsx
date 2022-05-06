@@ -27,7 +27,12 @@ export default function Signup() {
   // 폼 입력
   const onInput = (event) => {
     const { id, value } = event.target
+
+    // 입력값 적용
     setForm((form) => ({...form, [id]: value}))
+
+    // 폼 입력 시 해당 필드 validation 상태 초기화
+    // 비밀번호(확인) 필드일 경우: 반대쪽 필드도 함께 초기화
     if (id === 'password' || id === 'passwordConfirm') {
       setErrors((errors) => ({...errors, password: [false, '']}))
       setErrors((errors) => ({...errors, passwordConfirm: [false, '']}))
