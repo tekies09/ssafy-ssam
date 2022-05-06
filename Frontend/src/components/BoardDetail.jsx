@@ -4,7 +4,7 @@ import { Box, Divider, Paper, Typography } from "@mui/material";
 import DetailBottomMenu from "./DetailBottomMenu";
 import CommentForm from "./CommentForm";
 
-const BoardList = props => {
+const BoardDetail = props => {
   const mockData = {
     id: 1,
     title: "시뮬레이션 기능 0.2051 Version Prefix 안내",
@@ -105,4 +105,4 @@ const BoardList = props => {
   );
 };
 
-export default BoardList;
+export default BoardDetail;
