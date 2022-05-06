@@ -27,14 +27,14 @@ export default function Signup() {
   // 폼 입력
   const onInput = (event) => {
     const { id, value } = event.target
-    setForm({
-      ...form,
-      [id]: value,
-    })
-    setErrors({
-      ...errors,
-      [id]: [false, ''],
-    })
+    setForm((form) => ({...form, [id]: value}))
+    if (id === 'password' || id === 'passwordConfirm') {
+      setErrors((errors) => ({...errors, password: [false, '']}))
+      setErrors((errors) => ({...errors, passwordConfirm: [false, '']}))
+    } else {
+      setErrors((errors) => ({...errors, [id]: [false, '']}))
+    }
+
   }
 
   // Validation
@@ -45,7 +45,7 @@ export default function Signup() {
     // 빈값 체크
     required.forEach(field => {
       if (form[field] === '') {
-        setErrors((errors) => ({...errors, [field]: [true, '잘못된 이메일입니다.']}))
+        setErrors((errors) => ({...errors, [field]: [true, '반드시 입력해야 합니다.']}))
         isValid = false
       }
     })
@@ -55,10 +55,11 @@ export default function Signup() {
       setErrors((errors) => ({...errors, email: [true, '잘못된 이메일입니다.']}))
       isValid = false
     }
-
+    
     // 비밀번호 확인 체크
     if (form.password !== form.passwordConfirm) {
       setErrors((errors) => ({...errors, passwordConfirm: [true, '비밀번호가 일치하지 않습니다.']}))
+      isValid = false
     }
 
     return isValid
@@ -67,8 +68,6 @@ export default function Signup() {
   // "회원가입" 버튼
   const onSignup = (event) => {
     event.preventDefault()
-    console.log(form)
-    console.log(errors)
     const isValid = validate(form)
     if (isValid) {
       axios({
