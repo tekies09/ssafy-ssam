@@ -42,28 +42,21 @@ export default function Signup() {
     const required = ['username', 'password', 'passwordConfirm', 'email', 'nickname']
     let isValid = true
 
+    // 빈값 체크
     required.forEach(field => {
       if (form[field] === '') {
-        setErrors((errors) => {
-          let newErrors = errors
-          newErrors[field] = [true, '필수 항목입니다.']
-          return {...newErrors}
-        })
+        setErrors((errors) => ({...errors, [field]: [true, '잘못된 이메일입니다.']}))
         isValid = false
       }
     })
 
+    // 이메일 주소 형식 체크
     if (form.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(form.email)) {
-      console.log('email check failed')
-      setErrors((errors) => {
-        let newErrors = errors
-        console.log(newErrors)
-        newErrors.email = [true, '잘못된 이메일입니다.']
-        return {...newErrors}
-      })
+      setErrors((errors) => ({...errors, email: [true, '잘못된 이메일입니다.']}))
       isValid = false
     }
 
+    // 비밀번호 확인 체크
     if (form.password !== form.passwordConfirm) {
       setErrors((errors) => ({...errors, passwordConfirm: [true, '비밀번호가 일치하지 않습니다.']}))
     }
