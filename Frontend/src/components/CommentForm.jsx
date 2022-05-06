@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { Box, Button, Typography, Grid } from "@mui/material";
 import { FormControl, TextField } from "@mui/material";
 import Comment from "./Comment";
+import { useSelector } from "react-redux";
 
 const CommentForm = props => {
+  const user = useSelector(state => state.user);
+
   // const [form, setForm] = useState({
   //   id: "",
   //   author: "",
@@ -52,21 +55,10 @@ const CommentForm = props => {
     // TODO: 댓글 입력시 데이터 저장하기
   };
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#F6F6F6",
-        alignItems: "center",
-        p: 2,
-      }}
-    >
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ my: 2 }}>
-          {mockComment.map(comment => (
-            <Comment comment={comment} />
-          ))}
+  const CommentAddForm = props => {
+    if (user.isLoggedIn) {
+      return (
+        <>
           {/* 새로운 댓글 입력창 */}
           <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
             <TextField
@@ -95,6 +87,29 @@ const CommentForm = props => {
               <Typography textAlign="left">등록</Typography>
             </Button>
           </Grid>
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#F6F6F6",
+        alignItems: "center",
+        p: 2,
+      }}
+    >
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ my: 2 }}>
+          {mockComment.map(comment => (
+            <Comment comment={comment} />
+          ))}
+          <CommentAddForm />
         </Box>
       </Box>
     </Box>

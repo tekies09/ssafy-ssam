@@ -17,10 +17,12 @@ import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
 import CreateIcon from "@mui/icons-material/Create";
+import { useSelector } from "react-redux";
 
 const BoardList = props => {
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
+  const user = useSelector(state => state.user);
 
   const mockData = [
     { id: 1, title: "1번째", author: "moontek", created_at: "2022-04-21" },
@@ -63,6 +65,27 @@ const BoardList = props => {
     },
   }));
 
+  const CreateButton = () => {
+    // TODO: 공지사항의 경우 관리자만 쓸 수 있게 하기
+    if (user.isLoggedIn) {
+      return (
+        <Button
+          sx={{ m: 0, color: "white" }}
+          variant="contained"
+          color="mint"
+          size="large"
+          component={Link}
+          to="./create"
+          startIcon={<CreateIcon />}
+        >
+          <Typography textAlign="left">작성하기</Typography>
+        </Button>
+      );
+    } else {
+      return <Box></Box>;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -88,17 +111,7 @@ const BoardList = props => {
         {/* 타이틀 */}
         <h3>&nbsp;&nbsp;{props.title}</h3>
         {/* 작성하기 버튼 */}
-        <Button
-          sx={{ m: 0, color: "white" }}
-          variant="contained"
-          color="mint"
-          size="large"
-          component={Link}
-          to="./create"
-          startIcon={<CreateIcon />}
-        >
-          <Typography textAlign="left">작성하기</Typography>
-        </Button>
+        <CreateButton />
       </Box>
 
       <Divider sx={{ mt: 1, mb: 4, width: "100%" }} />
