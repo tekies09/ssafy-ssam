@@ -1,32 +1,31 @@
-import React from "react"
+import React from "react";
 import "./App.css";
-import Header from "./components/Header";
+import Header from "./components/layout/Header";
 import theme from "./Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { Box, Button } from "@mui/material";
-import Sidebar from "./components/Sidebar";
-import Main from "./pages/Main"
+import Footer from "./components/layout/Footer";
+import Router from "./routes/router";
+
+import { Provider, useSelector, useDispatch, connect } from "react-redux";
+import store from "./store";
 
 function App() {
-
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <Header />
-        <Box
-          sx={{
-            display: "flex",
-          }}
-        >
-          <Sidebar />
-          <div>
-            <Main />
-          </div>
-        </Box>
-        <footer>
-          <p>footer 자리</p>
-        </footer>
-      </div>
+      <Provider store={store}>
+        <div className="App">
+          <Header />
+          <Box
+            sx={{
+              display: "flex",
+            }}
+          >
+            <Router />
+          </Box>
+          <Footer />
+        </div>
+      </Provider>
     </ThemeProvider>
   );
 }

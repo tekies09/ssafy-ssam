@@ -22,6 +22,9 @@ const theme = createTheme({
     sub_300: {
       main: "#8896C8",
     },
+    mint: {
+      main: "#1FC4AA",
+    },
   },
 });
 
