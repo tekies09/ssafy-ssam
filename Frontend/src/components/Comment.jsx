@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import { Card, CardContent, CardActions, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CommentDeleteModal from "./modal/CommentDeleteModal";
 
 const Comment = props => {
+  const [commentDeleteModal, setCommentDeleteModal] = useState(false);
+
   return (
     <Card
       elevation={2}
@@ -57,10 +60,18 @@ const Comment = props => {
           aria-label="delete"
           size="large"
           color="sub_300"
+          onClick={() => {
+            setCommentDeleteModal(true);
+          }}
         >
           <DeleteIcon />
         </IconButton>
       </CardActions>
+      {/* 댓글 삭제 확인 모달 */}
+      <CommentDeleteModal
+        open={commentDeleteModal}
+        setOpen={setCommentDeleteModal}
+      ></CommentDeleteModal>
     </Card>
   );
 };
