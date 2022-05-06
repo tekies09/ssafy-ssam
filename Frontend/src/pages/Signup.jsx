@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 import { Container, TextField, Button, Box, Grid, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
-export default function Signup({ history }) {
+export default function Signup({}) {
+  const navigate = useNavigate()
 
   // 회원가입 폼
   const [form, setForm] = useState({
@@ -13,6 +15,7 @@ export default function Signup({ history }) {
     nickname: ''
   })
 
+  // 폼 Validation 상태
   const [errors, setErrors] = useState({
     username: [false, ''],
     password: [false, ''],
@@ -40,16 +43,23 @@ export default function Signup({ history }) {
     let isValid = true
 
     required.forEach(field => {
+      console.log(field)
       if (form[field] === '') {
-        setErrors(() => {
-          return {...errors, field: [true, '필수 항목입니다.']}
+        setErrors((errors) => {
+          let newErrors = errors
+          newErrors[field] = [true, '필수 항목입니다.']
+          return {...newErrors}
         })
         isValid = false
       }
     })
 
     if (form.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(errors.email[0])) {
-      setErrors(() => { return {...errors, field: [true, '잘못된 이메일입니다.']}
+      setErrors((errors) => {
+        let newErrors = errors
+        console.log(newErrors)
+        newErrors.email = [true, '잘못된 이메일입니다.']
+        return {...newErrors}
       })
       isValid = false
     }
@@ -81,17 +91,16 @@ export default function Signup({ history }) {
 
   // "뒤로" 버튼
   const onBack = (event) => {
-    console.log(history)
-    history.goBack()
+    navigate(-1)
   }
 
   return (
     <Container component="main" maxWidth="md" sx={{
-      display: "flex",
-      flexGrow: 1,
-    }}>
-      <Box
-        mt={5}
+        display: "flex",
+        flexGrow: 1,
+      }}
+    >
+      <Box mt={5}
         sx={{
           display: 'flex',
           flexDirection: 'column',
