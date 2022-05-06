@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Container, TextField, Button, Box, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-export default function Signup({}) {
+export default function Signup() {
   const navigate = useNavigate()
 
   // 회원가입 폼
@@ -75,7 +75,7 @@ export default function Signup({}) {
     if (isValid) {
       axios({
         baseURL: process.env.REACT_APP_SERVER_URL,
-        timeout: 2000,
+        timeout: 3000,
         method: 'POST',
         url: '/accounts/signup',
         data: form
