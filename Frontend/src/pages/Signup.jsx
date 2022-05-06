@@ -43,7 +43,6 @@ export default function Signup() {
     let isValid = true
 
     required.forEach(field => {
-      console.log(field)
       if (form[field] === '') {
         setErrors((errors) => {
           let newErrors = errors
@@ -54,7 +53,8 @@ export default function Signup() {
       }
     })
 
-    if (form.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(errors.email[0])) {
+    if (form.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(form.email)) {
+      console.log('email check failed')
       setErrors((errors) => {
         let newErrors = errors
         console.log(newErrors)
@@ -63,6 +63,11 @@ export default function Signup() {
       })
       isValid = false
     }
+
+    if (form.password !== form.passwordConfirm) {
+      setErrors((errors) => ({...errors, passwordConfirm: [true, '비밀번호가 일치하지 않습니다.']}))
+    }
+
     return isValid
   }
 
