@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Box, Button, Divider, Typography } from "@mui/material";
-import {
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  Input,
-  TextField,
-} from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const PostCreate = props => {
-  const navigate = useNavigate();
-
   const [form, setForm] = useState({
     title: "",
     content: "",
@@ -53,12 +45,13 @@ const PostCreate = props => {
         {/* 타이틀 */}
         <h3>&nbsp;&nbsp;{props.title}</h3>
         <Box>
-          {/* 뒤로가기 버튼 */}
+          {/* 목록 보기 버튼 */}
           <IconButton
             sx={{ px: 2 }}
             aria-label="back"
             size="large"
-            onClick={() => navigate(-1)}
+            component={Link}
+            to="./.."
           >
             <KeyboardBackspaceIcon fontSize="large" />
           </IconButton>

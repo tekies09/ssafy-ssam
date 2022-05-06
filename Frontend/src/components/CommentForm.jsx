@@ -1,22 +1,15 @@
 import React, { useState } from "react";
 
-import { Box, Button, Divider, Paper, Typography, Grid } from "@mui/material";
-import {
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  Input,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Typography, Grid } from "@mui/material";
+import { FormControl, TextField } from "@mui/material";
 import Comment from "./Comment";
 
 const CommentForm = props => {
-  const [form, setForm] = useState({
-    id: "",
-    author: "",
-    title: "",
-    content: "",
-  });
+  // const [form, setForm] = useState({
+  //   id: "",
+  //   author: "",
+  //   content: "",
+  // });
 
   const mockComment = [
     {
@@ -66,28 +59,11 @@ const CommentForm = props => {
         flexDirection: "column",
         backgroundColor: "#F6F6F6",
         alignItems: "center",
-        m: 8,
-        px: 4,
-        py: 2,
+        p: 2,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-          mx: 2,
-        }}
-      >
-        <h3>&nbsp;&nbsp;댓글</h3>
-      </Box>
-
-      <Divider sx={{ mt: 1, mb: 2, width: "100%" }} />
-
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ m: 2 }}>
+        <Box sx={{ my: 2 }}>
           {mockComment.map(comment => (
             <Comment comment={comment} />
           ))}
@@ -119,14 +95,6 @@ const CommentForm = props => {
               <Typography textAlign="left">등록</Typography>
             </Button>
           </Grid>
-          {/* <Button
-            sx={{ m: 0, color: "white", borderRadius: 8 }}
-            variant="contained"
-            color="sub_300"
-            size="large"
-          >
-            <Typography textAlign="left">등록</Typography>
-          </Button> */}
         </Box>
       </Box>
     </Box>
