@@ -10,22 +10,30 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import Login from "../modal/Login";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+
 
 const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-
+  const dispatch = useDispatch()
+  
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
-
+    
     if (index === 4) {
       setPlayerInfoOpen(!playerInfoOpen);
     } else {
       setPlayerInfoOpen(false);
     }
   };
+  
+  const handleLogout = () => {
+    dispatch({type: "logout"})
+    localStorage.removeItem("token")
+  }
 
   const sidebarWidth = 202;
   const myPoint = 100;
@@ -37,15 +45,16 @@ const Sidebar = props => {
     { name: "시뮬레이션", url: "/" },
   ];
 
-  const user = useSelector(state => state.user);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
   const LogoutButton = props => {
-    if (user.isLoggedIn) {
+    if (isLoggedIn) {
       return (
         <Box sx={{ mb: 6 }}>
           <Button
             sx={{ color: "white" }}
             size="large"
             // align="left"
+            onClick={handleLogout}
             startIcon={<LogoutIcon />}
           >
             <Typography textAlign="left">로그아웃</Typography>
@@ -57,7 +66,7 @@ const Sidebar = props => {
     }
   };
   const LoginMenu = props => {
-    switch (user.isLoggedIn) {
+    switch (isLoggedIn) {
       case true:
         return (
           <>
@@ -93,7 +102,13 @@ const Sidebar = props => {
               textAlign="right"
               color="lightgrey"
               component={Link}
-              to="/signup"
+              // to="/signup"
+              to={{
+                pathname: "/signup",
+                state: {
+                  setLoginModal: setLoginModal
+                }
+              }}
             >
               회원가입
             </Typography>
