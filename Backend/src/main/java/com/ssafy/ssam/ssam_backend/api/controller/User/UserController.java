@@ -44,7 +44,7 @@ public class UserController {
         String result = "Fail";
         int statusCode = 404;
         if(user!=null){
-            result = jwtTokenProvider.createToken(user.getUsername(), user.getRole().toString());
+            result = jwtTokenProvider.createToken(user.getUsername(), user.getRole().toString(),user.getEmail(),user.getNickname());
             statusCode = 200;
         }
         return ResponseEntity.status(statusCode).body(new BaseResponseBody(statusCode, result));
