@@ -48,7 +48,7 @@ function Login(props) {
     .then(response => {
       const token = response.data.message
       // 토큰 저장
-      sessionStorage.setItem("token", token)
+      localStorage.setItem("token", token)
 
       // 토큰 풀어서 사용자 정보 저장
       const payload = JSON.parse(atob(token.split('.')[1]))
