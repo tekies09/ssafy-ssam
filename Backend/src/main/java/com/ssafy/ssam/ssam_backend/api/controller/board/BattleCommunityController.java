@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,9 +75,23 @@ public class BattleCommunityController {
 	@Operation(summary="배틀 커뮤니티 게시판 작성하기", description="")
 	public ResponseEntity<BaseResponseBody> postBattleBoard(
 			@RequestParam(value = "author", defaultValue="1")
-			@Parameter(name = "author", description="작성자") Long author,
-			@RequestBody SaveBattleBoardReqDto requestDto) {
-		battleService.saveBattleBoard(author, requestDto);
+			@Parameter(name = "author", description="작성자") String author,
+			@RequestParam(value = "bbTitle", defaultValue="")
+			@Parameter(name = "bbTitle", description="작성자") String bbTitle
+			) {
+		battleService.saveBattleBoard(author, new SaveBattleBoardReqDto(bbTitle));
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 작성 성공"));
+	}
+	
+	@PutMapping("/update")
+	@Operation(summary="배틀 커뮤니티 게시판 글 수정", description="")
+	public ResponseEntity<BaseResponseBody> updateBattleBoard(
+			@RequestParam(value = "battleBoard", required=false)
+			@Parameter(name = "battleBoard", description="수정한 배틀 게시판 내용")BattleBoard board
+			) {
+		if(board == null) return ResponseEntity.status(404).body(new BaseResponseBody(404, "수정된 내용이 없습니다."));
+		
+		battleService.updateBattleBoard(board);
+		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 수정 성공"));
 	}
 }
