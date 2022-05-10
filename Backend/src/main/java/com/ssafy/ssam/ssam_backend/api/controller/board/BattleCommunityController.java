@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.ssam.ssam_backend.api.dto.request.SaveBattleBoardReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.request.UpdateBattleBoardReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
 import com.ssafy.ssam.ssam_backend.api.service.BattleCommunityService;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
@@ -77,21 +78,26 @@ public class BattleCommunityController {
 			@RequestParam(value = "author", defaultValue="1")
 			@Parameter(name = "author", description="작성자") String author,
 			@RequestParam(value = "bbTitle", defaultValue="")
-			@Parameter(name = "bbTitle", description="작성자") String bbTitle
+			@Parameter(name = "bbTitle", description="작성자") String bbTitle,
+			@RequestParam(value = "myTeamId", required = false)
+			@Parameter(name = "myTeamId", description="나만의 팀 번호") long myTeamId
 			) {
-		battleService.saveBattleBoard(author, new SaveBattleBoardReqDto(bbTitle));
+		battleService.saveBattleBoard(author, myTeamId, new SaveBattleBoardReqDto(bbTitle));
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 작성 성공"));
 	}
 	
 	@PutMapping("/update")
 	@Operation(summary="배틀 커뮤니티 게시판 글 수정", description="")
 	public ResponseEntity<BaseResponseBody> updateBattleBoard(
-			@RequestParam(value = "battleBoard", required=false)
-			@Parameter(name = "battleBoard", description="수정한 배틀 게시판 내용")BattleBoard board
+			@RequestParam(value = "battleBoardId", required=false)
+			@Parameter(name = "battleBoardId", description="수정 게시판 번호")long battleBoardId,
+			@RequestParam(value = "bbTitle", required=false)
+			@Parameter(name = "bbTitle", description="게시판 수정 제목") String bbTitle,
+			@RequestParam(value = "myTeamId", required=false)
+			@Parameter(name = "myTeamId", description="나만의 팀 번호") long myTeamId
 			) {
-		if(board == null) return ResponseEntity.status(404).body(new BaseResponseBody(404, "수정된 내용이 없습니다."));
 		
-		battleService.updateBattleBoard(board);
+		battleService.updateBattleBoard(battleBoardId, bbTitle, myTeamId);
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 수정 성공"));
 	}
 }

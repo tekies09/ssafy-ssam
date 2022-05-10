@@ -3,6 +3,9 @@ package com.ssafy.ssam.ssam_backend.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 //@RequiredArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 @Builder
 public class BattleBoard {
     @Id
@@ -32,5 +36,10 @@ public class BattleBoard {
 
     @Column
     private LocalDateTime bbUpdateTime;
+    
+    public BattleBoard(long battleBoardId, String bbTitle) {
+    	this.battleBoardId = battleBoardId;
+    	this.bbTitle = bbTitle;
+    }
 
 }

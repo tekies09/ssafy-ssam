@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 public class SaveBattleBoardReqDto {
 	@NotNull
     public String bbTitle;
+	
+	public MyTeam myTeam;
 	public LocalDateTime bbUpdateTime;
 	public LocalDateTime bbWriteTime;
 
@@ -23,10 +25,17 @@ public class SaveBattleBoardReqDto {
         bbUpdateTime = LocalDateTime.now();
         bbWriteTime = LocalDateTime.now();
     }
+    
+    public SaveBattleBoardReqDto(String bbTitle, MyTeam myTeam) {
+    	this.bbTitle = bbTitle;
+    	this.myTeam = myTeam;
+    	bbUpdateTime = LocalDateTime.now();
+        bbWriteTime = LocalDateTime.now();
+    }
 
     public BattleBoard toEntity(User user) {
         return BattleBoard
-                .builder()
+        		.builder()
                 .bbTitle(bbTitle)
                 .author(user)
                 .bbUpdateTime(bbUpdateTime)
@@ -36,7 +45,7 @@ public class SaveBattleBoardReqDto {
     
     public BattleBoard toEntity(User user, MyTeam myTeam) {
         return BattleBoard
-                .builder()
+        		.builder()
                 .bbTitle(bbTitle)
                 .author(user)
                 .myTeam(myTeam)

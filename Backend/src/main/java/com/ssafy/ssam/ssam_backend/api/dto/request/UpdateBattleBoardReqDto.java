@@ -2,6 +2,7 @@ package com.ssafy.ssam.ssam_backend.api.dto.request;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
@@ -25,21 +26,20 @@ public class UpdateBattleBoardReqDto {
 	private String bbTitle;
 	
 	@NotNull
-	@ApiModelProperty(value = "배틀 게시판 글쓴이")
+	@ApiModelProperty(value = "배틀 게시판 작성 유저")
 	private User user;
 	
-	@ApiModelProperty(value = "업로드한 나만의 팀 아이디")
-	private MyTeam myTeam;
-	
-	public LocalDateTime bbUpdateTime;
+	@NotNull
+	@ApiModelProperty(value = "배틀 게시판 작성 시간")
+	public LocalDateTime bbWriteTime;
+
 	
 	@Builder
 	public UpdateBattleBoardReqDto(BattleBoard battleBoard) {
 		this.battleBoardId = battleBoard.getBattleBoardId();
 		this.bbTitle = battleBoard.getBbTitle();
-		this.myTeam = battleBoard.getMyTeam();
-		this.bbUpdateTime = battleBoard.getBbUpdateTime();
 		this.user = battleBoard.getAuthor();
+		this.bbWriteTime = battleBoard.getBbWriteTime();
 	}
 	
 	public BattleBoard toEntity() {
@@ -47,9 +47,19 @@ public class UpdateBattleBoardReqDto {
                 .builder()
                 .battleBoardId(battleBoardId)
                 .bbTitle(bbTitle)
+                .bbUpdateTime(LocalDateTime.now())
+                .build();
+	}
+	
+	public BattleBoard toEntity(MyTeam myTeam, String bbTitle) {
+		return BattleBoard
+                .builder()
+                .battleBoardId(battleBoardId)
+                .bbTitle(bbTitle)
                 .author(user)
                 .myTeam(myTeam)
-                .bbUpdateTime(bbUpdateTime)
+                .bbWriteTime(bbWriteTime)
+                .bbUpdateTime(LocalDateTime.now())
                 .build();
 	}
 }
