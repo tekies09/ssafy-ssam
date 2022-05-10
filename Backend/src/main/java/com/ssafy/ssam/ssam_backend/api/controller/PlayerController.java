@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/player")
@@ -145,6 +146,29 @@ public class PlayerController {
         }
 
         return new ResponseEntity<>(playerDetailResDto,status);
+    }
+
+    @ApiOperation(value = "선수 이름 조회")
+    @GetMapping("/nameList")
+    public ResponseEntity<SearchListResDto> getNameList(@RequestParam String word){
+
+        SearchListResDto searchListResDto;
+        HttpStatus status = null;
+        try{
+
+            List<SearchResultResDto> list = playerService.getNameList(word);
+
+            searchListResDto = new SearchListResDto(200,"OK",list);
+            status = HttpStatus.OK;
+        }
+        catch ( Exception e ){
+
+            System.out.println(e);
+            searchListResDto=new SearchListResDto(500,"INTERNAL_SERVER_ERROR");
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return  new ResponseEntity<>(searchListResDto,status);
+
     }
 
 }

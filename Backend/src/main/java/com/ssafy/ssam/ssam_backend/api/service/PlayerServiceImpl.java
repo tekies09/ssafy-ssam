@@ -2,11 +2,14 @@ package com.ssafy.ssam.ssam_backend.api.service;
 
 import com.ssafy.ssam.ssam_backend.api.dto.response.*;
 import com.ssafy.ssam.ssam_backend.api.repository.*;
+import com.ssafy.ssam.ssam_backend.api.repository.mapping.PlayerMapping;
 import com.ssafy.ssam.ssam_backend.domain.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -82,5 +85,25 @@ public class PlayerServiceImpl implements PlayerService {
         PitcherSituationStatus entity = pitcherSituationStatusRepository.findByPlayerAndYears(player,years);
         PitcherSituationResDto dto = new PitcherSituationResDto(entity);
         return dto;
+    }
+
+    @Override
+    public List<SearchResultResDto> getNameList(String word) throws Exception {
+
+        List<SearchResultResDto> resultList = new ArrayList<>();
+
+
+
+        List<PlayerMapping> list = playerRepository.findByPlayerNameLike("%"+word+"%");
+
+        for(PlayerMapping player : list){
+
+            SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(),player.getPlayerId());
+            resultList.add(dto);
+
+        }
+
+        return resultList;
+
     }
 }
