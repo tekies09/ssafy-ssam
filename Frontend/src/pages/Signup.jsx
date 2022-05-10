@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Container, TextField, Button, Box, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-export default function Signup() {
+export default function Signup(props) {
   const navigate = useNavigate()
 
   // 회원가입 폼
@@ -74,16 +74,18 @@ export default function Signup() {
   const onSignup = (event) => {
     event.preventDefault()
     const isValid = validate(form)
+    const { passwordConfirm, ...sendForm } = form
     if (isValid) {
       axios({
         baseURL: process.env.REACT_APP_SERVER_URL,
         timeout: 3000,
         method: 'POST',
-        url: '/accounts/signup',
-        data: form
+        url: '/user/join',
+        data: sendForm
       })
       .then(response => {
-        console.log(response)
+        navigate("/")
+        alert("회원가입이 완료되었습니다. 로그인해주세요.")
       })
       .catch(error => {
         console.log(error)
@@ -163,6 +165,7 @@ export default function Signup() {
                 helperText={errors.passwordConfirm[1]}
                 />
             </Grid>
+            
             <Grid item xs={12} sm={8}>
               <TextField
                 required

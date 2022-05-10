@@ -26,7 +26,6 @@ function Login(props) {
 
   const handlePasswordInput = function (event) {
     setPassword(event.target.value)
-
   }
 
   const handleSignup = function () {
@@ -39,18 +38,22 @@ function Login(props) {
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
-      url: 'accounts/login',
+      method: 'POST',
+      url: 'user/login',
       data: {
         'username': username,
         'password': password
       }
     })
     .then(response => {
-      console.log(response)
-      sessionStorage.setItem("token", response.data.token)
-      
-      dispatch({type: 'login', payload: response.data.user})
+      const token = response.data.message
+      // 토큰 저장
+      localStorage.setItem("token", token)
 
+      // 토큰 풀어서 사용자 정보 저장
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      dispatch({type: 'login', payload: payload})
+      // modal 닫기
       setOpen(false)
     })
     .catch(error => {
