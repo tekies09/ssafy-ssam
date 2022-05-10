@@ -16,6 +16,9 @@ public class PitcherSituationStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pitcherSitSId;
 
+    @Column
+    private String years;
+
     @Column(columnDefinition = "decimal(5,3)")
     private BigDecimal noRunner;
 

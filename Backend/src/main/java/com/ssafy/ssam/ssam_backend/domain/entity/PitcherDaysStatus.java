@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -27,6 +28,9 @@ public class PitcherDaysStatus {
     @ManyToOne
     @JoinColumn(name="playerId")
     private Player player;
+
+    @Column
+    private LocalDate date;
 
     //경기평균자책점
     @Column(columnDefinition = "decimal(5,3)")
