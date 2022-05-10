@@ -6,6 +6,7 @@ import com.ssafy.ssam.ssam_backend.api.dto.request.UserUpdateRequestDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
 import com.ssafy.ssam.ssam_backend.api.dto.response.UserLoginResponseDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.UserResponseDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.UserUpdateDto;
 import com.ssafy.ssam.ssam_backend.api.jwt.JwtTokenProvider;
 import com.ssafy.ssam.ssam_backend.api.service.UserService;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -39,15 +42,19 @@ public class UserController {
     @PostMapping("/login")
     @JsonProperty("requestDto")
     @ApiOperation(value = "로그인")
-    public ResponseEntity<BaseResponseBody> login(@RequestBody UserLoginRequestDto requestDto, HttpServletResponse response ){
-        User user= userService.LoginUser(requestDto);
-        String result = "Fail";
+    public ResponseEntity<Map<String, Object>> login(@RequestBody UserLoginRequestDto requestDto, HttpServletResponse response ){
+        Map<String, Object> map = userService.LoginUser(requestDto);
+        User user = null;
         int statusCode = 404;
-        if(user!=null){
-            result = jwtTokenProvider.createToken(user.getUsername(), user.getRole().toString(),user.getEmail(),user.getNickname());
+        if(map.get("result").equals("Success")) {
+            user = (User) map.get("user");
+            String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().toString(),user.getEmail(),user.getNickname());
+            UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(user);
+            map.put("user",userLoginResponseDto);
+            map.put("token", token);
             statusCode = 200;
         }
-        return ResponseEntity.status(statusCode).body(new BaseResponseBody(statusCode, result));
+        return ResponseEntity.status(statusCode).body(map);
        /* response.setHeader("X-AUTH-TOKEN", token);
         Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
         cookie.setPath("/");
@@ -75,8 +82,8 @@ public class UserController {
 
     @PutMapping("/modify")
     @ApiOperation(value = "토큰을 이용한 회원 정보 수정")
-    public ResponseEntity<BaseResponseBody> update(HttpServletRequest request, @RequestBody UserUpdateRequestDto requestDto){
-
+    public ResponseEntity<Map<String, Object>> update(HttpServletRequest request, @RequestBody UserUpdateRequestDto requestDto){
+        Map<String, Object> map = new HashMap<>();
         String result = "Fail";
         int statusCode = 404;
         Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -84,10 +91,13 @@ public class UserController {
             User user = (User) details;
             if((userService.UpdateUser(user.getUsername(), requestDto))){
                 result = "Success";
+                UserUpdateDto userUpdateDto = new UserUpdateDto(userService.loadUserByUsername(user.getUsername()));
                 statusCode = 200;
+                map.put("user",userUpdateDto);
             }
         }
-        return ResponseEntity.status(statusCode).body(new BaseResponseBody(statusCode, result));
+        map.put("result",result);
+        return ResponseEntity.status(statusCode).body(map);
     }
 
 

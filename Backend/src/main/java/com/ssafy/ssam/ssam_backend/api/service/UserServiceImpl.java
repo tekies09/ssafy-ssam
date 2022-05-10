@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -86,16 +88,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User LoginUser(UserLoginRequestDto requestDto) {
+    public Map<String,Object> LoginUser(UserLoginRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
         User entity = userRepository.findUserByUsername(username);
-
+        Map<String, Object> map = new HashMap<>();
+        String result = "Success";
         //계정존재X
-        if(entity==null) return null;
+        if(entity==null){
+            result = "NotExistAccount";
+        }
         //비밀번호일치 X
-        if(!entity.getPassword().equals(password)) return null;
-        return entity;
+        else if(!entity.getPassword().equals(password)){
+            result = "NotMatchAccount";
+        }
+        else {
+            map.put("user",entity);
+        }
+        map.put("result",result);
+        return map;
     }
 
     @Override
