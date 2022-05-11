@@ -9,8 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.ssam.ssam_backend.api.dto.request.SaveBattleBoardReqDto;
-import com.ssafy.ssam.ssam_backend.api.dto.request.UpdateBattleBoardReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardCreateReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardUpdateReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardRes;
 import com.ssafy.ssam.ssam_backend.api.repository.BattleBoardRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.MyTeamRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
@@ -30,14 +31,14 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	private final MyTeamRepository myTeamRepository;
 	
 	@Override
-	public Page<BattleBoard> getBattleCommunityList(int page, int limit, String title, String nickName) {
+	public Page<BattleBoard> getBattleCommunityList(int page, int limit, String title, String username) {
 		Pageable paging = PageRequest.of(page, limit, Sort.Direction.DESC, "battleBoardId");
 		Page<BattleBoard> boards = battleBoardRepository.findAll(paging);
 
-		if(nickName != null) {
-			boards = battleBoardRepository.findPageByAuthor(1, paging);		// 2 자리에 nickName으로 User 정보 얻어온 id를 넣어줘야 함.
-		}
-		if(title != null) {
+		if(username != null) {
+			User user = userRepository.findUserByUsername(username);
+			boards = battleBoardRepository.findPageByAuthor(user, paging);		// 2 자리에 nickName으로 User 정보 얻어온 id를 넣어줘야 함.
+		} else if(title != null) {
 			boards = battleBoardRepository.findPageByBbTitle(title, paging);
 		}
 		
@@ -46,7 +47,6 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 
 	@Override
 	public void deleteBattleBoard(long id) {
-//		battleBoardRepository.deleteById(id);
 		BattleBoard board = new BattleBoard();
 		try {
 			board = battleBoardRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -57,14 +57,14 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	}
 
 	@Override
-	public Long getBattleBoardAllCount() {
-		// TODO Auto-generated method stub
+	public long getBattleBoardAllCount() {
 		long count = battleBoardRepository.count();
 		return count;
 	}
 
+
 	@Override
-	public void saveBattleBoard(String userId, Long myTeamId, SaveBattleBoardReqDto requestDto) {
+	public void saveBattleBoard(String userId, Long myTeamId, BattleBoardCreateReqDto requestDto) {
 		User user = userRepository.findUserByUsername(userId);
 		MyTeam myTeam = new MyTeam();
 		try {
@@ -95,9 +95,21 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 			System.out.println(e);
 		}
 		
-		UpdateBattleBoardReqDto requestDto = new UpdateBattleBoardReqDto(beforeBoard);
+		BattleBoardUpdateReqDto requestDto = new BattleBoardUpdateReqDto(beforeBoard);
 		BattleBoard updateBoard = requestDto.toEntity(myTeam, bbTitle);
 		battleBoardRepository.save(updateBoard);
+	}
+
+	@Override
+	public BattleBoardRes getBattleBoard(long boardId) {
+		BattleBoard board = new BattleBoard();
+		try {
+			board = battleBoardRepository.findById(boardId).orElseThrow(NotFoundException::new);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return new BattleBoardRes(new Integer(200), "글 상세 조회 성공", board);
 	}
 
 }

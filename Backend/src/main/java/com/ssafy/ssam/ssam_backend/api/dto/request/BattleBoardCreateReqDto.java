@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SaveBattleBoardReqDto {
+public class BattleBoardCreateReqDto {
 	@NotNull
     public String bbTitle;
 	
@@ -20,13 +20,13 @@ public class SaveBattleBoardReqDto {
 	public LocalDateTime bbUpdateTime;
 	public LocalDateTime bbWriteTime;
 
-    public SaveBattleBoardReqDto(String bbTitle) {
+    public BattleBoardCreateReqDto(String bbTitle) {
         this.bbTitle = bbTitle;
         bbUpdateTime = LocalDateTime.now();
         bbWriteTime = LocalDateTime.now();
     }
     
-    public SaveBattleBoardReqDto(String bbTitle, MyTeam myTeam) {
+    public BattleBoardCreateReqDto(String bbTitle, MyTeam myTeam) {
     	this.bbTitle = bbTitle;
     	this.myTeam = myTeam;
     	bbUpdateTime = LocalDateTime.now();

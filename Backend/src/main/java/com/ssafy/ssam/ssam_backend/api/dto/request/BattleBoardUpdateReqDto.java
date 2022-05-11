@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UpdateBattleBoardReqDto {
+public class BattleBoardUpdateReqDto {
 	
 	@NotNull
 	@ApiModelProperty(value = "배틀 게시판 글 아이디")
@@ -35,18 +35,27 @@ public class UpdateBattleBoardReqDto {
 
 	
 	@Builder
-	public UpdateBattleBoardReqDto(BattleBoard battleBoard) {
+	public BattleBoardUpdateReqDto(BattleBoard battleBoard) {
 		this.battleBoardId = battleBoard.getBattleBoardId();
 		this.bbTitle = battleBoard.getBbTitle();
 		this.user = battleBoard.getAuthor();
 		this.bbWriteTime = battleBoard.getBbWriteTime();
 	}
 	
-	public BattleBoard toEntity() {
+	public BattleBoard toEntity(String bbTitle) {
 		return BattleBoard
                 .builder()
                 .battleBoardId(battleBoardId)
                 .bbTitle(bbTitle)
+                .bbUpdateTime(LocalDateTime.now())
+                .build();
+	}
+	
+	public BattleBoard toEntity(MyTeam myTeam) {
+		return BattleBoard
+                .builder()
+                .battleBoardId(battleBoardId)
+                .myTeam(myTeam)
                 .bbUpdateTime(LocalDateTime.now())
                 .build();
 	}

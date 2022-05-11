@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.ssam.ssam_backend.api.dto.request.SaveBattleBoardReqDto;
-import com.ssafy.ssam.ssam_backend.api.dto.request.UpdateBattleBoardReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardCreateReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardUpdateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
+import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardRes;
 import com.ssafy.ssam.ssam_backend.api.service.BattleCommunityService;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
@@ -65,7 +65,14 @@ public class BattleCommunityController {
 		return ResponseEntity.status(200).body(responseDto);
 	}
 	
-	@DeleteMapping("/{boardId}")
+	@GetMapping("{boardId}")
+	@Operation(summary="배틀 커뮤니티 게시판 특정 글 가져오기", description = "특정 번호의 글 내용을 전부 가져온다.")
+	public ResponseEntity<BattleBoardRes> getBattleBoard(@PathVariable Long boardId) {
+		BattleBoardRes responseDto = battleService.getBattleBoard(boardId);
+		return ResponseEntity.status(200).body(responseDto);
+	}
+	
+	@DeleteMapping("/delete/{boardId}")
 	@Operation(summary="배틀 커뮤니티 게시판 삭제하기", description="해당 글 번호를 가진 글을 삭제한다.")
 	public ResponseEntity<BaseResponseBody> deleteBattleBoard(@PathVariable Long boardId) {
 		battleService.deleteBattleBoard(boardId);
@@ -82,7 +89,7 @@ public class BattleCommunityController {
 			@RequestParam(value = "myTeamId", required = false)
 			@Parameter(name = "myTeamId", description="나만의 팀 번호") long myTeamId
 			) {
-		battleService.saveBattleBoard(author, myTeamId, new SaveBattleBoardReqDto(bbTitle));
+		battleService.saveBattleBoard(author, myTeamId, new BattleBoardCreateReqDto(bbTitle));
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 작성 성공"));
 	}
 	
@@ -106,4 +113,5 @@ public class BattleCommunityController {
 	public ResponseEntity<Long> countBattleBoard(){
 		return ResponseEntity.status(200).body(battleService.getBattleBoardAllCount());
 	}
+
 }
