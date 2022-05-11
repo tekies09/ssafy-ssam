@@ -29,7 +29,6 @@ import java.security.InvalidParameterException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
