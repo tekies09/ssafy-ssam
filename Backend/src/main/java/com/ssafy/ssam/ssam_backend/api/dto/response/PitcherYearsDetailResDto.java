@@ -11,8 +11,11 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor
 public class PitcherYearsDetailResDto {
+    @ApiModelProperty(value = "팀")
     private String team;
+    @ApiModelProperty(value = "선수 이름")
     private String name;
+    @ApiModelProperty(value = "연도")
     private String year;
 
     //평균자책점
@@ -20,147 +23,195 @@ public class PitcherYearsDetailResDto {
     private BigDecimal era_rt;
 
     //경기
+    @ApiModelProperty(value = "경기 수")
     private int g_cn;
 
     //승리
+    @ApiModelProperty(value = "승리 수")
     private int w_cn;
 
     //패배
+    @ApiModelProperty(value = "패배 수")
     private int l_cn;
 
     //세이브
+    @ApiModelProperty(value = "세이브 수")
     private int sv_cn;
 
     //홀드
+    @ApiModelProperty(value = "홀드 수")
     private int hld_cn;
 
     //승률
+    @ApiModelProperty(value = "승률")
     private BigDecimal wpct_rt;
 
     //이닝 1/3 이닝 0.3 으로 표현 , 2/3 = 0.6
+    @ApiModelProperty(value = "이닝 수", notes = "1/3이닝 0.3 , 2/3이닝 0.6")
     private BigDecimal ip_cn;
 
     //피안타
+    @ApiModelProperty(value = "피안타 수")
     private int h_cn;
 
     //홈런
+    @ApiModelProperty(value = "홈런 수")
     private int hr_cn;
 
     //볼넷
+    @ApiModelProperty(value = "볼넷 수")
     private int bb_cn;
 
     //사구
+    @ApiModelProperty(value = "사구")
     private int hbp_cn;
 
     //삼진
+    @ApiModelProperty(value = "삼진 수")
     private int so_cn;
 
     //실점
+    @ApiModelProperty(value = "실점")
     private int r_cn;
 
     //자책점
+    @ApiModelProperty(value = "자책점")
     private int er_cn;
 
     //이닝당 출루허용률
+    @ApiModelProperty(value = "이닝당 출루허용률")
     private BigDecimal whip_rt;
 
     //완투
+    @ApiModelProperty(value = "완투")
     private int cg_cn;
 
     //완봉
+    @ApiModelProperty(value = "완봉")
     private int sho_cn;
 
     //퀄리티 스타트
+    @ApiModelProperty(value = "퀄리티 스타트")
     private int qs_cn;
 
     //블론세이브
+    @ApiModelProperty(value = "블론세이브")
     private int bsv_cn;
 
     //타자수
+    @ApiModelProperty(value = "타자수")
     private int tbf_cn;
 
     //투구수
+    @ApiModelProperty(value = "투구수")
     private int np_cn;
 
     //피안타율
+    @ApiModelProperty(value = "피안타율")
     private BigDecimal avg_rt;
 
     //2루타
+    @ApiModelProperty(value = "2루타")
     private int h2_cn;
 
     //3루타
+    @ApiModelProperty(value = "3루타")
     private int h3_cn;
 
     //희생번트
+    @ApiModelProperty(value = "희생번트")
     private int sac_cn;
 
     //희생플라이
+    @ApiModelProperty(value = "희생플라이")
     private int sf_cn;
 
     //고의4구
+    @ApiModelProperty(value = "고의4구")
     private int ibb_cn;
 
     //폭투
+    @ApiModelProperty(value = "폭투")
     private int wp_cn;
 
     //보크
+    @ApiModelProperty(value = "보크")
     private int bk_cn;
 
     //선발
+    @ApiModelProperty(value = "선발")
     private int gs_cn;
 
     //선발승
+    @ApiModelProperty(value = "선발 승")
     private int wgs_cn;
 
     //구원승
+    @ApiModelProperty(value = "구원 승")
     private int wgr_cn;
 
     //종료
+    @ApiModelProperty(value = "종료")
     private int gf_cn;
 
     //세이브기회
+    @ApiModelProperty(value = "세이브 기회")
     private int svo_cn;
 
     //터프세이브
+    @ApiModelProperty(value = "터프세이브")
     private int ts_cn;
 
     //병살
+    @ApiModelProperty(value = "병살")
     private int gdp_cn;
 
     //땅볼
+    @ApiModelProperty(value = "땅볼")
     private int go_cn;
 
     //뜬공
+    @ApiModelProperty(value = "뜬공")
     private int ao_cn;
 
     //땅볼/뜬공
+    @ApiModelProperty(value = "땅볼 / 뜬공 비율")
     private BigDecimal goao_rt;
 
     //인플레이타구타율
+    @ApiModelProperty(value = "인플레이 타구율")
     private BigDecimal babip_rt;
 
     //투구수/경기
+    @ApiModelProperty(value = "투구수 / 경기 비율")
     private BigDecimal pg_rt;
 
     //투구수/이닝
+    @ApiModelProperty(value = "투구수 / 이닝 비율")
     private BigDecimal pip_rt;
 
     //9이닝당 삼진
+    @ApiModelProperty(value = "0이닝당 삼진 비율")
     private BigDecimal k9_rt;
 
     //9이닝당 볼넷
+    @ApiModelProperty(value = "9이닝당 볼넷 비율")
     private BigDecimal bb9_rt;
 
     //삼진/볼넷
+    @ApiModelProperty(value = "삼진 / 볼넷 비율")
     private BigDecimal kbb_rt;
 
     //피출루율
+    @ApiModelProperty(value = "피출루율")
     private BigDecimal obp_rt;
 
     //피장타율
+    @ApiModelProperty(value = "피장타율")
     private BigDecimal slg_rt;
 
     //피출루율+피장타율
+    @ApiModelProperty(value = "피출루율 + 피장타율")
     private BigDecimal ops_rt;
 
     public PitcherYearsDetailResDto(PitcherYearsStatus pitcherYearsStatus){

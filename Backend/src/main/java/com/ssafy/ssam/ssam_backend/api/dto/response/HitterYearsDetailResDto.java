@@ -1,6 +1,7 @@
 package com.ssafy.ssam.ssam_backend.api.dto.response;
 
 import com.ssafy.ssam.ssam_backend.domain.entity.HitterYearsStatus;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,108 +12,146 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class HitterYearsDetailResDto {
 
+    @ApiModelProperty(value = "팀")
     private String team;
+    @ApiModelProperty(value = "선수 이름")
     private String name;
+    @ApiModelProperty(value = "연도")
     private String year;
     //타율
+    @ApiModelProperty(value = "타율")
     private BigDecimal avg_rt;
     //게임수
+    @ApiModelProperty(value = "게임 수")
     private int g_cn;
 
     //타석
+    @ApiModelProperty(value = "타석")
     private int pa_cn;
 
     //타수
+    @ApiModelProperty(value = "타수")
     private int ab_cn;
 
     //득점
+    @ApiModelProperty(value = "득점")
     private int r_cn;
 
     //안타
+    @ApiModelProperty(value = "안타")
     private int h_cn;
 
     //2루타
+    @ApiModelProperty(value = "2루타")
     private int h2_cn;
 
     //3루타
+    @ApiModelProperty(value = "3루타")
     private int h3_cn;
 
     //홈런
+    @ApiModelProperty(value = "홈런")
     private int hr_cn;
 
     //루타
+    @ApiModelProperty(value = "?루타")
     private int tb_cn;
 
     //타점
+    @ApiModelProperty(value = "타점")
     private int rbi_cn;
 
     //희생번트
+    @ApiModelProperty(value = "희생번트")
     private int sac_cn;
 
     //희생플라이
+    @ApiModelProperty(value = "희생 플라이")
     private int sf_cn;
 
     //볼넷
+    @ApiModelProperty(value = "볼넷")
     private int bb_cn;
 
     //고의4구
+    @ApiModelProperty(value = "고의4구")
     private int ibb_cn;
 
     //사구
+    @ApiModelProperty(value = "사구")
     private int hbp_cn;
 
     //3진
+    @ApiModelProperty(value = "3진")
     private int so_cn;
 
     //병살
+    @ApiModelProperty(value = "병살")
     private int gdp_cn;
 
     //장타율
+    @ApiModelProperty(value = "장타율")
     private BigDecimal slg_rt;
 
     //출루율
+    @ApiModelProperty(value = "출루율")
     private BigDecimal obp_rt;
 
     //출루율+장타율
+    @ApiModelProperty(value = "출루율 + 장타율")
     private BigDecimal ops_rt;
 
     //멀티히트
+    @ApiModelProperty(value = "멀티 히트")
     private int mh_cn;
 
     //득점권타율
+    @ApiModelProperty(value = "득점권 타율")
     private BigDecimal risp_rt;
 
     //대타타율
+    @ApiModelProperty(value = "대타타율")
     private BigDecimal phba_rt;
 
     //장타
+    @ApiModelProperty(value = "장타")
     private int xbh_cn;
 
+
     //땅볼
+    @ApiModelProperty(value = "땅볼")
     private int go_cn;
 
     //뜬공
+    @ApiModelProperty(value = "뜬공")
     private int ao_cn;
 
     //땅볼/뜬공
+    @ApiModelProperty(value = "땅볼/뜬공 비율")
     private BigDecimal goao_rt;
 
     //결승타
+    @ApiModelProperty(value = "결승타")
     private int gwrbi_cn;
 
     //볼넷/삼진
+    @ApiModelProperty(value = "볼넷 / 삼진 비율")
     private BigDecimal bbk_rt;
 
     //투구수/타석
+    @ApiModelProperty(value = "투구수 / 타석 비율")
     private BigDecimal ppa_rt;
 
     //순수 장타율
+    @ApiModelProperty(value = "순수 장타율")
     private BigDecimal isop_rt;
 
     //추정득점
+    @ApiModelProperty(value = "추정 득점")
     private BigDecimal xr_rt;
 
     //(1.8x출루율+장타율)/4
+    @ApiModelProperty(value = "(1.8 * 출루율 + 장타율) / 4")
     private BigDecimal gpa_rt;
 
     public HitterYearsDetailResDto(HitterYearsStatus hitterYearsStatus){

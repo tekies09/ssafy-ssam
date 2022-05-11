@@ -3,6 +3,7 @@ package com.ssafy.ssam.ssam_backend.api.controller;
 import com.ssafy.ssam.ssam_backend.api.dto.response.*;
 import com.ssafy.ssam.ssam_backend.api.service.PlayerService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class PlayerController {
 
     @ApiOperation(value = "선수 연도별 스탯상세조회")
     @GetMapping("/yearsdetail")
-    public ResponseEntity<PlayerDetailResDto> playerYearsDetail(@RequestParam Long playerId, @RequestParam String pOrh, @RequestParam String years)throws Exception{
+    public ResponseEntity<PlayerDetailResDto> playerYearsDetail(@RequestParam @ApiParam(value="선수 id") Long playerId, @RequestParam @ApiParam(value="Pitcher or Hitter") String pOrh, @RequestParam String years)throws Exception{
         PlayerDetailResDto playerDetailResDto;
         HttpStatus status = null;
         if(pOrh.equals("Hitter")){
@@ -66,7 +67,7 @@ public class PlayerController {
 
     @ApiOperation(value = "선수 날짜별 스탯상세조회")
     @GetMapping("/daysdetail")
-    public ResponseEntity<PlayerDetailResDto> playerDaysDetail(@RequestParam Long playerId, @RequestParam String pOrh, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate days)throws Exception{
+    public ResponseEntity<PlayerDetailResDto> playerDaysDetail(@RequestParam @ApiParam(value="선수 id") Long playerId, @RequestParam  @ApiParam(value="Pitcher or Hitter") String pOrh, @RequestParam @ApiParam(value="경기 날짜 yyyy-MM-dd") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate days)throws Exception{
         PlayerDetailResDto playerDetailResDto;
         HttpStatus status = null;
         if(pOrh.equals("Hitter")){
@@ -108,7 +109,7 @@ public class PlayerController {
 
     @ApiOperation(value = "선수 상황별 스탯조회")
     @GetMapping("/situation")
-    public ResponseEntity<PlayerDetailResDto> playerSituation(@RequestParam Long playerId, @RequestParam String pOrh, @RequestParam String years)throws Exception{
+    public ResponseEntity<PlayerDetailResDto> playerSituation(@RequestParam @ApiParam(value="선수 id") Long playerId, @RequestParam @ApiParam(value="Pitcher or Hitter") String pOrh, @RequestParam String years)throws Exception{
         PlayerDetailResDto playerDetailResDto;
         HttpStatus status = null;
         if(pOrh.equals("Hitter")){
@@ -150,7 +151,7 @@ public class PlayerController {
 
     @ApiOperation(value = "선수 이름 조회")
     @GetMapping("/nameList")
-    public ResponseEntity<SearchListResDto> getNameList(@RequestParam String word){
+    public ResponseEntity<SearchListResDto> getNameList(@RequestParam @ApiParam(value="검색어") String word){
 
         SearchListResDto searchListResDto;
         HttpStatus status = null;
