@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -23,6 +24,9 @@ public class HitterYearsStatus {
     @ManyToOne
     @JoinColumn(name="playerId")
     private Player player;
+
+    @Column
+    private String years;
 
     //타율
     @Column(columnDefinition = "decimal(5,3)")
