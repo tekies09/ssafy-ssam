@@ -100,4 +100,10 @@ public class BattleCommunityController {
 		battleService.updateBattleBoard(battleBoardId, bbTitle, myTeamId);
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 수정 성공"));
 	}
+	
+	@GetMapping("/allcount")
+	@Operation(summary="배틀 커뮤니티 게시판 전체 개수", description="배틀 커뮤니티 게시판 DB에 저장된 글의 개수를 모두 리턴해줍니다.")
+	public ResponseEntity<Long> countBattleBoard(){
+		return ResponseEntity.status(200).body(battleService.getBattleBoardAllCount());
+	}
 }

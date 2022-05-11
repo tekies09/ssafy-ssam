@@ -57,9 +57,10 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	}
 
 	@Override
-	public long getBattleCommunityCount() {
+	public Long getBattleBoardAllCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		long count = battleBoardRepository.count();
+		return count;
 	}
 
 	@Override
