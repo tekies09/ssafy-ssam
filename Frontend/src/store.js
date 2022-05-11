@@ -11,7 +11,10 @@ function reducer(currentState, action) {
   if (currentState === undefined) {
     return {
       user: initialUser,
-      isLoggedIn: (localStorage.getItem("token") !== null ? true : false)
+      isLoggedIn: (localStorage.getItem("token") !== null ? true : false),
+      modal: {
+        login: false
+      }
     }
   }
   const newState = { ...currentState }
@@ -28,6 +31,14 @@ function reducer(currentState, action) {
     case "logout":
       newState.user = initialUser
       newState.isLoggedIn = false
+      break
+
+    case "openLoginModal":
+      newState.modal.login = true
+      break
+    
+    case "closeLoginModal":
+      newState.modal.login = false
       break
 
     default:
