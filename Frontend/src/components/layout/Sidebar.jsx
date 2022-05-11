@@ -17,7 +17,6 @@ import { useSelector, useDispatch } from "react-redux";
 const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
-  const [loginModal, setLoginModal] = useState(false);
   const dispatch = useDispatch()
   
   const handleMenuClick = (event, index) => {
@@ -93,7 +92,7 @@ const Sidebar = props => {
               size="large"
               fullWidth
               onClick={() => {
-                setLoginModal(true);
+                dispatch({type: "openLoginModal"})
               }}
             >
               <Typography sx={{}}>로그인</Typography>
@@ -102,13 +101,7 @@ const Sidebar = props => {
               textAlign="right"
               color="lightgrey"
               component={Link}
-              // to="/signup"
-              to={{
-                pathname: "/signup",
-                state: {
-                  setLoginModal: setLoginModal
-                }
-              }}
+              to="/signup"
             >
               회원가입
             </Typography>
@@ -133,7 +126,7 @@ const Sidebar = props => {
       height="calc(100vh - 100px)"
       variant="permanent"
     >
-      <Login open={loginModal} setOpen={setLoginModal}></Login>
+      <Login />
       <Box>
         <Box
           sx={{

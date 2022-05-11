@@ -2,9 +2,11 @@ import React, {useState} from 'react'
 import axios from 'axios'
 import { Container, TextField, Button, Box, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 export default function Signup(props) {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   // 회원가입 폼
   const [form, setForm] = useState({
@@ -26,9 +28,8 @@ export default function Signup(props) {
 
   // 폼 입력
   const onInput = (event) => {
-    const { id, value } = event.target
-
     // 입력값 적용
+    const { id, value } = event.target
     setForm((form) => ({...form, [id]: value}))
 
     // 폼 입력 시 해당 필드 validation 상태 초기화
@@ -73,6 +74,7 @@ export default function Signup(props) {
   // "회원가입" 버튼
   const onSignup = (event) => {
     event.preventDefault()
+    // Lazy Validation: 회원가입 버튼을 누를 시에만 validate함
     const isValid = validate(form)
     const { passwordConfirm, ...sendForm } = form
     if (isValid) {
@@ -86,6 +88,7 @@ export default function Signup(props) {
       .then(response => {
         navigate("/")
         alert("회원가입이 완료되었습니다. 로그인해주세요.")
+        dispatch({type: "openLoginModal"})
       })
       .catch(error => {
         console.log(error)
@@ -136,7 +139,6 @@ export default function Signup(props) {
                 type="submit"
                 color="primary"
                 variant="outlined"
-                
                 >중복확인</Button>
             </Grid>
             <Grid item xs={12}>
@@ -165,7 +167,6 @@ export default function Signup(props) {
                 helperText={errors.passwordConfirm[1]}
                 />
             </Grid>
-            
             <Grid item xs={12} sm={8}>
               <TextField
                 required
@@ -199,9 +200,6 @@ export default function Signup(props) {
                 helperText={errors.nickname[1]}
                 />
             </Grid>
-
-            
-
             <Grid item xs={12} alignItems="stretch" mt={5} sx={{display: "flex"}}>
               <Button
                 fullWidth
