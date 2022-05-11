@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import com.ssafy.ssam.ssam_backend.api.dto.request.SaveBattleBoardReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.UpdateBattleBoardReqDto;
 import com.ssafy.ssam.ssam_backend.api.repository.BattleBoardRepository;
+import com.ssafy.ssam.ssam_backend.api.repository.MyTeamRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
+import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 
 	private final BattleBoardRepository battleBoardRepository;
 	private final UserRepository userRepository;
+	private final MyTeamRepository myTeamRepository;
 	
 	@Override
 	public Page<BattleBoard> getBattleCommunityList(int page, int limit, String title, String nickName) {
@@ -54,16 +57,22 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	}
 
 	@Override
-	public long getBattleCommunityCount() {
+	public Long getBattleBoardAllCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		long count = battleBoardRepository.count();
+		return count;
 	}
 
 	@Override
-	public void saveBattleBoard(String userId, SaveBattleBoardReqDto requestDto) {
-		// 여기 다시
+	public void saveBattleBoard(String userId, Long myTeamId, SaveBattleBoardReqDto requestDto) {
 		User user = userRepository.findUserByUsername(userId);
-		BattleBoard board = requestDto.toEntity(user);
+		MyTeam myTeam = new MyTeam();
+		try {
+			myTeam = myTeamRepository.findById(myTeamId).orElseThrow(NotFoundException::new);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+		BattleBoard board = requestDto.toEntity(user, myTeam);
 		battleBoardRepository.save(board);
 		
 		// 만약 작성 후 해당 게시글로 바로 들어갈 수 있게끔 링크를 걸려면 이렇게 작성
@@ -71,9 +80,23 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	}
 
 	@Override
-	public void updateBattleBoard(BattleBoard board) {
-		UpdateBattleBoardReqDto requestDto = new UpdateBattleBoardReqDto(board);
-		BattleBoard updateBoard = requestDto.toEntity();
+	public void updateBattleBoard(long battleBoardId, String bbTitle, Long myTeamId) {
+		MyTeam myTeam = new MyTeam();
+		try {
+			myTeam = myTeamRepository.findById(myTeamId).orElseThrow(NotFoundException::new);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		BattleBoard beforeBoard = new BattleBoard();
+		try {
+			beforeBoard = battleBoardRepository.findById(battleBoardId).orElseThrow(NotFoundException::new);
+		} catch(NotFoundException e) {
+			System.out.println(e);
+		}
+		
+		UpdateBattleBoardReqDto requestDto = new UpdateBattleBoardReqDto(beforeBoard);
+		BattleBoard updateBoard = requestDto.toEntity(myTeam, bbTitle);
 		battleBoardRepository.save(updateBoard);
 	}
 
