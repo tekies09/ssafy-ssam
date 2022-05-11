@@ -12,23 +12,20 @@ import lombok.Getter;
 
 @Getter
 @ApiModel("BattleCommunityBoardListResponse")
-public class BattleBoardRes extends BaseResponseBody {
+public class BattleBoardResDto extends BaseResponseBody {
 	
-	public BattleBoardRes(Integer statusCode, String message) {
+	public BattleBoardResDto(Integer statusCode, String message) {
 		super(statusCode, message);
 	}
 
-	public BattleBoardRes(Integer statusCode) {
+	public BattleBoardResDto(Integer statusCode) {
 		super(statusCode);
 	}
 
-	public BattleBoardRes() {
+	public BattleBoardResDto() {
 		super();
 	}
 
-//	@ApiModelProperty(name = "배틀 커뮤니티 글 리스트")
-//	List<BattleBoard> battleCommunityList = new ArrayList<>();
-	
 	private Long battleBoardId;
 	private String username;
 	private String nickname;
@@ -37,7 +34,7 @@ public class BattleBoardRes extends BaseResponseBody {
 	private LocalDateTime bbUpdateTime;
 	private RoleType role;
 	
-	public BattleBoardRes(Integer statusCode, String message, BattleBoard board) {
+	public BattleBoardResDto(Integer statusCode, String message, BattleBoard board) {
 		this.message = message;
 		this.statusCode = statusCode;
 		this.battleBoardId = board.getBattleBoardId();
@@ -48,16 +45,5 @@ public class BattleBoardRes extends BaseResponseBody {
 		this.bbWriteTime = board.getBbWriteTime();
 		this.role = board.getAuthor().getRole();
 	}
-
-//	public static BattleBoardRes of(Integer statusCode, String message, List<BattleBoard> battleCommunityList) {
-//		BattleBoardRes res = new BattleBoardRes();
-//		res.setMessage(message);
-//		res.setStatusCode(statusCode);
-//		for(BattleBoard battleBoard : battleCommunityList) {
-//			res.battleCommunityList.add(battleBoard);
-//		}
-//		
-//		return res;
-//	}
 	
 }

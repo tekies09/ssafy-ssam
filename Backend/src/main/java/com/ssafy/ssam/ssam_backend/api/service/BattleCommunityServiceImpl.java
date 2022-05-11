@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardCreateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardUpdateReqDto;
-import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardRes;
+import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardListResDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardResDto;
 import com.ssafy.ssam.ssam_backend.api.repository.BattleBoardRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.MyTeamRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
@@ -31,7 +32,7 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	private final MyTeamRepository myTeamRepository;
 	
 	@Override
-	public Page<BattleBoard> getBattleCommunityList(int page, int limit, String title, String username) {
+	public BattleBoardListResDto getBattleCommunityList(int page, int limit, String title, String username) {
 		Pageable paging = PageRequest.of(page, limit, Sort.Direction.DESC, "battleBoardId");
 		Page<BattleBoard> boards = battleBoardRepository.findAll(paging);
 
@@ -42,7 +43,8 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 			boards = battleBoardRepository.findPageByBbTitle(title, paging);
 		}
 		
-		return boards;
+		BattleBoardListResDto refactoreBoardList = new BattleBoardListResDto(new Integer(200), "글 상세 조회 성공", boards);
+		return refactoreBoardList;
 	}
 
 	@Override
@@ -101,7 +103,7 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	}
 
 	@Override
-	public BattleBoardRes getBattleBoard(long boardId) {
+	public BattleBoardResDto getBattleBoard(long boardId) {
 		BattleBoard board = new BattleBoard();
 		try {
 			board = battleBoardRepository.findById(boardId).orElseThrow(NotFoundException::new);
@@ -109,7 +111,7 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 			e.printStackTrace();
 		}
 		
-		return new BattleBoardRes(new Integer(200), "글 상세 조회 성공", board);
+		return new BattleBoardResDto(new Integer(200), "글 상세 조회 성공", board);
 	}
 
 }
