@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardCreateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardUpdateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
-import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardRes;
+import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardListResDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardResDto;
 import com.ssafy.ssam.ssam_backend.api.service.BattleCommunityService;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
@@ -51,7 +52,7 @@ public class BattleCommunityController {
 		@ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
 	})
 	@Operation(summary="배틀 커뮤니티 게시판 가져오기", description="게시판의 정보와 유저가 등록한 나만의 팀 정보를 불러온다.")
-	public ResponseEntity<Page<BattleBoard>> getBattleBoardList(
+	public ResponseEntity<BattleBoardListResDto> getBattleBoardList(
 			@RequestParam(value="title", required = false)
 			@Parameter(name = "title", description="글 제목") String title,
 			@RequestParam(value="page", defaultValue = "0")
@@ -61,14 +62,14 @@ public class BattleCommunityController {
 			@RequestParam(value="nickname", required = false)
 			@Parameter(name = "nickname", description="글을 쓴 유저 아이디") String nickname
 			) {
-		Page<BattleBoard> responseDto = battleService.getBattleCommunityList(page, limit, title, nickname);
+		BattleBoardListResDto responseDto = battleService.getBattleCommunityList(page, limit, title, nickname);
 		return ResponseEntity.status(200).body(responseDto);
 	}
 	
 	@GetMapping("{boardId}")
 	@Operation(summary="배틀 커뮤니티 게시판 특정 글 가져오기", description = "특정 번호의 글 내용을 전부 가져온다.")
-	public ResponseEntity<BattleBoardRes> getBattleBoard(@PathVariable Long boardId) {
-		BattleBoardRes responseDto = battleService.getBattleBoard(boardId);
+	public ResponseEntity<BattleBoardResDto> getBattleBoard(@PathVariable Long boardId) {
+		BattleBoardResDto responseDto = battleService.getBattleBoard(boardId);
 		return ResponseEntity.status(200).body(responseDto);
 	}
 	
