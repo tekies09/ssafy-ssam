@@ -14,7 +14,6 @@ public class UserLoginResponseDto {
 
     private long userId;
     private String username;
-    private String password;
     private String email;
     private RoleType role;
     private LocalDateTime joined_date;
@@ -24,7 +23,6 @@ public class UserLoginResponseDto {
         public UserLoginResponseDto(User entity) {
           this.userId= entity.getUserId();
           this.username= entity.getUsername();
-          this.password= entity.getPassword();
           this.email= entity.getEmail();
           this.role= entity.getRole();
           this.joined_date= entity.getJoined_date();
