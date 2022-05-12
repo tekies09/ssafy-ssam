@@ -14,16 +14,48 @@ import {
 } from "@mui/material";
 
 const PostDeleteModal = props => {
-  const modalOpen = useSelector(state => state.modal.deletePost);
+  let modalOpen = useSelector(state => state.modal.deletePost);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const boardType = useSelector(state => state.boardType);
 
   const handleClose = () => {
     dispatch({ type: "closePostDeleteModal" });
   };
 
-  const handleDeleteClick = () => {
-    console.log("게시글 삭제");
+  const doNavigate = async () => {
+    if (boardType === "freeBoard") {
+      await navigate("/board/free")
+    } else {
+      await navigate("/board/battle")
+    }
+  }
+
+  const handleDeleteClick = async () => {
+    let deleteUrl = "";
+    let urlArr = window.location.pathname.split("/")
+    let boardId = urlArr[urlArr.length - 1]
+
+    if (boardType === "freeBoard") {
+      deleteUrl = `/free/delete/${boardId}`;
+    } else {
+      deleteUrl = `/battle/delete/${boardId}`;
+    }
+
+    await axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "DELETE",
+      url: deleteUrl,
+    })
+      .then(res => {
+        doNavigate();
+        handleClose();
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     // TODO: 게시글 삭제 후 게시글 목록 페이지로 리다이렉트
   };

@@ -137,7 +137,7 @@ const BoardDetail = props => {
         }}
       >
         <Typography sx={{ mr: 1 }} textAlign="left" variant="overline">
-          {post.author}
+          {post.username}
         </Typography>
         <Typography sx={{ color: "gray" }} textAlign="left" variant="caption">
           {post.created_at}
