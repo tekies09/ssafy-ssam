@@ -3,17 +3,8 @@ package com.ssafy.ssam.ssam_backend.api.controller.board;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardCreateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardUpdateReqDto;
@@ -29,7 +20,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/battle")
@@ -80,32 +70,21 @@ public class BattleCommunityController {
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "Success"));
 	}
 	
+	@ApiOperation(value="배틀 커뮤니티 게시판 글 작성")
 	@PostMapping("/post")
-	@Operation(summary="배틀 커뮤니티 게시판 작성하기", description="")
-	public ResponseEntity<BaseResponseBody> postBattleBoard(
-			@RequestParam(value = "author", defaultValue="1")
-			@Parameter(name = "author", description="작성자") long author,
-			@RequestParam(value = "bbTitle", defaultValue="")
-			@Parameter(name = "bbTitle", description="작성자") String bbTitle,
-			@RequestParam(value = "myTeamId", required = false)
-			@Parameter(name = "myTeamId", description="나만의 팀 번호") long myTeamId
-			) {
-		battleService.saveBattleBoard(author, myTeamId, new BattleBoardCreateReqDto(bbTitle));
+	public ResponseEntity<BaseResponseBody> postBattleBoard(@RequestBody BattleBoardCreateReqDto requestDto) throws Exception {
+		battleService.saveBattleBoard(requestDto);
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 작성 성공"));
 	}
+	
 	
 	@PutMapping("/update")
 	@Operation(summary="배틀 커뮤니티 게시판 글 수정", description="")
 	public ResponseEntity<BaseResponseBody> updateBattleBoard(
-			@RequestParam(value = "battleBoardId", required=false)
-			@Parameter(name = "battleBoardId", description="수정 게시판 번호")long battleBoardId,
-			@RequestParam(value = "bbTitle", required=false)
-			@Parameter(name = "bbTitle", description="게시판 수정 제목") String bbTitle,
-			@RequestParam(value = "myTeamId", required=false)
-			@Parameter(name = "myTeamId", description="나만의 팀 번호") long myTeamId
+			@RequestBody BattleBoardUpdateReqDto requestDto
 			) {
 		
-		battleService.updateBattleBoard(battleBoardId, bbTitle, myTeamId);
+		battleService.updateBattleBoard(requestDto);
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "게시글 수정 성공"));
 	}
 	

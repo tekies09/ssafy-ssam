@@ -66,18 +66,18 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 
 
 	@Override
-	public void saveBattleBoard(long userId, Long myTeamId, BattleBoardCreateReqDto requestDto) {
+	public void saveBattleBoard(BattleBoardCreateReqDto requestDto) {
 		User user = new User();
 		MyTeam myTeam = new MyTeam();
 
 		try {
-			user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+			user = userRepository.findById(requestDto.getUserId()).orElseThrow(NotFoundException::new);
 		}catch(NotFoundException e) {
 			e.printStackTrace();
 		}
 		
 		try {
-			myTeam = myTeamRepository.findById(myTeamId).orElseThrow(NotFoundException::new);
+			myTeam = myTeamRepository.findById(requestDto.getMyTeamId()).orElseThrow(NotFoundException::new);
 		} catch (NotFoundException e) {
 			e.printStackTrace();
 		}
@@ -89,23 +89,22 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 	}
 
 	@Override
-	public void updateBattleBoard(long battleBoardId, String bbTitle, Long myTeamId) {
+	public void updateBattleBoard(BattleBoardUpdateReqDto requestDto) {
 		MyTeam myTeam = new MyTeam();
 		try {
-			myTeam = myTeamRepository.findById(myTeamId).orElseThrow(NotFoundException::new);
+			myTeam = myTeamRepository.findById(requestDto.getMyTeamId()).orElseThrow(NotFoundException::new);
 		} catch (NotFoundException e) {
 			e.printStackTrace();
 		}
 		
 		BattleBoard beforeBoard = new BattleBoard();
 		try {
-			beforeBoard = battleBoardRepository.findById(battleBoardId).orElseThrow(NotFoundException::new);
+			beforeBoard = battleBoardRepository.findById(requestDto.getBattleBoardId()).orElseThrow(NotFoundException::new);
 		} catch(NotFoundException e) {
 			System.out.println(e);
 		}
 		
-		BattleBoardUpdateReqDto requestDto = new BattleBoardUpdateReqDto(beforeBoard);
-		BattleBoard updateBoard = requestDto.toEntity(myTeam, bbTitle);
+		BattleBoard updateBoard = requestDto.toEntity(beforeBoard, myTeam);
 		battleBoardRepository.save(updateBoard);
 	}
 

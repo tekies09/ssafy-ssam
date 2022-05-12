@@ -16,6 +16,6 @@ public interface BattleCommunityService {
 	public BattleBoardResDto getBattleBoard(long boardId);
 	public void deleteBattleBoard(long id);
 	public long getBattleBoardAllCount();
-	public void saveBattleBoard(long userId, Long myTeamId, BattleBoardCreateReqDto requestDto);
-	public void updateBattleBoard(long battleBoardId, String bbTitle, Long myTeamId);
+	public void saveBattleBoard(BattleBoardCreateReqDto requestDto);
+	public void updateBattleBoard(BattleBoardUpdateReqDto requestDto);
 }
