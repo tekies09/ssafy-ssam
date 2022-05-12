@@ -13,7 +13,9 @@ function reducer(currentState, action) {
       user: initialUser,
       isLoggedIn: (localStorage.getItem("token") !== null ? true : false),
       modal: {
-        login: false
+        login: false,
+        deletePost: false,
+        deleteComment: false,
       }
     }
   }
@@ -39,6 +41,22 @@ function reducer(currentState, action) {
     
     case "closeLoginModal":
       newState.modal.login = false
+      break
+    
+    case "openPostDeleteModal":
+      newState.modal.deletePost = true
+      break
+    
+    case "closePostDeleteModal":
+      newState.modal.deletePost = false
+      break
+
+    case "openCommentDeleteModal":
+      newState.modal.deleteComment = true
+      break
+    
+    case "closeCommentDeleteModal":
+      newState.modal.deleteComment = false
       break
 
     default:

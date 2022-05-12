@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Box, Button, Typography } from "@mui/material";
 import PostDeleteModal from "./modal/PostDeleteModal";
 
 const DetailBottomMenu = props => {
-  const [postDeleteModal, setPostDeleteModal] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <Box
@@ -19,10 +20,7 @@ const DetailBottomMenu = props => {
       }}
     >
       {/* 게시글 삭제 확인 모달 */}
-      <PostDeleteModal
-        open={postDeleteModal}
-        setOpen={setPostDeleteModal}
-      ></PostDeleteModal>
+      <PostDeleteModal />
       {/* 수정, 삭제 버튼 */}
       <Box>
         <Button
@@ -46,7 +44,7 @@ const DetailBottomMenu = props => {
           color="mint"
           size="large"
           onClick={() => {
-            setPostDeleteModal(true);
+            dispatch({ type: "openPostDeleteModal" });
           }}
         >
           <Typography textAlign="left">삭제</Typography>
