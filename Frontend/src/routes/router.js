@@ -12,11 +12,13 @@ import FreeCreatePage from "../pages/Board/FreeCreatePage";
 import FreeBoardDetail from "../pages/Board/FreeBoardDetail";
 import FreeUpdatePage from "../pages/Board/FreeUpdatePage";
 import BattleBoardList from "../pages/Board/BattleBoardList";
+import BattleCreatePage from "../pages/Board/BattleCreatePage";
+import BattleBoardDetail from "../pages/Board/BattleBoardDetail";
+import BattleUpdatePage from "../pages/Board/BattleUpdatePage";
 import MainPage from "../pages/MainPage";
 import Sidebar from "../components/layout/Sidebar";
 import Account from "../pages/Account";
 import ScrollTop from "../components/layout/ScrollTop";
-import PostDeleteModal from "../components/modal/PostDeleteModal";
 
 export default function RouterComponent() {
   return (
@@ -56,10 +58,18 @@ export default function RouterComponent() {
             />
             {/* 배틀게시판 */}
             <Route path="/board/battle" element={<BattleBoardList />} />
+            <Route path="/board/battle/create" element={<BattleCreatePage />} />
+            <Route
+              path="/board/battle/:battleBoardId"
+              element={<BattleBoardDetail />}
+            />
+            <Route
+              path="/board/battle/:battleBoardId/update"
+              element={<BattleUpdatePage />}
+            />
           </Routes>
           <ScrollTop />
         </Box>
-        {/* <ScrollTop /> */}
       </Router>
     </>
   );

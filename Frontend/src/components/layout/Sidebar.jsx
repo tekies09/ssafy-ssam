@@ -12,27 +12,37 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Login from "../modal/Login";
 import { useSelector, useDispatch } from "react-redux";
 
-
-
 const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
-    
+
+    // if (index === 0) {
+    //   dispatch({ type: "noticeType" });
+    // }
+
+    if (index === 0 || index === 1) {
+      dispatch({ type: "freeBoardType" });
+    }
+
+    if (index === 2) {
+      dispatch({ type: "battleBoardType" });
+    }
+
     if (index === 4) {
       setPlayerInfoOpen(!playerInfoOpen);
     } else {
       setPlayerInfoOpen(false);
     }
   };
-  
+
   const handleLogout = () => {
-    dispatch({type: "logout"})
-    localStorage.removeItem("token")
-  }
+    dispatch({ type: "logout" });
+    localStorage.removeItem("token");
+  };
 
   const sidebarWidth = 202;
   const myPoint = 100;
@@ -92,7 +102,7 @@ const Sidebar = props => {
               size="large"
               fullWidth
               onClick={() => {
-                dispatch({type: "openLoginModal"})
+                dispatch({ type: "openLoginModal" });
               }}
             >
               <Typography sx={{}}>로그인</Typography>

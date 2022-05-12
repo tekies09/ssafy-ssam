@@ -1,8 +1,9 @@
 import React from "react";
 import PostUpdate from "../../components/PostUpdate";
 
-const FreeUpdatePage = props => {
+// TODO: 수정
+const BattleUpdatePage = props => {
   return <PostUpdate title="수정하기" />;
 };
 
-export default FreeUpdatePage;
+export default BattleUpdatePage;

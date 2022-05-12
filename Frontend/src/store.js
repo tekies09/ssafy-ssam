@@ -16,7 +16,8 @@ function reducer(currentState, action) {
         login: false,
         deletePost: false,
         deleteComment: false,
-      }
+      },
+      boardType: "",
     }
   }
   const newState = { ...currentState }
@@ -58,6 +59,18 @@ function reducer(currentState, action) {
     case "closeCommentDeleteModal":
       newState.modal.deleteComment = false
       break
+
+    // case "noticeType":
+    //   newState.boardType = "notice";
+    //   break;
+
+    case "freeBoardType":
+      newState.boardType = "freeBoard";
+      break;
+
+    case "battleBoardType":
+      newState.boardType = "battleBoard";
+      break;
 
     default:
       break
