@@ -12,29 +12,16 @@ import axios from "axios";
 const PostCreate = props => {
   const navigate = useNavigate()
   const user = useSelector(state => state.user);
-
-  const [form, setForm] = useState({
-    title: "",
-    content: "",
-  });
+  const [title, setTitle] = useState("")
 
   const handleFormInput = event => {
-    const { id, value } = event.target;
-    setForm({
-      ...form,
-      [id]: value,
-    });
+    setTitle(event.target.value)
   };
 
   // 게시글 등록
   const handleSubmitClick = () => {
-    if (form.title === "") {
+    if (title === "") {
       alert('제목을 입력해주세요.')
-      return;
-    }
-
-    if (form.content === "") {
-      alert('내용을 입력해주세요.')
       return;
     }
 
@@ -42,16 +29,19 @@ const PostCreate = props => {
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "POST",
-      url: "/free/post",
+      url: "/battle/post",
       data: {
-        "title": form.title,
-        "content": form.content,
-        // TODO: userId 추가!
+        "bbTitle": title,
+        // 나의 팀 ID 선택하는 부분 추가하기!
+        // myTeamId, userId
+        "myTeamId": 1,
         "userId": 1,
       }
     })
       .then(res => {
-        navigate("/board/free/")
+        navigate("/board/battle/")
+        // 목록으로 이동
+        console.log(res.data.message)
       })
       .catch(err => {
         console.log(err);
@@ -123,7 +113,7 @@ const PostCreate = props => {
               }}
               id="title"
               required
-              value={form.title}
+              value={title}
               onChange={handleFormInput}
               placeholder="제목을 입력해 주세요."
               variant="standard"
@@ -133,7 +123,7 @@ const PostCreate = props => {
             />
           </FormControl>
           {/* 내용 입력창 */}
-          <FormControl fullWidth>
+          {/* <FormControl fullWidth>
             <TextField
               sx={{
                 borderRadius: 4,
@@ -153,7 +143,7 @@ const PostCreate = props => {
                 disableUnderline: true,
               }}
             />
-          </FormControl>
+          </FormControl> */}
         </Box>
       </Box>
     </Box>
