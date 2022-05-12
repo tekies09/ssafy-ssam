@@ -18,20 +18,23 @@ import lombok.NoArgsConstructor;
 public class FreeBoardCreateReqDto {
 	
 	@NotNull
-	@JsonProperty("title")
 	@ApiModelProperty(value = "토론 게시판 작성 제목")
-	private String fbTitle;
+	private String title;
 	
-	@JsonProperty("content")
+	@NotNull
 	@ApiModelProperty(value = "토론 게시판 작성 내용")
-	private String fbContent;
+	private String content;
+	
+	@NotNull
+	@ApiModelProperty(value = "토론 게시판 작성자")
+	private long userId;
 	
 	// 테스트용
 	public FreeBoard toEntity() {
 		return FreeBoard
 				.builder()
-				.fbTitle(fbTitle)
-				.fbContent(fbContent)
+				.fbTitle(title)
+				.fbContent(content)
 				.fbWriteTime(LocalDateTime.now())
 				.fbUpdateTime(LocalDateTime.now())
 				.build();
@@ -41,8 +44,8 @@ public class FreeBoardCreateReqDto {
 		return FreeBoard
 				.builder()
 				.author(user)
-				.fbTitle(fbTitle)
-				.fbContent(fbContent)
+				.fbTitle(title)
+				.fbContent(content)
 				.fbWriteTime(LocalDateTime.now())
 				.fbUpdateTime(LocalDateTime.now())
 				.build();

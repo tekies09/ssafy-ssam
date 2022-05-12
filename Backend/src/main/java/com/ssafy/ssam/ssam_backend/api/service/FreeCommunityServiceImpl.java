@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.ssam.ssam_backend.api.dto.request.FreeBoardCreateReqDto;
+import com.ssafy.ssam.ssam_backend.api.dto.request.FreeBoardUpdateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.FreeBoardResDto;
 import com.ssafy.ssam.ssam_backend.api.repository.FreeBoardRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
@@ -63,15 +65,29 @@ public class FreeCommunityServiceImpl implements FreeCommunityService {
 	}
 
 	@Override
-	public void saveFreeBoard() {
-		// TODO Auto-generated method stub
-
+	public void saveFreeBoard(FreeBoardCreateReqDto requestDto) {
+		User user = new User();
+		try {
+			user = userRepository.findById(requestDto.getUserId()).orElseThrow(NotFoundException::new);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+		FreeBoard board = requestDto.toEntity(user);
+		freeBoardRepository.save(board);
 	}
 
 	@Override
-	public void updateFreeBoard() {
-		// TODO Auto-generated method stub
-
+	public void updateFreeBoard(FreeBoardUpdateReqDto requestDto) {
+		FreeBoard board = new FreeBoard();
+		
+		try {
+			board = freeBoardRepository.findById(requestDto.getBoardId()).orElseThrow(NotFoundException::new);
+		} catch(NotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		FreeBoard updateBoard = requestDto.toEntity(board);
+		freeBoardRepository.save(updateBoard);
 	}
 
 	@Override

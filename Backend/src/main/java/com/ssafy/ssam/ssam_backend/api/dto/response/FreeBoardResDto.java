@@ -2,9 +2,7 @@ package com.ssafy.ssam.ssam_backend.api.dto.response;
 
 import java.time.LocalDateTime;
 
-import com.ssafy.ssam.ssam_backend.domain.RoleType;
 import com.ssafy.ssam.ssam_backend.domain.entity.FreeBoard;
-import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
