@@ -84,7 +84,7 @@ public class BattleCommunityController {
 	@Operation(summary="배틀 커뮤니티 게시판 작성하기", description="")
 	public ResponseEntity<BaseResponseBody> postBattleBoard(
 			@RequestParam(value = "author", defaultValue="1")
-			@Parameter(name = "author", description="작성자") String author,
+			@Parameter(name = "author", description="작성자") long author,
 			@RequestParam(value = "bbTitle", defaultValue="")
 			@Parameter(name = "bbTitle", description="작성자") String bbTitle,
 			@RequestParam(value = "myTeamId", required = false)

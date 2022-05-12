@@ -66,9 +66,16 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 
 
 	@Override
-	public void saveBattleBoard(String userId, Long myTeamId, BattleBoardCreateReqDto requestDto) {
-		User user = userRepository.findUserByUsername(userId);
+	public void saveBattleBoard(long userId, Long myTeamId, BattleBoardCreateReqDto requestDto) {
+		User user = new User();
 		MyTeam myTeam = new MyTeam();
+
+		try {
+			user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+		}catch(NotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		try {
 			myTeam = myTeamRepository.findById(myTeamId).orElseThrow(NotFoundException::new);
 		} catch (NotFoundException e) {
