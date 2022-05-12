@@ -18,57 +18,34 @@ import lombok.NoArgsConstructor;
 public class BattleBoardUpdateReqDto {
 	
 	@NotNull
-	@ApiModelProperty(value = "배틀 게시판 글 아이디")
-	private long battleBoardId;
-	
-	@NotNull
 	@ApiModelProperty(value = "배틀 게시판 글 제목")
 	private String bbTitle;
 	
 	@NotNull
 	@ApiModelProperty(value = "배틀 게시판 작성 유저")
-	private User user;
+	private long myTeamId;
 	
 	@NotNull
-	@ApiModelProperty(value = "배틀 게시판 작성 시간")
-	public LocalDateTime bbWriteTime;
+	@ApiModelProperty(value = "배틀 게시판 글 번호")
+	private long battleBoardId;
 
 	
-	@Builder
-	public BattleBoardUpdateReqDto(BattleBoard battleBoard) {
-		this.battleBoardId = battleBoard.getBattleBoardId();
-		this.bbTitle = battleBoard.getBbTitle();
-		this.user = battleBoard.getAuthor();
-		this.bbWriteTime = battleBoard.getBbWriteTime();
+	public BattleBoardUpdateReqDto(long boardId, String title, long myTeamId) {
+		this.bbTitle = title;
+		this.battleBoardId = boardId;
+		this.myTeamId = myTeamId;
 	}
 	
-	public BattleBoard toEntity(String bbTitle) {
+	public BattleBoard toEntity(BattleBoard board, MyTeam myTeam) {
 		return BattleBoard
                 .builder()
-                .battleBoardId(battleBoardId)
-                .bbTitle(bbTitle)
-                .bbUpdateTime(LocalDateTime.now())
-                .build();
-	}
-	
-	public BattleBoard toEntity(MyTeam myTeam) {
-		return BattleBoard
-                .builder()
-                .battleBoardId(battleBoardId)
+                .battleBoardId(this.battleBoardId)
+                .bbTitle(this.bbTitle)
+                .author(board.getAuthor())
                 .myTeam(myTeam)
+                .bbWriteTime(board.getBbWriteTime())
                 .bbUpdateTime(LocalDateTime.now())
                 .build();
 	}
 	
-	public BattleBoard toEntity(MyTeam myTeam, String bbTitle) {
-		return BattleBoard
-                .builder()
-                .battleBoardId(battleBoardId)
-                .bbTitle(bbTitle)
-                .author(user)
-                .myTeam(myTeam)
-                .bbWriteTime(bbWriteTime)
-                .bbUpdateTime(LocalDateTime.now())
-                .build();
-	}
 }
