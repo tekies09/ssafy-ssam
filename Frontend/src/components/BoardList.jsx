@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { styled } from "@mui/material/styles";
@@ -21,6 +21,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useSelector } from "react-redux";
 
 const BoardList = props => {
+  const navigate = useNavigate()
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
   const user = useSelector(state => state.user);
@@ -113,14 +114,14 @@ const BoardList = props => {
 
   const updatePosts = () => {
     // 제목 검색
-    if (searchMenu == "title" && search !== "") {
+    if (searchMenu === "title" && search !== "") {
       getPostList({
         page: page - 1,
         limit: POST_PER_PAGE,
         title: search,
       });
       // 작성자 검색
-    } else if (searchMenu == "author" && search !== "") {
+    } else if (searchMenu === "author" && search !== "") {
       getPostList({
         page: page - 1,
         limit: POST_PER_PAGE,
@@ -235,6 +236,9 @@ const BoardList = props => {
                 <StyledTableCell
                   sx={{ maxWidth: "300px", textDecoration: "none" }}
                   align="center"
+                  // onClick={() => {
+                  //   navigate(`/board/battle/${data.battleBoardId}`)
+                  // }}
                   component={Link}
                   to={`./${data.battleBoardId}`}
                 >
