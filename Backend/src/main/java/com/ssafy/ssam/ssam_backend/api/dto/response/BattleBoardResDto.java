@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.ssafy.ssam.ssam_backend.domain.RoleType;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
+import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,18 +15,6 @@ import lombok.Getter;
 @ApiModel("BattleCommunityBoardListResponse")
 public class BattleBoardResDto extends BaseResponseBody {
 	
-	public BattleBoardResDto(Integer statusCode, String message) {
-		super(statusCode, message);
-	}
-
-	public BattleBoardResDto(Integer statusCode) {
-		super(statusCode);
-	}
-
-	public BattleBoardResDto() {
-		super();
-	}
-
 	private Long battleBoardId;
 	private String username;
 	private String nickname;
@@ -33,6 +22,7 @@ public class BattleBoardResDto extends BaseResponseBody {
 	private LocalDateTime bbWriteTime;
 	private LocalDateTime bbUpdateTime;
 	private RoleType role;
+	private MyTeam myTeam;
 	
 	public BattleBoardResDto(Integer statusCode, String message, BattleBoard board) {
 		this.message = message;
@@ -44,6 +34,7 @@ public class BattleBoardResDto extends BaseResponseBody {
 		this.bbUpdateTime = board.getBbUpdateTime();
 		this.bbWriteTime = board.getBbWriteTime();
 		this.role = board.getAuthor().getRole();
+		this.myTeam = board.getMyTeam();
 	}
 	
 }
