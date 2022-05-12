@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import Close from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,
@@ -14,12 +14,12 @@ import {
 } from "@mui/material";
 
 const PostDeleteModal = props => {
-  const { open, setOpen } = props;
+  const modalOpen = useSelector(state => state.modal.deletePost);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch({ type: "closePostDeleteModal" });
   };
 
   const handleDeleteClick = () => {
@@ -30,7 +30,7 @@ const PostDeleteModal = props => {
 
   return (
     <>
-      <Dialog onClose={handleClose} open={open}>
+      <Dialog onClose={handleClose} open={modalOpen}>
         <IconButton
           edge="end"
           onClick={handleClose}

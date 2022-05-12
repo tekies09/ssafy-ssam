@@ -5,9 +5,10 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CommentDeleteModal from "./modal/CommentDeleteModal";
+import { useDispatch } from "react-redux";
 
 const Comment = props => {
-  const [commentDeleteModal, setCommentDeleteModal] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <Card
@@ -52,6 +53,7 @@ const Comment = props => {
         </Typography>
       </CardContent>
       <CardActions>
+        {/* <CommentUpdateBtn /> */}
         <IconButton sx={{ p: 0 }} aria-label="edit" size="large">
           <EditIcon />
         </IconButton>
@@ -61,17 +63,14 @@ const Comment = props => {
           size="large"
           color="sub_300"
           onClick={() => {
-            setCommentDeleteModal(true);
+            dispatch({ type: "openCommentDeleteModal" });
           }}
         >
           <DeleteIcon />
         </IconButton>
       </CardActions>
       {/* 댓글 삭제 확인 모달 */}
-      <CommentDeleteModal
-        open={commentDeleteModal}
-        setOpen={setCommentDeleteModal}
-      ></CommentDeleteModal>
+      <CommentDeleteModal />
     </Card>
   );
 };
