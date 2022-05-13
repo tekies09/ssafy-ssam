@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-const PostUpdate = props => {
-  const navigate = useNavigate();
+const BattleUpdate = props => {
   const location = useLocation();
+  console.log(location);
 
   const [form, setForm] = useState({
     title: location.state.title,
-    content: location.state.content,
   });
 
   const handleFormInput = event => {
@@ -30,28 +28,24 @@ const PostUpdate = props => {
       return;
     }
 
-    if (form.content === "") {
-      alert("내용을 입력해주세요.");
-      return;
-    }
-
     let url = window.location.pathname.split("/");
-    // free/:boardId/update => boardId
+    // battle/:boardId/update => boardId
     let boardId = url[url.length - 2];
 
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "PUT",
-      url: "/free/update",
+      url: "/battle/update",
       data: {
-        title: form.title,
-        content: form.content,
-        boardId: boardId,
+        bbTitle: form.title,
+        battleBoardId: boardId,
+        // TODO: my team id 받아와서 저장하기!
+        myTeamId: 1,
       },
     })
       .then(res => {
-        navigate(`/board/free/${boardId}`);
+        navigate(`/board/battle/${boardId}`);
       })
       .catch(err => {
         console.log(err);
@@ -99,7 +93,6 @@ const PostUpdate = props => {
             variant="contained"
             color="sub_300"
             size="large"
-            onClick={handleUpdateClick}
           >
             <Typography textAlign="left">수정</Typography>
           </Button>
@@ -131,32 +124,10 @@ const PostUpdate = props => {
               }}
             />
           </FormControl>
-          {/* 내용 입력창 */}
-          <FormControl fullWidth>
-            <TextField
-              sx={{
-                borderRadius: 4,
-                backgroundColor: "white",
-                disableUnderline: true,
-                p: 2,
-              }}
-              id="content"
-              required
-              value={form.content}
-              onChange={handleFormInput}
-              placeholder="내용을 입력해 주세요."
-              multiline
-              rows={10}
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </FormControl>
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default PostUpdate;
+export default BattleUpdate;

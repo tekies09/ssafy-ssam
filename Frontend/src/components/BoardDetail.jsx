@@ -12,14 +12,14 @@ const BoardDetail = props => {
   const boardType = useSelector(state => state.boardType);
 
   useEffect(() => {
-    let urlArr = window.location.pathname.split("/")
-    let boardId = urlArr[urlArr.length - 1]
+    let urlArr = window.location.pathname.split("/");
+    let boardId = urlArr[urlArr.length - 1];
 
     getPostDetail(boardId);
   }, []);
 
-  // 게시글 목록 받아오기
-  const getPostDetail = async (boardId) => {
+  // 게시글 받아오기
+  const getPostDetail = async boardId => {
     let requestUrl = "";
 
     if (boardType === "freeBoard") {
@@ -35,7 +35,7 @@ const BoardDetail = props => {
       url: requestUrl,
     })
       .then(res => {
-        let postData = {}
+        let postData = {};
 
         if (boardType === "battleBoard") {
           postData = {
@@ -43,19 +43,19 @@ const BoardDetail = props => {
             username: res.data.username,
             created_at: res.data.bbWriteTime.substring(0, 10),
             // 나만의 팀 정보 추가하기!
-          }
+          };
         } else {
           postData = {
-            title: res.data.fbContent,
-            content: res.data.fbTitle,
+            title: res.data.fbTitle,
+            content: res.data.fbContent,
             username: res.data.username,
             created_at: res.data.fbWriteTime.substring(0, 10),
-          }
+          };
         }
 
-        setPost(postData)
+        setPost(postData);
 
-        console.log(postData)
+        console.log(postData);
       })
       .catch(err => {
         console.log(err);
@@ -63,20 +63,26 @@ const BoardDetail = props => {
   };
 
   const PostContent = props => {
+    console.log(post);
     switch (boardType) {
       case "freeBoard":
-        return (<Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-        {post.content.split("\n").map(txt => (
-          <>
-            {txt}
-            <br />
-          </>
-        ))}
-      </Box>)
+        return (
+          <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+            {post.content}
+          </Box>
+          // <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+          //   {post.content.split("\n").map(txt => (
+          //     <>
+          //       {txt}
+          //       <br />
+          //     </>
+          //   ))}
+          // </Box>
+        );
       default:
-        return <></>
+        return <></>;
     }
-  }
+  };
 
   return (
     <Box
@@ -150,8 +156,10 @@ const BoardDetail = props => {
       <PostContent />
 
       {/* TODO: 배틀 게시판 => 팀 정보 등 추가하기 */}
-      
-      <DetailBottomMenu />
+
+      {/* 자유 게시판이면 제목, 내용 */}
+
+      <DetailBottomMenu post={post} />
 
       <Divider sx={{ mt: 1, width: "100%" }} />
 

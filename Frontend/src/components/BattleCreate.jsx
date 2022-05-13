@@ -6,22 +6,22 @@ import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const PostCreate = props => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const user = useSelector(state => state.user);
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = useState("");
 
   const handleFormInput = event => {
-    setTitle(event.target.value)
+    setTitle(event.target.value);
   };
 
   // 게시글 등록
   const handleSubmitClick = () => {
     if (title === "") {
-      alert('제목을 입력해주세요.')
+      alert("제목을 입력해주세요.");
       return;
     }
 
@@ -31,22 +31,22 @@ const PostCreate = props => {
       method: "POST",
       url: "/battle/post",
       data: {
-        "bbTitle": title,
+        bbTitle: title,
         // 나의 팀 ID 선택하는 부분 추가하기!
         // myTeamId, userId
-        "myTeamId": 1,
-        "userId": 1,
-      }
+        myTeamId: 1,
+        userId: 1,
+      },
     })
       .then(res => {
-        navigate("/board/battle/")
+        navigate("/board/battle/");
         // 목록으로 이동
-        console.log(res.data.message)
+        console.log(res.data.message);
       })
       .catch(err => {
         console.log(err);
-      })
-  }
+      });
+  };
 
   return (
     <Box
