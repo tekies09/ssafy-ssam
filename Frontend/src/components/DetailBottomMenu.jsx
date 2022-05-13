@@ -1,12 +1,53 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Box, Button, Typography } from "@mui/material";
 import PostDeleteModal from "./modal/PostDeleteModal";
 
 const DetailBottomMenu = props => {
   const dispatch = useDispatch();
+  const boardType = useSelector(state => state.boardType);
+
+  const UpdateButton = () => {
+    switch (boardType) {
+      case "freeBoard":
+        return (
+          <Button
+            sx={{ m: 1, p: 1, color: "white" }}
+            variant="contained"
+            color="sub_300"
+            size="large"
+            component={Link}
+            to="./update"
+            state={{
+              title: props.post.title,
+              content: props.post.content,
+            }}
+          >
+            <Typography textAlign="left">수정</Typography>
+          </Button>
+        );
+      case "battleBoard":
+        return (
+          <Button
+            sx={{ m: 1, p: 1, color: "white" }}
+            variant="contained"
+            color="sub_300"
+            size="large"
+            component={Link}
+            to="./update"
+            state={{
+              title: props.post.title,
+            }}
+          >
+            <Typography textAlign="left">수정</Typography>
+          </Button>
+        );
+      default:
+        return <></>;
+    }
+  };
 
   return (
     <Box
@@ -23,21 +64,7 @@ const DetailBottomMenu = props => {
       <PostDeleteModal />
       {/* 수정, 삭제 버튼 */}
       <Box>
-        <Button
-          sx={{ m: 1, p: 1, color: "white" }}
-          variant="contained"
-          color="sub_300"
-          size="large"
-          component={Link}
-          to="./update"
-          // TODO: 제목, 내용 데이터 axios 요청으로 받아와서 넘기기
-          state={{
-            title: "수정할 글의 제목",
-            content: "수정할 글의 내용\n\n두 줄 아래 글의 내용",
-          }}
-        >
-          <Typography textAlign="left">수정</Typography>
-        </Button>
+        <UpdateButton />
         <Button
           sx={{ m: 1, p: 1, color: "white" }}
           variant="contained"

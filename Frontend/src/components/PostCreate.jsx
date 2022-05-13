@@ -5,8 +5,14 @@ import { Box, Button, Divider, Typography } from "@mui/material";
 import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom'
+import axios from "axios";
 
 const PostCreate = props => {
+  const navigate = useNavigate()
+  const user = useSelector(state => state.user);
+
   const [form, setForm] = useState({
     title: "",
     content: "",
@@ -19,6 +25,38 @@ const PostCreate = props => {
       [id]: value,
     });
   };
+
+  // 게시글 등록
+  const handleSubmitClick = () => {
+    if (form.title === "") {
+      alert('제목을 입력해주세요.')
+      return;
+    }
+
+    if (form.content === "") {
+      alert('내용을 입력해주세요.')
+      return;
+    }
+
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "POST",
+      url: "/free/post",
+      data: {
+        "title": form.title,
+        "content": form.content,
+        // TODO: userId 추가!
+        "userId": 1,
+      }
+    })
+      .then(res => {
+        navigate("/board/free/")
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   return (
     <Box
@@ -61,6 +99,7 @@ const PostCreate = props => {
             variant="contained"
             color="sub_300"
             size="large"
+            onClick={handleSubmitClick}
           >
             <Typography textAlign="left">등록</Typography>
           </Button>

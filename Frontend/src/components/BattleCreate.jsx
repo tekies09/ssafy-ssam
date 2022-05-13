@@ -1,57 +1,47 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const PostUpdate = props => {
+const PostCreate = props => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const [form, setForm] = useState({
-    title: location.state.title,
-    content: location.state.content,
-  });
+  const user = useSelector(state => state.user);
+  const [title, setTitle] = useState("");
 
   const handleFormInput = event => {
-    const { id, value } = event.target;
-    setForm({
-      ...form,
-      [id]: value,
-    });
+    setTitle(event.target.value);
   };
 
-  const handleUpdateClick = () => {
-    if (form.title === "") {
+  // 게시글 등록
+  const handleSubmitClick = () => {
+    if (title === "") {
       alert("제목을 입력해주세요.");
       return;
     }
 
-    if (form.content === "") {
-      alert("내용을 입력해주세요.");
-      return;
-    }
-
-    let url = window.location.pathname.split("/");
-    // free/:boardId/update => boardId
-    let boardId = url[url.length - 2];
-
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
-      method: "PUT",
-      url: "/free/update",
+      method: "POST",
+      url: "/battle/post",
       data: {
-        title: form.title,
-        content: form.content,
-        boardId: boardId,
+        bbTitle: title,
+        // 나의 팀 ID 선택하는 부분 추가하기!
+        // myTeamId, userId
+        myTeamId: 1,
+        userId: 1,
       },
     })
       .then(res => {
-        navigate(`/board/free/${boardId}`);
+        navigate("/board/battle/");
+        // 목록으로 이동
+        console.log(res.data.message);
       })
       .catch(err => {
         console.log(err);
@@ -83,7 +73,7 @@ const PostUpdate = props => {
         {/* 타이틀 */}
         <h3>&nbsp;&nbsp;{props.title}</h3>
         <Box>
-          {/* 뒤로가기 버튼 */}
+          {/* 목록 보기 버튼 */}
           <IconButton
             sx={{ px: 2 }}
             aria-label="back"
@@ -93,15 +83,15 @@ const PostUpdate = props => {
           >
             <KeyboardBackspaceIcon fontSize="large" />
           </IconButton>
-          {/* 수정 버튼 */}
+          {/* 등록 버튼 */}
           <Button
             sx={{ m: 0, color: "white", borderRadius: 8 }}
             variant="contained"
             color="sub_300"
             size="large"
-            onClick={handleUpdateClick}
+            onClick={handleSubmitClick}
           >
-            <Typography textAlign="left">수정</Typography>
+            <Typography textAlign="left">등록</Typography>
           </Button>
         </Box>
       </Box>
@@ -110,6 +100,7 @@ const PostUpdate = props => {
 
       <Box sx={{ width: "100%" }}>
         <Box sx={{ m: 2 }}>
+          {/* TODO: 제목/내용 입력시 outline 표시하기 */}
           {/* 제목 입력창 */}
           <FormControl sx={{ mb: 2 }} fullWidth>
             <TextField
@@ -122,7 +113,7 @@ const PostUpdate = props => {
               }}
               id="title"
               required
-              value={form.title}
+              value={title}
               onChange={handleFormInput}
               placeholder="제목을 입력해 주세요."
               variant="standard"
@@ -132,7 +123,7 @@ const PostUpdate = props => {
             />
           </FormControl>
           {/* 내용 입력창 */}
-          <FormControl fullWidth>
+          {/* <FormControl fullWidth>
             <TextField
               sx={{
                 borderRadius: 4,
@@ -152,11 +143,11 @@ const PostUpdate = props => {
                 disableUnderline: true,
               }}
             />
-          </FormControl>
+          </FormControl> */}
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default PostUpdate;
+export default PostCreate;

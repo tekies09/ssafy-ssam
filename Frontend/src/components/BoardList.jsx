@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { styled } from "@mui/material/styles";
 import { Box, Button, Divider, Paper, Typography } from "@mui/material";
@@ -20,39 +21,137 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useSelector } from "react-redux";
 
 const BoardList = props => {
+  const navigate = useNavigate();
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
   const user = useSelector(state => state.user);
+  const boardType = useSelector(state => state.boardType);
 
-  const mockData = [
-    { id: 1, title: "1번째", author: "moontek", created_at: "2022-04-21" },
-    { id: 2, title: "2번째", author: "honglim", created_at: "2022-04-21" },
-    { id: 3, title: "3번째", author: "minjoo", created_at: "2022-04-21" },
-    { id: 4, title: "4번째", author: "jaeyoung", created_at: "2022-04-21" },
-    { id: 5, title: "5번째", author: "sunghan", created_at: "2022-04-24" },
-    {
-      id: 6,
-      title:
-        "6번째 제목입니다. 제목이 긴 경우 어떻게 처리하는지 확인하고자 제목을 길게 지어보았습니다.",
-      author: "junghwan",
-      created_at: "2022-04-24",
-    },
-    { id: 7, title: "7번째", author: "materialui", created_at: "2022-04-24" },
-  ];
+  const [posts, setPosts] = useState([]);
+
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const POST_PER_PAGE = 7;
+
+  const searchInput = document.querySelector("#search-input");
+
+  // 렌더링 시마다 실행
+  useEffect(() => {
+    updatePageCount();
+  });
+
+  // 페이지나 검색 결과 바뀔 때마다 실행
+  useEffect(() => {
+    updatePosts();
+  }, [page, search]);
+
+  // 페이지 수 계산
+  const updatePageCount = () => {
+    let requestUrl = "";
+
+    if (boardType === "freeBoard") {
+      requestUrl = "/free/allcount";
+    } else if (boardType === "battleBoard") {
+      requestUrl = "/battle/allcount";
+    }
+
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "GET",
+      url: requestUrl,
+    })
+      .then(res => {
+        let totalCount = res.data;
+        setMaxPage(Math.ceil(totalCount / POST_PER_PAGE));
+        console.log("총 페이지 수 : " + maxPage);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  // 게시글 목록 받아오기
+  const getPostList = async props => {
+    let requestUrl = "";
+
+    if (boardType === "freeBoard") {
+      requestUrl = "/free/list";
+    } else {
+      requestUrl = "/battle/list";
+    }
+
+    await axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "GET",
+      url: requestUrl,
+      params: props,
+    })
+      .then(res => {
+        console.log(res.data.content);
+        let postList = [];
+
+        if (boardType === "freeBoard") {
+          postList = res.data.content;
+          postList.map(post => {
+            // 작성 시간 날짜만 표기하기
+            post.fbWriteTime = post.fbWriteTime.substring(0, 10);
+          });
+        } else {
+          postList = res.data.battleBoardList;
+          postList.map(post => {
+            // 작성 시간 날짜만 표기하기
+            post.bbWriteTime = post.bbWriteTime.substring(0, 10);
+          });
+        }
+
+        setPosts(postList);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const updatePosts = () => {
+    // 제목 검색
+    if (searchMenu === "title" && search !== "") {
+      getPostList({
+        page: page - 1,
+        limit: POST_PER_PAGE,
+        title: search,
+      });
+      // 작성자 검색
+    } else if (searchMenu === "author" && search !== "") {
+      getPostList({
+        page: page - 1,
+        limit: POST_PER_PAGE,
+        nickname: search,
+      });
+      // 전체 게시글 검색
+    } else {
+      getPostList({
+        page: page - 1,
+        limit: POST_PER_PAGE,
+      });
+    }
+  };
+
+  const handlePaginationChange = (event, page) => {
+    setPage(page);
+
+    console.log("현재 페이지 : " + page);
+  };
 
   const handleSearchMenuChange = event => {
     setSearchMenu(event.target.value);
   };
 
-  const handleSearchChange = event => {
-    setSearch(event.target.value);
-  };
+  const handleSearchClick = async () => {
+    // TODO: 검색 버튼 클릭시 1페이지로 이동하기
+    setSearch(searchInput.value);
 
-  const handleSearchClick = () => {
-    // TODO: 검색
-    console.log(`${searchMenu} 검색 : ${search}`);
-
-    setSearch("");
+    console.log("검색어 : " + search);
   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -83,6 +182,65 @@ const BoardList = props => {
       );
     } else {
       return <Box></Box>;
+    }
+  };
+
+  const PostData = post => {
+    switch (boardType) {
+      case "freeBoard":
+        return (
+          <TableBody>
+            {posts.map(post => (
+              <TableRow key={post.freeBoardId}>
+                <StyledTableCell component="th" scope="row" align="center">
+                  {post.freeBoardId}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${post.freeBoardId}`}
+                >
+                  <Typography noWrap>{post.fbTitle}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.author.username}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.fbWriteTime}
+                </StyledTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        );
+      case "battleBoard":
+        return (
+          <TableBody>
+            {posts.map(post => {
+              <TableRow key={post.battleBoardId} width="100%">
+                <StyledTableCell component="th" scope="row" align="center">
+                  {post.battleBoardId}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${post.battleBoardId}`}
+                >
+                  <Typography noWrap>{post.bbTitle}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.username}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.bbWriteTime}
+                </StyledTableCell>
+              </TableRow>;
+            })}
+          </TableBody>
+        );
+      default:
+        return <></>;
     }
   };
 
@@ -129,38 +287,25 @@ const BoardList = props => {
               <StyledTableCell align="center">등록일</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {mockData.map(data => (
-              <TableRow key={data.name}>
-                <StyledTableCell component="th" scope="row" align="center">
-                  {data.id}
-                </StyledTableCell>
-                <StyledTableCell
-                  sx={{ maxWidth: "300px", textDecoration: "none" }}
-                  align="center"
-                  component={Link}
-                  to={`./${data.id}`}
-                >
-                  <Typography noWrap>{data.title}</Typography>
-                </StyledTableCell>
-                <StyledTableCell align="center">{data.author}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {data.created_at}
-                </StyledTableCell>
-              </TableRow>
+          <PostData />
+          {/* <TableBody>
+            <PostData />
+            {/* {posts.map(post => (
+              <PostData post={post} />
             ))}
-          </TableBody>
+          </TableBody> */}
         </Table>
       </TableContainer>
 
       {/* 페이지네이션 */}
       <Pagination
         sx={{ my: 3 }}
-        count={10}
+        count={maxPage} // 페이지 수
         showFirstButton
         showLastButton
         size="large"
         color="sub_300"
+        onChange={handlePaginationChange}
       />
       {/* 검색 바 */}
       <Box
@@ -189,12 +334,7 @@ const BoardList = props => {
         </TextField>
         {/* 검색어 입력창 */}
         <FormControl sx={{ mx: 2, width: "40%" }} variant="outlined">
-          <OutlinedInput
-            id="search-input"
-            value={search}
-            onChange={handleSearchChange}
-            size="small"
-          />
+          <OutlinedInput id="search-input" size="small" />
         </FormControl>
         {/* 검색 버튼 */}
         <Button
