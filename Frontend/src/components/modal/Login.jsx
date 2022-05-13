@@ -78,7 +78,6 @@ function Login(props) {
         
         // 토큰 풀어서 사용자 정보 저장
         const payload = JSON.parse(atob(token.split('.')[1]))
-  
         dispatch({type: 'login', payload: payload})
       })
       .then(() => {

@@ -20,6 +20,7 @@ function reducer(currentState, action) {
     }
   }
   const newState = { ...currentState }
+  const newModal = { ...currentState.modal }
 
 
   // store Dispatch 작성
@@ -36,27 +37,33 @@ function reducer(currentState, action) {
       break
 
     case "openLoginModal":
-      newState.modal.login = true
+      newModal.login = true
+      newState.modal = newModal
       break
-    
+      
     case "closeLoginModal":
+      newModal.login = false
       newState.modal.login = false
       break
     
     case "openPostDeleteModal":
-      newState.modal.deletePost = true
+      newModal.deletePost = true
+      newState.modal = newModal
       break
-    
+      
     case "closePostDeleteModal":
-      newState.modal.deletePost = false
+      newModal.deletePost = false
+      newState.modal = newModal
       break
-
+      
     case "openCommentDeleteModal":
-      newState.modal.deleteComment = true
+      newModal.deleteComment = true
+      newState.modal = newModal
       break
     
     case "closeCommentDeleteModal":
-      newState.modal.deleteComment = false
+      newModal.deleteComment = false
+      newState.modal = newModal
       break
 
     default:
