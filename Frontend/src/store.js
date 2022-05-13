@@ -19,7 +19,9 @@ function reducer(currentState, action) {
       boardType: "freeBoard",
     };
   }
-  const newState = { ...currentState };
+  const newState = { ...currentState }
+  const newModal = { ...currentState.modal }
+
 
   // store Dispatch 작성
   // case 'dispatch명': 하고 작성하시면 됩니다.
@@ -35,28 +37,34 @@ function reducer(currentState, action) {
       break;
 
     case "openLoginModal":
-      newState.modal.login = true;
-      break;
-
+      newModal.login = true
+      newState.modal = newModal
+      break
+      
     case "closeLoginModal":
-      newState.modal.login = false;
-      break;
-
+      newModal.login = false
+      newState.modal.login = false
+      break
+    
     case "openPostDeleteModal":
-      newState.modal.deletePost = true;
-      break;
-
+      newModal.deletePost = true
+      newState.modal = newModal
+      break
+      
     case "closePostDeleteModal":
-      newState.modal.deletePost = false;
-      break;
-
+      newModal.deletePost = false
+      newState.modal = newModal
+      break
+      
     case "openCommentDeleteModal":
-      newState.modal.deleteComment = true;
-      break;
-
+      newModal.deleteComment = true
+      newState.modal = newModal
+      break
+    
     case "closeCommentDeleteModal":
-      newState.modal.deleteComment = false;
-      break;
+      newModal.deleteComment = false
+      newState.modal = newModal
+      break
 
     // case "noticeType":
     //   newState.boardType = "notice";
@@ -69,6 +77,8 @@ function reducer(currentState, action) {
     case "battleBoardType":
       newState.boardType = "battleBoard";
       break;
+
+      
 
     default:
       break;
