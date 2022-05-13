@@ -1,15 +1,35 @@
 import { configureStore } from "@reduxjs/toolkit";
-const initialUser = {
-  username: "",
-  email: "",
+const defaultUser = {
+  sub: "AnonymousUser",
+  username: "AnonymousUser",
+  email: "noreply@notemail.com",
   nickname: "AnonymousUser",
+  exp: 0,
+  iat: 0,
+  role: "GUEST"
 };
+
+function getUserfromToken() {
+  const token = localStorage.getItem("token")
+  if (token === null) {
+    return defaultUser
+  }
+
+  const user = JSON.parse(atob(token.split('.')[1]))
+
+  // 토큰 만료
+  if (user.exp < Date.now() ) {
+    return defaultUser
+  }
+
+  return user
+}
 
 function reducer(currentState, action) {
   // Store 기본값 설정
   if (currentState === undefined) {
     return {
-      user: initialUser,
+      user: getUserfromToken(),
       isLoggedIn: localStorage.getItem("token") !== null ? true : false,
       modal: {
         login: false,
@@ -27,14 +47,14 @@ function reducer(currentState, action) {
   // case 'dispatch명': 하고 작성하시면 됩니다.
   switch (action.type) {
     case "login":
-      newState.user = action.payload;
-      newState.isLoggedIn = true;
-      break;
+      newState.user = action.payload
+      newState.isLoggedIn = true
+      break
 
     case "logout":
-      newState.user = initialUser;
-      newState.isLoggedIn = false;
-      break;
+      newState.user = defaultUser
+      newState.isLoggedIn = false
+      break
 
     case "openLoginModal":
       newModal.login = true
@@ -43,7 +63,7 @@ function reducer(currentState, action) {
       
     case "closeLoginModal":
       newModal.login = false
-      newState.modal.login = false
+      newState.modal = newModal
       break
     
     case "openPostDeleteModal":

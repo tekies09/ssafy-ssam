@@ -73,10 +73,8 @@ function Login(props) {
         }
       })
       .then(response => {
-        const token = response.data.message
+        const token = response.data.token
         localStorage.setItem("token", token)
-        
-        // 토큰 풀어서 사용자 정보 저장
         const payload = JSON.parse(atob(token.split('.')[1]))
         dispatch({type: 'login', payload: payload})
       })

@@ -41,7 +41,7 @@ const Sidebar = props => {
 
   const handleLogout = () => {
     dispatch({ type: "logout" });
-    localStorage.removeItem("token");
+    localStorage.removeItem("token")
   };
 
   const sidebarWidth = 202;
