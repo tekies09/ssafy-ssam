@@ -21,7 +21,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useSelector } from "react-redux";
 
 const BoardList = props => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
   const user = useSelector(state => state.user);
@@ -89,10 +89,11 @@ const BoardList = props => {
       params: props,
     })
       .then(res => {
+        console.log(res.data.content);
         let postList = [];
 
         if (boardType === "freeBoard") {
-          postList = res.data.freeBoardList;
+          postList = res.data.content;
           postList.map(post => {
             // 작성 시간 날짜만 표기하기
             post.fbWriteTime = post.fbWriteTime.substring(0, 10);
@@ -184,6 +185,65 @@ const BoardList = props => {
     }
   };
 
+  const PostData = post => {
+    switch (boardType) {
+      case "freeBoard":
+        return (
+          <TableBody>
+            {posts.map(post => (
+              <TableRow key={post.freeBoardId}>
+                <StyledTableCell component="th" scope="row" align="center">
+                  {post.freeBoardId}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${post.freeBoardId}`}
+                >
+                  <Typography noWrap>{post.fbTitle}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.author.username}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.fbWriteTime}
+                </StyledTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        );
+      case "battleBoard":
+        return (
+          <TableBody>
+            {posts.map(post => {
+              <TableRow key={post.battleBoardId} width="100%">
+                <StyledTableCell component="th" scope="row" align="center">
+                  {post.battleBoardId}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${post.battleBoardId}`}
+                >
+                  <Typography noWrap>{post.bbTitle}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.username}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.bbWriteTime}
+                </StyledTableCell>
+              </TableRow>;
+            })}
+          </TableBody>
+        );
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -227,39 +287,20 @@ const BoardList = props => {
               <StyledTableCell align="center">등록일</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {posts.map(data => (
-              <TableRow key={data.battleBoardId}>
-                <StyledTableCell component="th" scope="row" align="center">
-                  {data.battleBoardId}
-                </StyledTableCell>
-                <StyledTableCell
-                  sx={{ maxWidth: "300px", textDecoration: "none" }}
-                  align="center"
-                  // onClick={() => {
-                  //   navigate(`/board/battle/${data.battleBoardId}`)
-                  // }}
-                  component={Link}
-                  to={`./${data.battleBoardId}`}
-                >
-                  <Typography noWrap>{data.bbTitle}</Typography>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {data.username}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {data.bbWriteTime}
-                </StyledTableCell>
-              </TableRow>
+          <PostData />
+          {/* <TableBody>
+            <PostData />
+            {/* {posts.map(post => (
+              <PostData post={post} />
             ))}
-          </TableBody>
+          </TableBody> */}
         </Table>
       </TableContainer>
 
       {/* 페이지네이션 */}
       <Pagination
         sx={{ my: 3 }}
-        count={maxPage}  // 페이지 수
+        count={maxPage} // 페이지 수
         showFirstButton
         showLastButton
         size="large"
