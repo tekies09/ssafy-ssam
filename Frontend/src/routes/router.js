@@ -18,6 +18,7 @@ import BattleUpdatePage from "../pages/Board/BattleUpdatePage";
 import MainPage from "../pages/MainPage";
 import Sidebar from "../components/layout/Sidebar";
 import Account from "../pages/Account";
+import Playerinfo from "../pages/Playerinfo";
 import ScrollTop from "../components/layout/ScrollTop";
 
 export default function RouterComponent() {
@@ -67,6 +68,9 @@ export default function RouterComponent() {
               path="/board/battle/:battleBoardId/update"
               element={<BattleUpdatePage />}
             />
+
+            {/* 선수 정보 */}
+            <Route path="/player/:id" element={<Playerinfo />} />
           </Routes>
           <ScrollTop />
         </Box>
