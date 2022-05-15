@@ -4,28 +4,53 @@ import { Box, Button, Typography, Grid } from "@mui/material";
 import { FormControl, TextField } from "@mui/material";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const CommentForm = props => {
-  const [comments, setComments] = useState([]);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const userId = useSelector(state => state.user.userId);
   const boardId = props.boardId;
+
+  const [comments, setComments] = useState([]);
+
+  const [content, setContent] = useState("");
+
+  const handleCommentInput = event => {
+    setContent(event.target.value);
+  };
 
   // 렌더링 시마다 실행
   useEffect(() => {
     setComments(props.post.replies);
-  });
+  }, []);
 
-  // const [form, setForm] = useState({
-  //   id: "",
-  //   author: "",
-  //   content: "",
-  // });
+  const handleSubmitClick = async () => {
+    if (content === "") {
+      return;
+    }
 
-  const handleCommentInput = event => {
-    const value = event.target.value;
-    console.log(value);
+    console.log(content);
 
-    // TODO: 댓글 입력시 데이터 저장하기
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "POST",
+      url: `/free/${boardId}/comments`,
+      data: {
+        content: content,
+        freeBoardId: boardId,
+        userId: userId,
+      },
+    })
+      .then(res => {
+        setComments(props.post.replies);
+        setContent("");
+
+        window.location.reload();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const CommentAddForm = props => {
@@ -42,6 +67,8 @@ const CommentForm = props => {
                 px: 2,
                 py: 1,
               }}
+              id="comment"
+              value={content}
               onChange={handleCommentInput}
               placeholder="댓글을 입력해 주세요."
               variant="standard"
@@ -56,6 +83,7 @@ const CommentForm = props => {
               sx={{ m: 0, color: "white", borderRadius: 8 }}
               variant="contained"
               color="sub_300"
+              onClick={handleSubmitClick}
             >
               <Typography textAlign="left">등록</Typography>
             </Button>
