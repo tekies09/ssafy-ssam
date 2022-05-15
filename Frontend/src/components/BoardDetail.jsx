@@ -66,19 +66,24 @@ const BoardDetail = props => {
     console.log(post);
     switch (boardType) {
       case "freeBoard":
-        return (
-          // <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-          //   {post.content}
-          // </Box>
-          <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-            {post.content.split("\n").map(txt => (
-              <>
-                {txt}
-                <br />
-              </>
-            ))}
-          </Box>
-        );
+        if (post.content) {
+          return (
+            <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+              {post.content.split("\n").map(txt => (
+                <>
+                  {txt}
+                  <br />
+                </>
+              ))}
+            </Box>
+          );
+        } else {
+          return (
+            <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+              {post.content}
+            </Box>
+          );
+        }
       default:
         return <></>;
     }
