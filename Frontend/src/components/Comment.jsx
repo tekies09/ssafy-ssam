@@ -5,10 +5,37 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CommentDeleteModal from "./modal/CommentDeleteModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Comment = props => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+
+  const UpdateAndDeleteButton = () => {
+    // 현재 사용자가 댓글 작성자인 경우에만 수정/삭제 댓글 표시
+    if (user.nickname !== props.comment.nickname) {
+      return <Box></Box>;
+    } else {
+      return (
+        <CardActions>
+          <IconButton sx={{ p: 0 }} aria-label="edit" size="large">
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            sx={{ p: 0 }}
+            aria-label="delete"
+            size="large"
+            color="sub_300"
+            onClick={() => {
+              dispatch({ type: "openCommentDeleteModal" });
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </CardActions>
+      );
+    }
+  };
 
   return (
     <Card
@@ -42,18 +69,18 @@ const Comment = props => {
           minWidth="110px"
         >
           <Typography textAlign="left" variant="subtitle2">
-            <b>{props.comment.author}</b>
+            <b>{props.comment.nickname}</b>
           </Typography>
           <Typography sx={{ color: "gray" }} textAlign="left" variant="caption">
-            {props.comment.created_at}
+            {props.comment.fbWriteTime.substring(0, 10)}
           </Typography>
         </Box>
         <Typography textAlign="left" variant="caption">
           {props.comment.content}
         </Typography>
       </CardContent>
-      <CardActions>
-        {/* <CommentUpdateBtn /> */}
+      <UpdateAndDeleteButton />
+      {/* <CardActions>
         <IconButton sx={{ p: 0 }} aria-label="edit" size="large">
           <EditIcon />
         </IconButton>
@@ -68,7 +95,7 @@ const Comment = props => {
         >
           <DeleteIcon />
         </IconButton>
-      </CardActions>
+      </CardActions> */}
       {/* 댓글 삭제 확인 모달 */}
       <CommentDeleteModal />
     </Card>
