@@ -80,7 +80,7 @@ public class UserController {
         String result = "Fail";
         int statusCode = 404;
         Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(details != null && !(details instanceof  String)) {
+        if(details != null && !(details instanceof String)) {
             User user = (User) details;
             if((userService.UpdateUser(user.getUsername(), requestDto))){
                 result = "Success";
@@ -173,13 +173,13 @@ public class UserController {
 
     @GetMapping("/findid/{email}")
     @ApiOperation(value = "이메일을 이용해서 id 찾기 ")
-    public ResponseEntity<Boolean> findidByEmail(@PathVariable String email){
+    public ResponseEntity<Boolean> findidByEmail(@PathVariable String email) throws Exception{
         return ResponseEntity.status(200).body(userService.FindUsernameByEmail(email));
     }
 
     @GetMapping("/findpw/{email}/{username}")
     @ApiOperation(value = "이메일을 과 id 이용해서 비밀번호 찾기 ")
-    public ResponseEntity<Boolean> findidByEmail(@PathVariable String email,@PathVariable String username){
+    public ResponseEntity<Boolean> findidByEmail(@PathVariable String email,@PathVariable String username) throws Exception {
         return ResponseEntity.status(200).body(userService.FindUserPasswordByEmailAndUsername(email,username));
     }
 

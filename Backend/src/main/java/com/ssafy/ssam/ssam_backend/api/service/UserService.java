@@ -19,7 +19,7 @@ public interface UserService {
     public User LoginUser(UserLoginRequestDto requestDto);
     public User loadUserByUsername(String username);
     public User FindUserByUsername(String username);
-    public boolean FindUsernameByEmail(String email);
-    public boolean FindUserPasswordByEmailAndUsername(String email,String username);
+    public boolean FindUsernameByEmail(String email) throws Exception;
+    public boolean FindUserPasswordByEmailAndUsername(String email,String username) throws Exception;
     public long FindUserIdByUsername(String username);
 }
