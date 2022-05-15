@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 const Comment = props => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
+  const replyId = props.comment.replyId;
+  const boardId = props.boardId;
 
   const UpdateAndDeleteButton = () => {
     // 현재 사용자가 댓글 작성자인 경우에만 수정/삭제 댓글 표시
@@ -80,24 +82,8 @@ const Comment = props => {
         </Typography>
       </CardContent>
       <UpdateAndDeleteButton />
-      {/* <CardActions>
-        <IconButton sx={{ p: 0 }} aria-label="edit" size="large">
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          sx={{ p: 0 }}
-          aria-label="delete"
-          size="large"
-          color="sub_300"
-          onClick={() => {
-            dispatch({ type: "openCommentDeleteModal" });
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </CardActions> */}
       {/* 댓글 삭제 확인 모달 */}
-      <CommentDeleteModal />
+      <CommentDeleteModal replyId={replyId} boardId={boardId} />
     </Card>
   );
 };

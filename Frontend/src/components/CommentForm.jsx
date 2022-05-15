@@ -22,14 +22,13 @@ const CommentForm = props => {
   // 렌더링 시마다 실행
   useEffect(() => {
     setComments(props.post.replies);
-  }, []);
+    console.log(comments);
+  }, [comments]);
 
   const handleSubmitClick = async () => {
     if (content === "") {
       return;
     }
-
-    console.log(content);
 
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
@@ -43,7 +42,6 @@ const CommentForm = props => {
       },
     })
       .then(res => {
-        setComments(props.post.replies);
         setContent("");
 
         window.location.reload();
@@ -110,7 +108,7 @@ const CommentForm = props => {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ my: 2 }}>
           {comments.map(comment => (
-            <Comment comment={comment} />
+            <Comment comment={comment} boardId={boardId} />
           ))}
           <CommentAddForm />
         </Box>

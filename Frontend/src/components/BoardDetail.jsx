@@ -56,8 +56,6 @@ const BoardDetail = props => {
         }
 
         setPost(postData);
-
-        console.log(postData);
       })
       .catch(err => {
         console.log(err);
@@ -65,7 +63,6 @@ const BoardDetail = props => {
   };
 
   const PostContent = props => {
-    console.log(post);
     switch (boardType) {
       case "freeBoard":
         if (post.content) {

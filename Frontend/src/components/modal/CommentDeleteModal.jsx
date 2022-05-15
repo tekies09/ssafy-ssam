@@ -22,10 +22,23 @@ const CommentDeleteModal = props => {
     dispatch({ type: "closeCommentDeleteModal" });
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     console.log("댓글 삭제");
 
-    // TODO: 댓글 삭제
+    await axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "DELETE",
+      url: `/free/${props.boardId}/comments/${props.replyId}/`,
+    })
+      .then(res => {
+        console.log(res.data);
+
+        window.location.reload();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
