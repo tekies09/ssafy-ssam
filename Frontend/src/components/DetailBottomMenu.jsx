@@ -8,8 +8,15 @@ import PostDeleteModal from "./modal/PostDeleteModal";
 const DetailBottomMenu = props => {
   const dispatch = useDispatch();
   const boardType = useSelector(state => state.boardType);
+  const currentUser = useSelector(state => state.user.username);
+  const authorName = props.post.username;
 
   const UpdateButton = () => {
+    // 수정 버튼을 게시글 작성자에게만 보이게 함.
+    if (currentUser !== authorName) {
+      return <></>;
+    }
+
     switch (boardType) {
       case "freeBoard":
         return (
@@ -49,6 +56,27 @@ const DetailBottomMenu = props => {
     }
   };
 
+  const DeleteButton = () => {
+    // 삭제 버튼을 게시글 작성자에게만 보이게 함.
+    if (currentUser !== authorName) {
+      return <></>;
+    }
+
+    return (
+      <Button
+        sx={{ m: 1, p: 1, color: "white" }}
+        variant="contained"
+        color="mint"
+        size="large"
+        onClick={() => {
+          dispatch({ type: "openPostDeleteModal" });
+        }}
+      >
+        <Typography textAlign="left">삭제</Typography>
+      </Button>
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -65,7 +93,8 @@ const DetailBottomMenu = props => {
       {/* 수정, 삭제 버튼 */}
       <Box>
         <UpdateButton />
-        <Button
+        <DeleteButton />
+        {/* <Button
           sx={{ m: 1, p: 1, color: "white" }}
           variant="contained"
           color="mint"
@@ -75,7 +104,7 @@ const DetailBottomMenu = props => {
           }}
         >
           <Typography textAlign="left">삭제</Typography>
-        </Button>
+        </Button> */}
       </Box>
 
       {/* 목록 버튼 */}
