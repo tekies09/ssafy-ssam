@@ -4,6 +4,7 @@ import com.ssafy.ssam.ssam_backend.domain.GameState;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,6 +25,9 @@ public class ScheduleAndScore {
     @ManyToOne
     @JoinColumn(name="away_teamId")
     private Team awayTeam;
+
+    @Column
+    private LocalDate date;
 
     @Column
     private int homeScore;

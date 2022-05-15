@@ -7,6 +7,7 @@ import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -16,7 +17,7 @@ public interface UserService {
     public boolean DuplicateUsernameCheck(String username);
     public boolean DuplicateNicknameCheck(String nickname);
     public boolean DuplicateEmailCheck(String email);
-    public User LoginUser(UserLoginRequestDto requestDto);
+    public Map<String,Object> LoginUser(UserLoginRequestDto requestDto);
     public User loadUserByUsername(String username);
     public User FindUserByUsername(String username);
     public boolean FindUsernameByEmail(String email) throws Exception;

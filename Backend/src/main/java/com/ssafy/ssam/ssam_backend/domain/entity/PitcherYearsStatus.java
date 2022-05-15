@@ -24,6 +24,9 @@ public class PitcherYearsStatus {
     @JoinColumn(name="playerId")
     private Player player;
 
+    @Column
+    private String years;
+
     //평균자책점
     @Column(columnDefinition = "decimal(5,3)")
     private BigDecimal era_rt;

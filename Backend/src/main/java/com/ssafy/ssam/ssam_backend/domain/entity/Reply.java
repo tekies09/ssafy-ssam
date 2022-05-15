@@ -17,7 +17,7 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="freeBoardId")
     private FreeBoard freeBoard;
 
@@ -26,11 +26,18 @@ public class Reply {
     private User author;
 
     @Column
+    private String content;
+
+    @Column
     private LocalDateTime fbWriteTime;
 
     @Column
     private LocalDateTime fbUpdateTime;
 
-
+    // 댓글 내용 및 수정시간 업데이트
+    public void update(String content) {
+        this.content = content;
+        this.fbUpdateTime = LocalDateTime.now();
+    }
 
 }
