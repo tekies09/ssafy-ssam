@@ -67,17 +67,17 @@ const BoardDetail = props => {
     switch (boardType) {
       case "freeBoard":
         return (
-          <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-            {post.content}
-          </Box>
           // <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-          //   {post.content.split("\n").map(txt => (
-          //     <>
-          //       {txt}
-          //       <br />
-          //     </>
-          //   ))}
+          //   {post.content}
           // </Box>
+          <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+            {post.content.split("\n").map(txt => (
+              <>
+                {txt}
+                <br />
+              </>
+            ))}
+          </Box>
         );
       default:
         return <></>;
