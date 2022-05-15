@@ -6,12 +6,12 @@ import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const PostCreate = props => {
-  const navigate = useNavigate()
-  const user = useSelector(state => state.user);
+  const navigate = useNavigate();
+  const userId = useSelector(state => state.user.userId);
 
   const [form, setForm] = useState({
     title: "",
@@ -29,12 +29,12 @@ const PostCreate = props => {
   // 게시글 등록
   const handleSubmitClick = () => {
     if (form.title === "") {
-      alert('제목을 입력해주세요.')
+      alert("제목을 입력해주세요.");
       return;
     }
 
     if (form.content === "") {
-      alert('내용을 입력해주세요.')
+      alert("내용을 입력해주세요.");
       return;
     }
 
@@ -44,19 +44,18 @@ const PostCreate = props => {
       method: "POST",
       url: "/free/post",
       data: {
-        "title": form.title,
-        "content": form.content,
-        // TODO: userId 추가!
-        "userId": 1,
-      }
+        title: form.title,
+        content: form.content,
+        userId: userId,
+      },
     })
       .then(res => {
-        navigate("/board/free/")
+        navigate("/board/free/");
       })
       .catch(err => {
         console.log(err);
-      })
-  }
+      });
+  };
 
   return (
     <Box

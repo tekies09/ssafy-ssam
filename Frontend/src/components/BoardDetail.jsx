@@ -169,12 +169,7 @@ const BoardDetail = props => {
 
       <Divider sx={{ mt: 1, mb: 4, width: "100%" }} />
 
-      {/* 게시글 내용 (\n을 <br/>로 변환) */}
       <PostContent />
-
-      {/* TODO: 배틀 게시판 => 팀 정보 등 추가하기 */}
-
-      {/* 자유 게시판이면 제목, 내용 */}
 
       <DetailBottomMenu post={post} />
 
