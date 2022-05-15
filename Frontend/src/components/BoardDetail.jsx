@@ -8,24 +8,25 @@ import { useSelector } from "react-redux";
 
 const BoardDetail = props => {
   const [post, setPost] = useState({});
-
+  const [boardId, setBoardId] = useState(undefined);
   const boardType = useSelector(state => state.boardType);
 
   useEffect(() => {
     let urlArr = window.location.pathname.split("/");
-    let boardId = urlArr[urlArr.length - 1];
+    let currentId = urlArr[urlArr.length - 1];
+    setBoardId(currentId);
 
-    getPostDetail(boardId);
+    getPostDetail(currentId);
   }, []);
 
   // 게시글 받아오기
-  const getPostDetail = async boardId => {
+  const getPostDetail = async id => {
     let requestUrl = "";
 
     if (boardType === "freeBoard") {
-      requestUrl = `/free/${boardId}`;
+      requestUrl = `/free/${id}`;
     } else {
-      requestUrl = `/battle/${boardId}`;
+      requestUrl = `/battle/${id}`;
     }
 
     await axios({
@@ -50,6 +51,7 @@ const BoardDetail = props => {
             content: res.data.fbContent,
             username: res.data.username,
             created_at: res.data.fbWriteTime.substring(0, 10),
+            replies: res.data.replies,
           };
         }
 
@@ -85,7 +87,17 @@ const BoardDetail = props => {
           );
         }
       default:
-        return <></>;
+        return <Box></Box>;
+    }
+  };
+
+  const CommentSection = () => {
+    if (boardType === "battleBoard") {
+      return <></>;
+    } else {
+      return (
+        <CommentForm sx={{ width: "100%" }} post={post} boardId={boardId} />
+      );
     }
   };
 
@@ -168,7 +180,9 @@ const BoardDetail = props => {
 
       <Divider sx={{ mt: 1, width: "100%" }} />
 
-      <CommentForm />
+      <CommentSection />
+
+      {/* <CommentForm post={post} boardId={boardId} /> */}
     </Box>
   );
 };

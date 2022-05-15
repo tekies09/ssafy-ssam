@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Box, Button, Typography, Grid } from "@mui/material";
 import { FormControl, TextField } from "@mui/material";
@@ -6,47 +6,20 @@ import Comment from "./Comment";
 import { useSelector } from "react-redux";
 
 const CommentForm = props => {
-  const user = useSelector(state => state.user);
+  const [comments, setComments] = useState([]);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const boardId = props.boardId;
+
+  // 렌더링 시마다 실행
+  useEffect(() => {
+    setComments(props.post.replies);
+  });
 
   // const [form, setForm] = useState({
   //   id: "",
   //   author: "",
   //   content: "",
   // });
-
-  const mockComment = [
-    {
-      id: 1,
-      author: "유지민",
-      content: "ㄹㅇㅋㅋ 솔직히 개오바였음 ㅋㅋ",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 2,
-      author: "최연준",
-      content: "2222",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 3,
-      author: "심자윤",
-      content: "3333",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 4,
-      author: "이동혁",
-      content:
-        "댓글은 최대 200자 이내로만 작성 가능합니다. 댓글은 최대 200자 이내로만 작성 가능합니다. 댓글은 최대 200자 이내로만 작성 가능합니다.",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 5,
-      author: "김가을",
-      content: "this is english comment",
-      created_at: "2022.05.03 21:52",
-    },
-  ];
 
   const handleCommentInput = event => {
     const value = event.target.value;
@@ -56,7 +29,7 @@ const CommentForm = props => {
   };
 
   const CommentAddForm = props => {
-    if (user.isLoggedIn) {
+    if (isLoggedIn) {
       return (
         <>
           {/* 새로운 댓글 입력창 */}
@@ -97,6 +70,7 @@ const CommentForm = props => {
   return (
     <Box
       sx={{
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#F6F6F6",
@@ -104,9 +78,10 @@ const CommentForm = props => {
         p: 2,
       }}
     >
+      {/* <Box sx={{ bgcolor: "red", width: "100%" }}>asdf</Box> */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ my: 2 }}>
-          {mockComment.map(comment => (
+          {comments.map(comment => (
             <Comment comment={comment} />
           ))}
           <CommentAddForm />

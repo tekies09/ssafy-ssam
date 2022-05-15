@@ -94,17 +94,6 @@ const DetailBottomMenu = props => {
       <Box>
         <UpdateButton />
         <DeleteButton />
-        {/* <Button
-          sx={{ m: 1, p: 1, color: "white" }}
-          variant="contained"
-          color="mint"
-          size="large"
-          onClick={() => {
-            dispatch({ type: "openPostDeleteModal" });
-          }}
-        >
-          <Typography textAlign="left">삭제</Typography>
-        </Button> */}
       </Box>
 
       {/* 목록 버튼 */}
