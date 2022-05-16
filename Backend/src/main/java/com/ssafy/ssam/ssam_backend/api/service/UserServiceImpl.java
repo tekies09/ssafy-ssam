@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,19 +116,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean FindUsernameByEmail(String email) {
+    public boolean FindUsernameByEmail(String email) throws Exception{
         User entity = userRepository.findUserByEmail(email);
+        System.out.println(email);
         if(entity!=null) {
-            mailService.sendMail(entity,"id");
+            mailService.sending(entity,"id");
         }
         return true;
     }
 
     @Override
-    public boolean FindUserPasswordByEmailAndUsername(String email, String username) {
+    public boolean FindUserPasswordByEmailAndUsername(String email, String username) throws Exception {
         User entity = userRepository.findUserByEmailAndUsername(email,username);
         if(entity!=null){
-            mailService.sendMail(entity,"pw");
+            mailService.sending(entity,"pw");
         }
         return true;
     }
