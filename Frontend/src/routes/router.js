@@ -20,11 +20,13 @@ import Sidebar from "../components/layout/Sidebar";
 import Account from "../pages/Account";
 import Playerinfo from "../pages/Playerinfo";
 import ScrollTop from "../components/layout/ScrollTop";
+import Header from "../components/layout/Header";
 
 export default function RouterComponent() {
   return (
     <>
       <Router>
+        <Header />
         <Sidebar />
         {/* 사이드바 공간을 차지하는 pseudo-class */}
         <Box sx={{ minWidth: "250px", maxWidth: "250px" }}></Box>
