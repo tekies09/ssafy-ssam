@@ -9,6 +9,6 @@ import com.ssafy.ssam.ssam_backend.domain.entity.User;
 
 
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
-	Page<FreeBoard> findPageByFbTitle(String title, Pageable pageable);
+	Page<FreeBoard> findPageByFbTitleLike(String title, Pageable pageable);
 	Page<FreeBoard> findPageByAuthor(User user, Pageable pageable);	
 }

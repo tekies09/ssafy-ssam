@@ -35,7 +35,7 @@ public class FreeCommunityServiceImpl implements FreeCommunityService {
 			User user = userRepository.findUserByUsername(username);
 			boards = freeBoardRepository.findPageByAuthor(user, paging);
 		} else if(title != null) {
-			boards = freeBoardRepository.findPageByFbTitle(title, paging);
+			boards = freeBoardRepository.findPageByFbTitleLike("%"+title+"%", paging);
 		}
 		
 		return boards;

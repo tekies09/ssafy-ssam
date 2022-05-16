@@ -7,6 +7,6 @@ import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 
 public interface BattleBoardCustomRepository {
-	Page<BattleBoard> findPageByBbTitle(String title, Pageable pageable);
+	Page<BattleBoard> findPageByBbTitleLike(String title, Pageable pageable);
 	Page<BattleBoard> findPageByAuthor(User user, Pageable pageable);
 }
