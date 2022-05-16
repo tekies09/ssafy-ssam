@@ -15,7 +15,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <div className="App">
-          <Header />
           <Box
             sx={{
               display: "flex",
