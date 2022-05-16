@@ -30,7 +30,7 @@ public class Notice {
     private LocalDateTime nUpdateTime;
 
     @ManyToOne
-    @JoinColumn(name="userName")
+    @JoinColumn(name="userId")
     private User author;
 
 }
