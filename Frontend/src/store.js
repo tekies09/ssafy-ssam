@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 const defaultUser = {
   sub: "AnonymousUser",
-  userId: 0,
+  userid: 0,
   username: "AnonymousUser",
   email: "noreply@notemail.com",
   nickname: "AnonymousUser",
