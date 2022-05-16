@@ -16,6 +16,7 @@ import BattleCreatePage from "../pages/Board/BattleCreatePage";
 import BattleBoardDetail from "../pages/Board/BattleBoardDetail";
 import BattleUpdatePage from "../pages/Board/BattleUpdatePage";
 import MainPage from "../pages/MainPage";
+import MyTeams from "../pages/MyTeams";
 import Sidebar from "../components/layout/Sidebar";
 import Account from "../pages/Account";
 import Playerinfo from "../pages/Playerinfo";
@@ -33,6 +34,7 @@ export default function RouterComponent() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/myteams" element={<MyTeams />} />
             <Route path="/account" element={<Account />} />
 
             {/* 공지사항 */}
