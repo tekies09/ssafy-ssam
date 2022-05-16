@@ -48,7 +48,7 @@ public class UserController {
         int statusCode = 404;
         if(map.get("result").equals("Success")) {
             user = (User) map.get("user");
-            String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().toString(),user.getEmail(),user.getNickname());
+            String token = jwtTokenProvider.createToken(user.getUserId(),user.getUsername(), user.getRole().toString(),user.getEmail(),user.getNickname());
             UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(user);
             map.put("user",userLoginResponseDto);
             map.put("token", token);
