@@ -8,24 +8,25 @@ import { useSelector } from "react-redux";
 
 const BoardDetail = props => {
   const [post, setPost] = useState({});
-
+  const [boardId, setBoardId] = useState(undefined);
   const boardType = useSelector(state => state.boardType);
 
   useEffect(() => {
     let urlArr = window.location.pathname.split("/");
-    let boardId = urlArr[urlArr.length - 1];
+    let currentId = urlArr[urlArr.length - 1];
+    setBoardId(currentId);
 
-    getPostDetail(boardId);
+    getPostDetail(currentId);
   }, []);
 
   // 게시글 받아오기
-  const getPostDetail = async boardId => {
+  const getPostDetail = async id => {
     let requestUrl = "";
 
     if (boardType === "freeBoard") {
-      requestUrl = `/free/${boardId}`;
+      requestUrl = `/free/${id}`;
     } else {
-      requestUrl = `/battle/${boardId}`;
+      requestUrl = `/battle/${id}`;
     }
 
     await axios({
@@ -50,12 +51,11 @@ const BoardDetail = props => {
             content: res.data.fbContent,
             username: res.data.username,
             created_at: res.data.fbWriteTime.substring(0, 10),
+            replies: res.data.replies,
           };
         }
 
         setPost(postData);
-
-        console.log(postData);
       })
       .catch(err => {
         console.log(err);
@@ -63,24 +63,38 @@ const BoardDetail = props => {
   };
 
   const PostContent = props => {
-    console.log(post);
     switch (boardType) {
       case "freeBoard":
-        return (
-          <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-            {post.content}
-          </Box>
-          // <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-          //   {post.content.split("\n").map(txt => (
-          //     <>
-          //       {txt}
-          //       <br />
-          //     </>
-          //   ))}
-          // </Box>
-        );
+        if (post.content) {
+          return (
+            <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+              {post.content.split("\n").map(txt => (
+                <>
+                  {txt}
+                  <br />
+                </>
+              ))}
+            </Box>
+          );
+        } else {
+          return (
+            <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+              {post.content}
+            </Box>
+          );
+        }
       default:
-        return <></>;
+        return <Box></Box>;
+    }
+  };
+
+  const CommentSection = () => {
+    if (boardType === "battleBoard") {
+      return <></>;
+    } else {
+      return (
+        <CommentForm sx={{ width: "100%" }} post={post} boardId={boardId} />
+      );
     }
   };
 
@@ -152,18 +166,15 @@ const BoardDetail = props => {
 
       <Divider sx={{ mt: 1, mb: 4, width: "100%" }} />
 
-      {/* 게시글 내용 (\n을 <br/>로 변환) */}
       <PostContent />
-
-      {/* TODO: 배틀 게시판 => 팀 정보 등 추가하기 */}
-
-      {/* 자유 게시판이면 제목, 내용 */}
 
       <DetailBottomMenu post={post} />
 
       <Divider sx={{ mt: 1, width: "100%" }} />
 
-      <CommentForm />
+      <CommentSection />
+
+      {/* <CommentForm post={post} boardId={boardId} /> */}
     </Box>
   );
 };

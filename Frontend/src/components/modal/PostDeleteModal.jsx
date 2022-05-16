@@ -26,16 +26,16 @@ const PostDeleteModal = props => {
 
   const doNavigate = async () => {
     if (boardType === "freeBoard") {
-      await navigate("/board/free")
+      await navigate("/board/free");
     } else {
-      await navigate("/board/battle")
+      await navigate("/board/battle");
     }
-  }
+  };
 
   const handleDeleteClick = async () => {
     let deleteUrl = "";
-    let urlArr = window.location.pathname.split("/")
-    let boardId = urlArr[urlArr.length - 1]
+    let urlArr = window.location.pathname.split("/");
+    let boardId = urlArr[urlArr.length - 1];
 
     if (boardType === "freeBoard") {
       deleteUrl = `/free/delete/${boardId}`;
@@ -56,8 +56,6 @@ const PostDeleteModal = props => {
       .catch(err => {
         console.log(err);
       });
-
-    // TODO: 게시글 삭제 후 게시글 목록 페이지로 리다이렉트
   };
 
   return (

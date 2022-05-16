@@ -76,6 +76,9 @@ function Login(props) {
         const token = response.data.token
         localStorage.setItem("token", token)
         const payload = JSON.parse(atob(token.split('.')[1]))
+        // payload에 userId 정보 추가
+        const userId = response.data.user.userId
+        payload['userId'] = userId
         dispatch({type: 'login', payload: payload})
       })
       .then(() => {

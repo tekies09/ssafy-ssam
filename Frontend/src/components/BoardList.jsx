@@ -24,7 +24,7 @@ const BoardList = props => {
   const navigate = useNavigate();
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
-  const user = useSelector(state => state.user);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
   const boardType = useSelector(state => state.boardType);
 
   const [posts, setPosts] = useState([]);
@@ -166,7 +166,7 @@ const BoardList = props => {
 
   const CreateButton = () => {
     // TODO: 공지사항의 경우 관리자만 쓸 수 있게 하기
-    if (user.isLoggedIn) {
+    if (isLoggedIn) {
       return (
         <Button
           sx={{ m: 0, color: "white" }}
