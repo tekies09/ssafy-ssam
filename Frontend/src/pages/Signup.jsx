@@ -74,10 +74,10 @@ export default function Signup(props) {
       setErrors((errors) => ({...errors, passwordConfirm: "비밀번호가 일치하지 않습니다."}))
       isValid = false
     }
-
+    
     return isValid
   }
-
+  
   // "회원가입" 버튼
   const onSignup = (event) => {
     event.preventDefault()
@@ -117,17 +117,53 @@ export default function Signup(props) {
       })
     }
   }
-
+  
   // "뒤로" 버튼
   const onBack = (event) => {
     navigate(-1)
   }
-
+  
+  
+  // 아이디 중복 확인
+  const checkUsername = (str) => {
+    if (str === "") {
+      setErrors((errors) => ({...errors, username: "반드시 입력해야 합니다."}))
+      return 
+    } else {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `user/iddupcheck/${str}`,
+        method: "GET",
+        timeout: 3000
+      })
+      .then(response => {
+        setSnackbarMsg("사용할 수 있는 아이디입니다.")
+        setSnackbarSeverity("success")
+        setSnackbarOpen(true)
+      })
+      .catch(error => {
+        if (error.response) {
+          if (error.response.status === 404) {
+            setSnackbarMsg("사용할 수 없는 아이디입니다.")
+          } else if (error.response.data.result) {
+            setSnackbarMsg(error.response.data.result)
+          }
+        } else {
+          setSnackbarMsg(error.message)
+        }
+        setSnackbarSeverity("error")
+        setSnackbarOpen(true)
+        console.log(error)
+      })
+    }
+  }
+  
+  
   return (
     <Container component="main" maxWidth="md" sx={{
-        display: "flex",
-        flexGrow: 1,
-      }}
+      display: "flex",
+      flexGrow: 1,
+    }}
     >
       <Box mt={5}
         sx={{
@@ -161,6 +197,7 @@ export default function Signup(props) {
                 type="submit"
                 color="primary"
                 variant="outlined"
+                onClick={() => {checkUsername(form.username)}}
                 >중복확인</Button>
             </Grid>
             <Grid item xs={12}>
