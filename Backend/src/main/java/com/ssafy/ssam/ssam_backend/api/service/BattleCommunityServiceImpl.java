@@ -40,7 +40,7 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 			User user = userRepository.findUserByUsername(username);
 			boards = battleBoardRepository.findPageByAuthor(user, paging);		// 2 자리에 nickName으로 User 정보 얻어온 id를 넣어줘야 함.
 		} else if(title != null) {
-			boards = battleBoardRepository.findPageByBbTitle(title, paging);
+			boards = battleBoardRepository.findPageByBbTitleLike("%"+title+"%", paging);
 		}
 		
 		BattleBoardListResDto refactoreBoardList = new BattleBoardListResDto(new Integer(200), "글 상세 조회 성공", boards);
