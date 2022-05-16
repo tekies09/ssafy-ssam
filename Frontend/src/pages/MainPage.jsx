@@ -42,6 +42,7 @@ const CalendarDiv = styled.div`
   .fc-header-toolbar {
     margin: 0 25px;
     margin-bottom: 0 !important;
+    margin-top: -15px !important;
     height: 50px;
   }
   .fc-toolbar-title {
@@ -87,11 +88,9 @@ const CalendarDiv = styled.div`
   }
 
   .fc-h-event {
-    background-color: #f6f6f6;
-    height: 25px;
-    color: #5f5f5f;
+    height: auto;
     border-radius: 5px;
-    margin-bottom: 1px;
+    margin-bottom: 2px;
     border: 0px solid rgba(255, 255, 255, 0);
     &:hover {
       background-color: rgba(0, 0, 0, 0.08);
@@ -103,6 +102,10 @@ const CalendarDiv = styled.div`
 
   .fc-day-today > div.fc-daygrid-day-frame {
     border-top: 0px solid #f2d0d9;
+  }
+
+  .fc-scroller-harness {
+    margin-bottom: 10px;
   }
   .fc-scroller-harness::webkit-scrollbar {
     display: none;
@@ -117,6 +120,32 @@ const CalendarDiv = styled.div`
       background-color: #2d323f66;
       border: 0px solid #2d323f66;
     }
+  }
+
+  .event-list-item {
+    height: 25px;
+    border-radius: 2px;
+    font-size: 14px;
+    line-height: 25px;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+      color: #dddddd;
+    }
+  }
+  .today-event {
+    max-width: 900px;
+    margin: auto;
+    margin-bottom: 7px;
+    background-color: #f6f6f6;
+    border-radius: 16px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+  }
+  .today-event-playing {
+    background-color: #1fc4aa;
+    color: #ffffff;
+    font-weight: bold;
   }
 `;
 
@@ -135,6 +164,7 @@ function renderEventContent(events) {
           color: "#565656",
           paddingLeft: "7px",
         }}
+        class="event-list-item"
       >
         {events.event._def.title}
       </div>
@@ -146,10 +176,11 @@ function renderEventContent(events) {
           backgroundColor: "#1FC4AA",
           color: "#FFFFFF",
           textAlign: "center",
-          fontWeight: "bold"
+          fontWeight: "bold",
         }}
+        class="event-list-item"
       >
-      ! 현재 진행 중인 경기 !
+        ! 현재 진행 중인 경기 !
       </div>
     );
   } else if (events.event._def.extendedProps.type === "yet") {
@@ -162,6 +193,7 @@ function renderEventContent(events) {
           color: "#000000",
           paddingLeft: "7px",
         }}
+        class="event-list-item"
       >
         {startTime.substring(11, 16)} {events.event._def.title}
       </div>
@@ -177,13 +209,17 @@ const MainPage = (props) => {
       start: "2022-05-16T15:00:00",
       end: "2022-05-16T15:00:00",
       type: "end",
+      team1: "롯데 자이언츠",
+      team2: "삼성 라이온즈",
     },
     {
       id: "2",
       title: "두산 베어스 vs 키움 히어로즈",
-      start: "2022-05-16",
-      end: "2022-05-16",
+      start: "2022-05-16T13:00:00",
+      end: "2022-05-16T16:00:00",
       type: "playing",
+      team1: "두산 베어스",
+      team2: "키움 히어로즈",
     },
     {
       id: "3",
@@ -191,6 +227,8 @@ const MainPage = (props) => {
       start: "2022-05-16T19:00:00",
       end: "2022-05-16T23:00:00",
       type: "yet",
+      team1: "SSG 랜더스",
+      team2: "LG 트윈스",
     },
   ]);
   const [todayEvent, setTodayEvent] = useState([
@@ -216,6 +254,7 @@ const MainPage = (props) => {
       type: "yet",
     },
   ]);
+  const [selectDate, setSelectDate] = useState(Date.now);   // * 달력의 기준으로 삼을 날짜
   const calendarRef = React.useRef();
   const monthName = [
     "1월",
@@ -260,13 +299,11 @@ const MainPage = (props) => {
             initialView="dayGridWeek"
             contentHeight={180}
             // * dayCellDidMount는 Mount 됐을 때 일어나는 이벤트를 정의해주는 것... 즉 일정표 불러올 때 써야하는 부분
-            dayCellDidMount={(date) => {
-              var newDay = new Date(date.date);
-              // console.log(newDay.toISOString().substring(0, 10));
-            }}
-            events={eventList}
-            eventDisplay="block"
-            eventContent={renderEventContent}
+            // dayCellDidMount={(date) => {
+            //   var newDay = new Date(date.date);
+            //   // console.log(newDay.toISOString().substring(0, 10));
+            // }}
+            initialDate={selectDate}
             titleFormat={function (date) {
               // console.log(date)
               return `${date.date.year}년 ${monthName[date.date.month]}`;
@@ -282,6 +319,9 @@ const MainPage = (props) => {
               center: "",
               end: "prevWeek nextWeek",
             }}
+            events={eventList}
+            eventDisplay="block"
+            eventContent={renderEventContent}
             customButtons={{
               nextWeek: {
                 text: (
@@ -320,13 +360,13 @@ const MainPage = (props) => {
                   />
                 ),
                 click: () => {
-                  calendarRef.current.getApi().prev();
+                  setSelectDate(Date("2021-02-22"));
                 },
               },
               gotoToday: {
                 text: "오늘",
                 click: () => {
-                  calendarRef.current.getApi().now();
+                  // calendarRef.current.getApi().now();
                 },
               },
             }}
@@ -342,26 +382,25 @@ const MainPage = (props) => {
                 marginBottom: "20px",
               }}
             >
-              <svg height="5">
+              <svg height="5" width="330">
                 <line
                   x1="0"
                   y1="0"
-                  x2="290"
+                  x2="315"
                   y2="0"
-                  style={{ stroke: "#475174", strokeWidth: 4 }}
+                  style={{ stroke: "#475174", strokeWidth: 6 }}
                 />
               </svg>
-              <span style={{ fontSize: "28px", color: "#000000" }}>
-                {" "}
-                오늘의 일정{" "}
+              <span style={{ fontSize: "30px", color: "#000000" }}>
+                오늘의 일정
               </span>
-              <svg height="5">
+              <svg height="5" width="330">
                 <line
-                  x1="10"
+                  x1="15"
                   y1="0"
-                  x2="300"
+                  x2="330"
                   y2="0"
-                  style={{ stroke: "#475174", strokeWidth: 4 }}
+                  style={{ stroke: "#475174", strokeWidth: 6 }}
                 />
               </svg>
             </div>
@@ -374,7 +413,7 @@ const MainPage = (props) => {
                 backgroundColor: "#F6F6F6",
                 margin: "auto",
                 borderRadius: "10px",
-                marginBottom: "10px"
+                marginBottom: "12px",
               }}
             >
               {todayEvent.length == 0 ? (
@@ -384,25 +423,13 @@ const MainPage = (props) => {
                   </Typography>
                 </div>
               ) : (
-                <div>{/* 오늘 일정 리스트 출력하는 곳 */}</div>
+                <div></div>
               )}
             </Paper>
             {todayEvent.map(({ id, title, start, end, type }) => {
               if (type === "playing") {
                 return (
-                  <Box
-                    sx={{
-                      maxWidth: "900px",
-                      height: "48px",
-                      fontSize: "16px",
-                      margin: "auto",
-                      backgroundColor: "#1FC4AA",
-                      color: "#FFFFFF",
-                      fontWeight: "bold",
-                      borderRadius: "20px",
-                      lineHeight: "48px"
-                    }}
-                  >
+                  <Box class="today-event today-event-playing">
                     <Grid
                       container
                       spacing={0}
@@ -425,17 +452,7 @@ const MainPage = (props) => {
                 );
               } else {
                 return (
-                  <Box
-                    sx={{
-                      maxWidth: "900px",
-                      margin: "auto",
-                      backgroundColor: "#F6F6F6",
-                      borderRadius: "20px",
-                      height: "48px",
-                      fontSize: "16px",
-                      lineHeight: "48px"
-                    }}
-                  >
+                  <Box class="today-event">
                     <Grid
                       container
                       spacing={0}
