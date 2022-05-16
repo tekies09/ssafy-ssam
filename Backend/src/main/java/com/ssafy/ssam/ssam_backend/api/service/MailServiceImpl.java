@@ -2,7 +2,6 @@ package com.ssafy.ssam.ssam_backend.api.service;
 
 
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
-import org.graalvm.compiler.lir.LIRInstruction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
