@@ -12,6 +12,7 @@ import axios from "axios";
 const PostCreate = props => {
   const navigate = useNavigate();
   const userId = useSelector(state => state.user.userId);
+  const boardType = useSelector(state => state.boardType);
 
   const [form, setForm] = useState({
     title: "",
@@ -38,23 +39,45 @@ const PostCreate = props => {
       return;
     }
 
-    axios({
-      baseURL: process.env.REACT_APP_SERVER_URL,
-      timeout: 3000,
-      method: "POST",
-      url: "/free/post",
-      data: {
-        title: form.title,
-        content: form.content,
-        userId: userId,
-      },
-    })
-      .then(res => {
-        navigate("/board/free/");
+    if (boardType === "freeBoard") {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        timeout: 3000,
+        method: "POST",
+        url: "/free/post",
+        data: {
+          title: form.title,
+          content: form.content,
+          userId: userId,
+        },
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(res => {
+          console.log(res.data);
+          navigate("/board/free/");
+        })
+        .catch(err => {
+          console.log(err.response.data);
+        });
+    } else {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        timeout: 3000,
+        method: "POST",
+        url: "/notice/post",
+        data: {
+          title: form.title,
+          content: form.content,
+          userId: userId,
+        },
+      })
+        .then(res => {
+          console.log(res.data);
+          navigate("/board/notice/");
+        })
+        .catch(err => {
+          console.log(err.response.data);
+        });
+    }
   };
 
   return (

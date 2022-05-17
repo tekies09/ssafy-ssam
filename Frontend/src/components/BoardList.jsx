@@ -26,6 +26,7 @@ const BoardList = props => {
   const [search, setSearch] = useState("");
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const boardType = useSelector(state => state.boardType);
+  const userRole = useSelector(state => state.user.role);
 
   const [posts, setPosts] = useState([]);
 
@@ -53,6 +54,8 @@ const BoardList = props => {
       requestUrl = "/free/allcount";
     } else if (boardType === "battleBoard") {
       requestUrl = "/battle/allcount";
+    } else {
+      requestUrl = "/notice/allcount";
     }
 
     axios({
@@ -77,8 +80,10 @@ const BoardList = props => {
 
     if (boardType === "freeBoard") {
       requestUrl = "/free/list";
-    } else {
+    } else if (boardType === "battleBoard") {
       requestUrl = "/battle/list";
+    } else {
+      requestUrl = "/notice/list";
     }
 
     await axios({
@@ -89,21 +94,32 @@ const BoardList = props => {
       params: props,
     })
       .then(res => {
-        console.log(res.data.content);
         let postList = [];
 
         if (boardType === "freeBoard") {
           postList = res.data.content;
-          postList.map(post => {
-            // 작성 시간 날짜만 표기하기
-            post.fbWriteTime = post.fbWriteTime.substring(0, 10);
-          });
-        } else {
+
+          if (postList) {
+            postList.map(post => {
+              // 작성 시간 날짜만 표기하기
+              post.fbWriteTime = post.fbWriteTime.substring(0, 10);
+            });
+          }
+        } else if (boardType === "battleBoard") {
           postList = res.data.battleBoardList;
           postList.map(post => {
             // 작성 시간 날짜만 표기하기
             post.bbWriteTime = post.bbWriteTime.substring(0, 10);
           });
+        } else {
+          postList = res.data.content;
+
+          if (postList) {
+            postList.map(post => {
+              // 작성 시간 날짜만 표기하기
+              post.nwriteTime = post.nwriteTime.substring(0, 10);
+            });
+          }
         }
 
         setPosts(postList);
@@ -165,24 +181,33 @@ const BoardList = props => {
   }));
 
   const CreateButton = () => {
-    // TODO: 공지사항의 경우 관리자만 쓸 수 있게 하기
-    if (isLoggedIn) {
+    if (boardType === "notice" && userRole !== "ADMIN") {
       return (
-        <Button
-          sx={{ m: 0, color: "white" }}
-          variant="contained"
-          color="mint"
-          size="large"
-          component={Link}
-          to="./create"
-          startIcon={<CreateIcon />}
-        >
-          <Typography textAlign="left">작성하기</Typography>
-        </Button>
+        <Box>
+          <Typography variant="subtitle2">
+            🔸 공지사항은 관리자만 작성 가능합니다 🔸
+          </Typography>
+        </Box>
       );
-    } else {
+    }
+
+    if (!isLoggedIn) {
       return <Box></Box>;
     }
+
+    return (
+      <Button
+        sx={{ m: 0, color: "white" }}
+        variant="contained"
+        color="mint"
+        size="large"
+        component={Link}
+        to="./create"
+        startIcon={<CreateIcon />}
+      >
+        <Typography textAlign="left">작성하기</Typography>
+      </Button>
+    );
   };
 
   const PostData = post => {
@@ -237,6 +262,32 @@ const BoardList = props => {
                 </StyledTableCell>
               </TableRow>;
             })}
+          </TableBody>
+        );
+      case "notice":
+        return (
+          <TableBody>
+            {posts.map(post => (
+              <TableRow key={post.noticeId}>
+                <StyledTableCell component="th" scope="row" align="center">
+                  {post.noticeId}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${post.noticeId}`}
+                >
+                  <Typography noWrap>{post.ntitle}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.author.username}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.nwriteTime}
+                </StyledTableCell>
+              </TableRow>
+            ))}
           </TableBody>
         );
       default:
