@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
@@ -24,6 +24,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
+
+const monthName = [
+  "1월",
+  "2월",
+  "3월",
+  "4월",
+  "5월",
+  "6월",
+  "7월",
+  "8월",
+  "9월",
+  "10월",
+  "11월",
+  "12월",
+];
 
 const CalendarDiv = styled.div`
   height: 100%;
@@ -84,6 +99,7 @@ const CalendarDiv = styled.div`
   }
   th.fc-col-header-cell.fc-day.fc-day-today {
     background: linear-gradient(135deg, #638493, #37468b);
+    border-radius: 2px 2px 0 0;
     color: #ffffff;
   }
 
@@ -145,6 +161,11 @@ const CalendarDiv = styled.div`
   .today-event-playing {
     background-color: #1fc4aa;
     color: #ffffff;
+    font-weight: bold;
+  }
+  .today-event-end {
+    background-color: #C5C5C5;
+    color: #565656;
     font-weight: bold;
   }
 `;
@@ -234,57 +255,81 @@ const MainPage = (props) => {
   const [todayEvent, setTodayEvent] = useState([
     {
       id: "1",
-      title: "롯데 승",
-      start: "2022-05-16T11:00:00",
-      end: "2022-05-16T14:00:00",
-      type: "end",
+      awayScore: "10",
+      awayTeam: "키움 히어로즈",
+      broadcasting: "SBS",
+      date: "2022-05-17T14:00",
+      gameState: "end",
+      homeScore: "12",
+      homeTeam: "롯데 자이언츠",
+      stadium: "사직 야구장",
     },
     {
       id: "2",
-      title: "두산 베어스 vs 키움 히어로즈",
-      start: "2022-05-16T13:00:00",
-      end: "2022-05-16T16:00:00",
-      type: "playing",
+      awayScore: "10",
+      awayTeam: "두산 베어스",
+      broadcasting: "SBS",
+      date: "2022-05-17T15:00",
+      gameState: "playing",
+      homeScore: "12",
+      homeTeam: "키움 히어로즈",
+      stadium: "사직 야구장",
     },
     {
       id: "3",
-      title: "SSG vs LG",
-      start: "2022-05-16T19:00:00",
-      end: "2022-05-16T23:00:00",
-      type: "yet",
+      awayScore: "10",
+      awayTeam: "SSG 랜더스",
+      broadcasting: "SBS",
+      date: "2022-05-17T17:00",
+      gameState: "yet",
+      homeScore: "12",
+      homeTeam: "LG 트윈스",
+      stadium: "사직 야구장",
     },
   ]);
-  const [selectDate, setSelectDate] = useState(Date.now);   // * 달력의 기준으로 삼을 날짜
+  const [selectDate, setSelectDate] = useState(
+    new Date().toISOString().substring(0, 10)
+  ); // * 달력의 기준으로 삼을 날짜
   const calendarRef = React.useRef();
-  const monthName = [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
-  ];
 
-  const fetchEventList = () => {
+  const fetchEventList = (date) => {
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "GET",
-      url: `/schedule`,
+      url: `/schedule/${date}`,
     })
       .then((res) => {
-        setEventList(res.data);
+        // console.log(res.data);
+        setEventList(res.data.scheduleList);
+        // console.log(eventList);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const fetchTodayEventList = () => {
+    const today = new Date().toISOString().substring(0, 10);
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "GET",
+      url: `/schedule/today/${today}`,
+    })
+      .then((res) => {
+        // console.log(res.data.scheduleList);
+        setTodayEvent(res.data.scheduleList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchTodayEventList();
+    fetchEventList(new Date().toISOString().substring(0, 10));
+  }, [selectDate, eventList, todayEvent]);
 
   return (
     <>
@@ -315,7 +360,7 @@ const MainPage = (props) => {
               year: "numeric",
             }}
             headerToolbar={{
-              start: "title selectModal",
+              start: "title",
               center: "",
               end: "prevWeek nextWeek",
             }}
@@ -333,7 +378,14 @@ const MainPage = (props) => {
                 ),
                 click: () => {
                   calendarRef.current.getApi().next();
-                  fetchEventList();
+                  // * 이동한 주의 맨 처음 날짜
+                  var day = calendarRef.current
+                    .getApi()
+                    .getDate()
+                    .toISOString()
+                    .substring(0, 10);
+                  fetchEventList(day);
+                  fetchTodayEventList();
                 },
               },
               prevWeek: {
@@ -346,6 +398,15 @@ const MainPage = (props) => {
                 ),
                 click: () => {
                   calendarRef.current.getApi().prev();
+                  // * 이동한 주의 맨 처음 날짜
+                  var day = calendarRef.current
+                    .getApi()
+                    .getDate()
+                    .toISOString()
+                    .substring(0, 10);
+                  // console.log(day);
+                  fetchEventList(day);
+                  fetchTodayEventList();
                 },
               },
               selectModal: {
@@ -360,13 +421,15 @@ const MainPage = (props) => {
                   />
                 ),
                 click: () => {
-                  setSelectDate(Date("2021-02-22"));
+                  // setSelectDate(Date("2021-02-22"));
                 },
               },
               gotoToday: {
                 text: "오늘",
                 click: () => {
-                  // calendarRef.current.getApi().now();
+                  calendarRef.current
+                    .getApi()
+                    .gotoDate(new Date().toISOString());
                 },
               },
             }}
@@ -426,55 +489,86 @@ const MainPage = (props) => {
                 <div></div>
               )}
             </Paper>
-            {todayEvent.map(({ id, title, start, end, type }) => {
-              if (type === "playing") {
-                return (
-                  <Box class="today-event today-event-playing">
-                    <Grid
-                      container
-                      spacing={0}
-                      sx={{ justifyContent: "space-between", height: "auto" }}
-                    >
-                      <Grid item xs={2}>
-                        {start.substring(0, 10).replaceAll("-", ".")}
+            {todayEvent.map(
+              ({
+                id,
+                awayScore,
+                awayTeam,
+                broadcasting,
+                date,
+                gameState,
+                homeScore,
+                homeTeam,
+                stadium,
+              }) => {
+                if (gameState === "playing") {
+                  return (
+                    <Box class="today-event today-event-playing">
+                      <Grid
+                        container
+                        spacing={0}
+                        sx={{ justifyContent: "space-between", height: "auto" }}
+                      >
+                        <Grid item xs={2}>
+                          {date.substring(0, 10).replaceAll("-", ".")}
+                        </Grid>
+                        <Grid item xs={1}>
+                          {date.substring(11, 16)}
+                        </Grid>
+                        <Grid item xs={7}>
+                          {homeTeam} vs {awayTeam}
+                        </Grid>
+                        <Grid item xs={2}>
+                          진행 중
+                        </Grid>
                       </Grid>
-                      <Grid item xs={1}>
-                        {start.substring(11, 16)}
+                    </Box>
+                  );
+                } else if(gameState === "end") {
+                  return (
+                    <Box class="today-event today-event-end">
+                      <Grid
+                        container
+                        spacing={0}
+                        sx={{ justifyContent: "space-between", height: "auto" }}
+                      >
+                        <Grid item xs={2}>
+                          {date.substring(0, 10).replaceAll("-", ".")}
+                        </Grid>
+                        <Grid item xs={1}>
+                          {date.substring(11, 16)}
+                        </Grid>
+                        <Grid item xs={7}>
+                          {homeTeam} {homeScore} : {awayTeam} {awayScore}
+                        </Grid>
+                        <Grid item xs={2}></Grid>
                       </Grid>
-                      <Grid item xs={7}>
-                        {title}
+                    </Box>
+                  );
+                } else {
+                  return (
+                    <Box class="today-event">
+                      <Grid
+                        container
+                        spacing={0}
+                        sx={{ justifyContent: "space-between", height: "auto" }}
+                      >
+                        <Grid item xs={2}>
+                          {date.substring(0, 10).replaceAll("-", ".")}
+                        </Grid>
+                        <Grid item xs={1}>
+                          {date.substring(11, 16)}
+                        </Grid>
+                        <Grid item xs={7}>
+                          {homeTeam} vs {awayTeam}
+                        </Grid>
+                        <Grid item xs={2}></Grid>
                       </Grid>
-                      <Grid item xs={2}>
-                        진행 중
-                      </Grid>
-                    </Grid>
-                  </Box>
-                );
-              } else {
-                return (
-                  <Box class="today-event">
-                    <Grid
-                      container
-                      spacing={0}
-                      sx={{ justifyContent: "space-between", height: "auto" }}
-                    >
-                      <Grid item xs={2}>
-                        {start.substring(0, 10).replaceAll("-", ".")}
-                      </Grid>
-                      <Grid item xs={1}>
-                        {start.substring(11, 16)}
-                      </Grid>
-                      <Grid item xs={7}>
-                        {title}
-                      </Grid>
-                      <Grid item xs={2}>
-                        {type === "playing" ? "진행 중" : ""}
-                      </Grid>
-                    </Grid>
-                  </Box>
-                );
+                    </Box>
+                  );
+                }
               }
-            })}
+            )}
           </Box>
         </CalendarDiv>
       </div>
