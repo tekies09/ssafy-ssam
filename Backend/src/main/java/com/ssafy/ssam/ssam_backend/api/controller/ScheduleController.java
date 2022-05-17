@@ -56,7 +56,6 @@ public class ScheduleController {
         HttpStatus status;
 
         try{
-
             List<ScheduleResultResDto> dtolist = scheduleService.getWeeklyScheduleList(today);
 
             scheduleListResDto = new ScheduleListResDto(200,"OK",dtolist);
@@ -70,7 +69,28 @@ public class ScheduleController {
         }
 
         return  new ResponseEntity<>(scheduleListResDto,status);
-
+    }
+    
+    @ApiOperation(value = "오늘의 경기 일정 및 결과 조회")
+    @GetMapping("/today/{today}")
+    public ResponseEntity<ScheduleListResDto> getTodayScheduleList(
+    		@PathVariable @ApiParam(value="경기 날짜 yyyy-MM-dd")
+    		@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) throws Exception {
+    	ScheduleListResDto scheduleListResDto;
+        HttpStatus status;
+        
+        try{
+            List<ScheduleResultResDto> dtolist = scheduleService.getTodayScheduleList(today);
+            scheduleListResDto = new ScheduleListResDto(200,"OK",dtolist);
+            status = HttpStatus.OK;
+        }
+        catch (Exception e){
+            System.out.println(e);
+            scheduleListResDto = new ScheduleListResDto(500,"INTERNAL_SERVER_ERROR");
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        
+    	return new ResponseEntity<>(scheduleListResDto, status);
     }
 
 }

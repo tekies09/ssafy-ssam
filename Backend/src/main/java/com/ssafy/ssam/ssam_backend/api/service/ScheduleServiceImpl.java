@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService{
-
     private final ScheduleRepository scheduleRepository;
 
     @Override
@@ -45,4 +44,17 @@ public class ScheduleServiceImpl implements ScheduleService{
 
         return dtoList;
     }
+
+	@Override
+	public List<ScheduleResultResDto> getTodayScheduleList(LocalDate today) {
+		List<ScheduleResultResDto> dtoList = new ArrayList<>();
+        List<ScheduleAndScore> entityList = scheduleRepository.findAllByDate(today);
+        
+        for(ScheduleAndScore entity : entityList) {
+        	ScheduleResultResDto dto = new ScheduleResultResDto(entity);
+        	dtoList.add(dto);
+        }
+        
+        return dtoList;
+	}
 }

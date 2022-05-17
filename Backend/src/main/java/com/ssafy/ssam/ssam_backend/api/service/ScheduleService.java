@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ScheduleService {
     List<ScheduleResultResDto> getScheduleList();
-
     List<ScheduleResultResDto> getWeeklyScheduleList(LocalDate today);
+    List<ScheduleResultResDto> getTodayScheduleList(LocalDate today);
 }
