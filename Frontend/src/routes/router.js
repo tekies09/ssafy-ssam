@@ -17,6 +17,7 @@ import BattleBoardDetail from "../pages/Board/BattleBoardDetail";
 import BattleUpdatePage from "../pages/Board/BattleUpdatePage";
 import MainPage from "../pages/MainPage";
 import MyTeams from "../pages/MyTeams";
+import MyTeamlist from "../pages/MyTeamlist";
 import Sidebar from "../components/layout/Sidebar";
 import Account from "../pages/Account";
 import Playerinfo from "../pages/Playerinfo";
@@ -36,8 +37,11 @@ export default function RouterComponent() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/myteams" element={<MyTeams />} />
             <Route path="/account" element={<Account />} />
+
+            {/* 나만의 팀 */}
+            <Route path="/myteams/form" element={<MyTeams />} />
+            <Route path="/myteams" element={<MyTeamlist />} />
 
             {/* 공지사항 */}
             <Route path="/board/notice" element={<NoticeBoardList />} />
