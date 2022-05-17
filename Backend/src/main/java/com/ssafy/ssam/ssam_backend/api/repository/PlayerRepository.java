@@ -9,5 +9,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player,Long> {
-    List<PlayerMapping> findByPlayerNameLike(@Param(value = "playerName") String word);
+    List<Player> findByPlayerNameLike(@Param(value = "playerName") String word);
 }

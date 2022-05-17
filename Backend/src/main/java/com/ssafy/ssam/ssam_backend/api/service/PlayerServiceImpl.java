@@ -2,6 +2,8 @@ package com.ssafy.ssam.ssam_backend.api.service;
 
 import com.ssafy.ssam.ssam_backend.api.dto.response.*;
 import com.ssafy.ssam.ssam_backend.api.repository.*;
+import com.ssafy.ssam.ssam_backend.api.repository.mapping.HitterIdMapping;
+import com.ssafy.ssam.ssam_backend.api.repository.mapping.PitcherIdMapping;
 import com.ssafy.ssam.ssam_backend.api.repository.mapping.PlayerMapping;
 import com.ssafy.ssam.ssam_backend.domain.entity.*;
 import lombok.RequiredArgsConstructor;
@@ -88,18 +90,26 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<SearchResultResDto> getNameList(String word) throws Exception {
+    public List<SearchResultResDto> getNameList(String word, String year) throws Exception {
 
         List<SearchResultResDto> resultList = new ArrayList<>();
 
 
 
-        List<PlayerMapping> list = playerRepository.findByPlayerNameLike("%"+word+"%");
+        List<Player> list = playerRepository.findByPlayerNameLike("%"+word+"%");
 
-        for(PlayerMapping player : list){
+        for(Player player : list){
 
-            SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(),player.getPlayerId());
-            resultList.add(dto);
+            List<HitterIdMapping> hitterIdList = hitterYearsStatusRepository.findAllIdByPlayerAndYears(player, year);
+            for(HitterIdMapping statusId : hitterIdList){
+                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(),statusId.getHitterYearsSId(),"Hitter",year);
+                resultList.add(dto);
+            }
+            List<PitcherIdMapping> pitcherIdList = pitcherYearsStatusRepository.findAllIdByPlayerAndYears(player,year);
+            for(PitcherIdMapping statusId : pitcherIdList){
+                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(),statusId.getPitcherYearsSId(),"Pitcher",year);
+                resultList.add(dto);
+            }
 
         }
 
