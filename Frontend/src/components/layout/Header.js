@@ -3,7 +3,15 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-// import style from './Header.module.css'
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import mainLogo from '../../assets/sidebar_logo.png';
+
+const SSAMIcon = styled.div`
+  a:visited {
+    text-decoration: none;
+  }
+`
 
 export default function Header() {
   return (
@@ -16,26 +24,9 @@ export default function Header() {
         }}
       >
         <Toolbar>
-          <Typography
-            variant="h4"
-            className="logo"
-            textAlign="left"
-            m={1}
-            sx={{ flexGrow: 1 }}
-          >
-            <b>SSAM</b>
-          </Typography>
-          <IconButton
-            size="large"
-            edge="start"
-            aria-label="menu"
-            sx={{
-              mr: 2,
-              color: "white",
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Link to="/">
+            <SSAMIcon><img src={mainLogo} height="50px" alt="baseball SSAM" /></SSAMIcon>
+          </Link>
         </Toolbar>
       </AppBar>
     </header>
