@@ -3,6 +3,7 @@ import { styled, Table, TableHead, TableCell, TableContainer, TableRow, TableBod
 import { Container, Box, Grid, Typography, FormControl, InputLabel, Paper, Select, MenuItem, TextField, Button, InputAdornment, Autocomplete } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Img = styled('img')({
   margin: 'auto',
@@ -10,6 +11,9 @@ const Img = styled('img')({
   maxWidth: '100%',
   maxHeight: '100%',
 });
+
+// 추가 가능한 시즌
+const avaliableYears = ["2022", "2021", "2020", "2019", "2018"]
 
 const getPos = (members, str) => {
   const tgt = members.find(member => member.pos === str)
@@ -50,6 +54,7 @@ const PlayerTable = (props) => {
             <TableRow>
               <TableCell align="center">타순</TableCell>
               <TableCell align="center">이름</TableCell>
+              <TableCell align="center">시즌</TableCell>
               <TableCell align="center">포지션</TableCell>
               <TableCell align="center">편집</TableCell>
             </TableRow>
@@ -66,6 +71,7 @@ const PlayerTable = (props) => {
                   >
                     <TableCell align="center">{(parseInt(row.ord) < 10) && row.ord}</TableCell>
                     <TableCell align="center">{row.name}</TableCell>
+                    <TableCell align="center">{row.year}</TableCell>
                     <TableCell align="center">{positionLocal[row.pos]}</TableCell>
                     <TableCell align="center" sx={{color: "red"}} onClick={() => {handleClear(row.ord)}}>
                       삭제
@@ -81,34 +87,51 @@ const PlayerTable = (props) => {
     </Grid>)
 }
 
+
+const defaultValue = {
+  id: 1,
+  name: "",
+  year: "",
+  team: "",
+  cat: "",
+}
+
+// 선수 목록 예시값
+const samplePlayers = [
+  defaultValue,
+  {playerId: 77829, name: '김광현', year: "2008", team: 'SSG', pos: "P", },
+  {playerId: 61101, name: '임찬규', year: "2021", team: 'LG', pos: "P", },
+  {playerId: 77248, name: '오재원', year: "2019", team: '두산', pos: "SS", },
+  {playerId: 71564, name: '이대호', year: "2021", team: '롯데', pos: "DH", },
+  {playerId: 71565, name: '이대호', year: "2022", team: '동명이인', pos: "DH",},
+]
+
 // 나만의 팀에 선수를 등록하는 컴포넌트
 const MemberInput = function (props) {
   const [player, setPlayer] = useState("")
   const [pos, setPos] = useState("")
   const [ord, setOrd] = useState("")
+  const [year, setYear] = useState("")
+
+  const [open, setOpen] = useState(false)
 
   // {ord: "10", name: "", pos: "P", playerId: undefined}
 
-  const defaultValue = {id: 1, name: '', team: '', cat: ''}
+  
+
   const [inputValue, setInputValue] = useState(defaultValue)
-  const [availablePlayers, setAvailablePlayers] = useState([
-    defaultValue,
-    {playerId: 77829, name: '김광현', team: 'SSG', pos: "P", },
-    {playerId: 61101, name: '임찬규', team: 'LG', pos: "P", },
-    {playerId: 77248, name: '오재원', team: '두산', pos: "SS", },
-    {playerId: 71564, name: '이대호', team: '롯데', pos: "DH", },
-    {playerId: 71565, name: '이대호', team: '동명이인', pos: "DH",},
-  ])
+  const [list, setList] = useState([...samplePlayers])
 
   // 선수 목록 로드에 필요한 메서드
-  const loadPlayers = () => {
+  const loadPlayers = (year) => {
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
-      url: '',
+      url: `player/nameList/?year=${year}`,
+      timeout: 3000,
       method: 'GET',
     })
     .then(response => {
-      setAvailablePlayers({...response.data})
+      setList(response.data)
     })
     .catch(error => {
       console.log(error)
@@ -123,12 +146,17 @@ const MemberInput = function (props) {
   const handlePosChange = (event) => {
     setPos(()=>(event.target.value))
   }
+  const handleYearChange = (event) => {
+    setYear(()=>(event.target.value))
+    loadPlayers(year)
+  }
 
   const handleAdd = (event) => {
     const newMember = {
       ord: ord,
       pos: pos,
       name: inputValue.name,
+      year: inputValue.year,
       playerId: inputValue.playerId
     }
     console.log(newMember)
@@ -140,10 +168,20 @@ const MemberInput = function (props) {
   }
 
   return (<Grid container item xs={12} >
-    <Grid item xs={12} md={6} padding={1}>
+    <Grid item xs={12} md={2} padding={1}>
+      <FormControl fullWidth>
+        <InputLabel id="year">시즌</InputLabel>
+        <Select labelId="year" label="시즌" value={year} onChange={handleYearChange}>
+          {avaliableYears.map((year)=>(<MenuItem value={year} key={year}>{year}</MenuItem>))}
+        </Select>
+      </FormControl>
+    </Grid>
+    <Grid item xs={12} md={4} padding={1}>
       <Autocomplete
-        disablePortal
-        options={availablePlayers}
+        open={open}
+        onOpen={() => {setOpen(true)}}
+        onClose={() => {setOpen(false)}}
+        options={list}
         getOptionLabel={(option) => `${option.name} ${option.team}` || ""}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         value={inputValue}
@@ -170,7 +208,6 @@ const MemberInput = function (props) {
           <MenuItem value={"9"}>9</MenuItem>
         </Select>
       </FormControl>
-
     </Grid>
     <Grid item xs={12} md={2} padding={1}>
       <FormControl fullWidth>
@@ -203,21 +240,21 @@ export default function MyTeams(props) {
   // 나만의 팀 구성
   // 10번: 투수 (실제 타석에 서지 않음)
   const initMembers = [
-    {ord: "1", name: "", pos: "", playerId: undefined},
-    {ord: "2", name: "", pos: "", playerId: undefined},
-    {ord: "3", name: "", pos: "", playerId: undefined},
-    {ord: "4", name: "", pos: "", playerId: undefined},
-    {ord: "5", name: "", pos: "", playerId: undefined},
-    {ord: "6", name: "", pos: "", playerId: undefined},
-    {ord: "7", name: "", pos: "", playerId: undefined},
-    {ord: "8", name: "", pos: "", playerId: undefined},
-    {ord: "9", name: "", pos: "", playerId: undefined},
-    {ord: "10", name: "", pos: "", playerId: undefined},
+    {ord: "1", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "2", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "3", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "4", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "5", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "6", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "7", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "8", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "9", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "10", name: "", pos: "", year: "", playerId: undefined},
   ]
 
   const [members, setMembers] = useState(initMembers)
   const [teamname, setTeamname] = useState("")
-
+  const navigate = useNavigate()
   
 
   // 선수 추가 / 삭제 메서드
@@ -226,13 +263,11 @@ export default function MyTeams(props) {
 
     if (newMembers[(player.ord) - 1].playerId !== undefined) {
       alert('이미 사용중인 타순입니다.')
-      
       return
     }
     
     if (newMembers.find(member => (member.pos === player.pos)) !== undefined) {
       alert('이미 사용중인 포지션입니다.')
-      
       return
     }
     
@@ -242,7 +277,7 @@ export default function MyTeams(props) {
   }
   const deleteMember = (ord) => {
     let newMembers = members
-    newMembers[(ord - 1)] = {ord: String(ord), name: "", pos: "", playerId: undefined}
+    newMembers[(ord - 1)] = {ord: String(ord), name: "", pos: "", year: "", playerId: undefined}
     setMembers([...newMembers])
   }
 
@@ -273,14 +308,16 @@ export default function MyTeams(props) {
   
   return (
     <Grid container spacing={2} mt={3} mx={3} maxWidth="lg">
+
+      {/* 제목 */}
       <Grid item xs={12} >
         <Typography variant="h5" textAlign="start">
           나만의 팀 생성
         </Typography>
-
       </Grid>
       <MemberInput members={members} addMember={addMember} />
       
+      {/* 야구장 이미지 & 포지션별 선수 이름 */}
       <Grid item container mx={6} xs={12} sx={{
         backgroundImage: `url(/images/field.svg)`,
         backgroundSize: "100%",
@@ -292,8 +329,7 @@ export default function MyTeams(props) {
           opacity: "100%",
         },
         minHeight: "480px"
-      }}>
-        
+      }}>  
         <Grid item xs={12} sx={{mt: 10}}>
           <p style={{margin: "10px"}}><span>중견수</span></p>
           <p style={{margin: "10px"}}><span>{getPos(members, "CF")}</span></p>
@@ -336,18 +372,33 @@ export default function MyTeams(props) {
         <Grid item xs={12} sx={{mb: 10}}>
           <p style={{margin: "10px"}}><span>포수</span></p>
           <p style={{margin: "10px"}}><span>{getPos(members, "C")}</span></p>
-        </Grid>      
-        
+        </Grid>        
       </Grid>
+
+      {/* 입력 선수 목록 */}
       <PlayerTable members={members} deleteMember={deleteMember} />
-      <Grid item xs={12} className="submitform">
-        나만의 팀 이름
-        <TextField size="small" sx={{mx: 1}} value={teamname} onInput={(e) => {setTeamname(e.target.value)}}>
-          
-        </TextField>
-        <Button variant="contained" onClick={sendTeam} sx={{height: "100%"}}>
-          팀 생성
-        </Button>
+
+      {/* 제목 폼 & 입력 관련 버튼 */}
+      <Grid item container xs={12} className="submitform">
+        <Grid item xs={8}>
+          나만의 팀 이름
+          <TextField size="small" sx={{mx: 1}} value={teamname} onInput={(e) => {setTeamname(e.target.value)}} />
+          <Button variant="contained" onClick={sendTeam} sx={{height: "100%"}}>
+            팀 생성
+          </Button>
+        </Grid>
+
+        <Grid item xs={2}>
+          <Button variant="contained" color="warning" onClick={() => {setMembers(initMembers)}} sx={{height: "100%"}}>
+            초기화
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Button variant="contained" color="secondary" onClick={() => {navigate(-1)}} sx={{height: "100%"}}>
+            뒤로
+          </Button>
+
+        </Grid>
       </Grid>
     </Grid>
   )
