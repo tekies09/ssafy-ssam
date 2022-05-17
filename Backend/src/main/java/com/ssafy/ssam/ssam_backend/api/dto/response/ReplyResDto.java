@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class ReplyResDto extends BaseResponseBody {
+public class ReplyResDto {
 
     private Long replyId;
     private String nickname;

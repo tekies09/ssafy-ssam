@@ -22,7 +22,7 @@ public class FreeBoardResDto extends BaseResponseBody {
 	private String username;
 	private String nickname;
 
-	private List<ReplyResDto> replies = new ArrayList<>();
+//	private List<ReplyResDto> replies = new ArrayList<>();
 	
 	public FreeBoardResDto(Integer statusCode, String message, FreeBoard board) {
 		this.message=message;
@@ -35,6 +35,6 @@ public class FreeBoardResDto extends BaseResponseBody {
 		this.username = board.getAuthor().getUsername();
 		this.nickname = board.getAuthor().getNickname();
 
-		this.replies = board.getReplies().stream().map(ReplyResDto::new).collect(Collectors.toList());
+//		this.replies = board.getReplies().stream().map(ReplyResDto::new).collect(Collectors.toList());
 	}
 }

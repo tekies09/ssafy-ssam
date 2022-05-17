@@ -35,10 +35,10 @@ public class FreeBoard {
     @JoinColumn(name="userId")
     private User author;
 
-    @OneToMany(mappedBy = "freeBoard", cascade = CascadeType.ALL)
-    private List<Reply> replies = new ArrayList<>();
-
-    public void createReply(Reply reply) {
-        this.replies.add(reply);
-    }
+//    @OneToMany(mappedBy = "freeBoard", cascade = CascadeType.ALL)
+//    private List<Reply> replies = new ArrayList<>();
+//
+//    public void createReply(Reply reply) {
+//        this.replies.add(reply);
+//    }
 }

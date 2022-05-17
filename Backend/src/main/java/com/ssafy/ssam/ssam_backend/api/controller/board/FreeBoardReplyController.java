@@ -3,12 +3,15 @@ package com.ssafy.ssam.ssam_backend.api.controller.board;
 import com.ssafy.ssam.ssam_backend.api.dto.request.ReplyCreateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.ReplyUpdateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
+import com.ssafy.ssam.ssam_backend.api.dto.response.ReplyResDto;
 import com.ssafy.ssam.ssam_backend.api.service.FreeBoardReplyService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/free/{freeBoardId}/comments")
@@ -18,6 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class FreeBoardReplyController {
 
     private final FreeBoardReplyService replyService;
+
+    @GetMapping
+    @Operation(summary="댓글 목록 조회하기", description="토론 커뮤니티 게시글의 댓글 목록을 조회한다.")
+    public ResponseEntity<List<ReplyResDto>> getReplyList(@PathVariable("freeBoardId") Long boardId) {
+        List<ReplyResDto> replyList = replyService.findReplyList(boardId);
+        return ResponseEntity.status(200).body(replyList);
+    }
 
     @PostMapping
     @Operation(summary="댓글 작성하기", description="토론 커뮤니티에 새로운 댓글을 작성한다.")
