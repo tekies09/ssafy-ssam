@@ -181,12 +181,17 @@ const BoardList = props => {
   }));
 
   const CreateButton = () => {
-    // TODO: 공지사항의 경우 관리자만 쓸 수 있게 하기
-    if (!isLoggedIn) {
-      return <Box></Box>;
+    if (boardType === "notice" && userRole !== "ADMIN") {
+      return (
+        <Box>
+          <Typography variant="subtitle2">
+            🔸 공지사항은 관리자만 작성 가능합니다 🔸
+          </Typography>
+        </Box>
+      );
     }
 
-    if (boardType === "notice" && userRole !== "ADMIN") {
+    if (!isLoggedIn) {
       return <Box></Box>;
     }
 
