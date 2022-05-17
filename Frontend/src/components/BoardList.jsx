@@ -26,6 +26,7 @@ const BoardList = props => {
   const [search, setSearch] = useState("");
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const boardType = useSelector(state => state.boardType);
+  const userRole = useSelector(state => state.user.role);
 
   const [posts, setPosts] = useState([]);
 
@@ -93,8 +94,6 @@ const BoardList = props => {
       params: props,
     })
       .then(res => {
-        console.log(JSON.stringify(res.data));
-
         let postList = [];
 
         if (boardType === "freeBoard") {
@@ -122,12 +121,6 @@ const BoardList = props => {
             });
           }
         }
-
-        // console.log(postList);
-
-        postList.map(post => {
-          console.log("replies" + JSON.stringify(post.replies));
-        });
 
         setPosts(postList);
       })
@@ -189,23 +182,27 @@ const BoardList = props => {
 
   const CreateButton = () => {
     // TODO: 공지사항의 경우 관리자만 쓸 수 있게 하기
-    if (isLoggedIn) {
-      return (
-        <Button
-          sx={{ m: 0, color: "white" }}
-          variant="contained"
-          color="mint"
-          size="large"
-          component={Link}
-          to="./create"
-          startIcon={<CreateIcon />}
-        >
-          <Typography textAlign="left">작성하기</Typography>
-        </Button>
-      );
-    } else {
+    if (!isLoggedIn) {
       return <Box></Box>;
     }
+
+    if (boardType === "notice" && userRole !== "ADMIN") {
+      return <Box></Box>;
+    }
+
+    return (
+      <Button
+        sx={{ m: 0, color: "white" }}
+        variant="contained"
+        color="mint"
+        size="large"
+        component={Link}
+        to="./create"
+        startIcon={<CreateIcon />}
+      >
+        <Typography textAlign="left">작성하기</Typography>
+      </Button>
+    );
   };
 
   const PostData = post => {
