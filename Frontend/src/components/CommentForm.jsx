@@ -54,7 +54,7 @@ const CommentForm = props => {
   const CommentAddForm = props => {
     if (isLoggedIn) {
       return (
-        <>
+        <Box>
           {/* 새로운 댓글 입력창 */}
           <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
             <TextField
@@ -86,7 +86,7 @@ const CommentForm = props => {
               <Typography textAlign="left">등록</Typography>
             </Button>
           </Grid>
-        </>
+        </Box>
       );
     } else {
       return <></>;
@@ -107,9 +107,9 @@ const CommentForm = props => {
       {/* <Box sx={{ bgcolor: "red", width: "100%" }}>asdf</Box> */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ my: 2 }}>
-          {comments.map(comment => (
+          {comments ? comments.map(comment => (
             <Comment comment={comment} boardId={boardId} />
-          ))}
+          )) : ""}
           <CommentAddForm />
         </Box>
       </Box>
