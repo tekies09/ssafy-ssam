@@ -87,9 +87,9 @@ function reducer(currentState, action) {
       newState.modal = newModal
       break
 
-    // case "noticeType":
-    //   newState.boardType = "notice";
-    //   break;
+    case "noticeType":
+      newState.boardType = "notice";
+      break;
 
     case "freeBoardType":
       newState.boardType = "freeBoard";
@@ -98,8 +98,6 @@ function reducer(currentState, action) {
     case "battleBoardType":
       newState.boardType = "battleBoard";
       break;
-
-      
 
     default:
       break;

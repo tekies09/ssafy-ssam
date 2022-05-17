@@ -25,8 +25,10 @@ const BoardDetail = props => {
 
     if (boardType === "freeBoard") {
       requestUrl = `/free/${id}`;
-    } else {
+    } else if (boardType === "battleBoard") {
       requestUrl = `/battle/${id}`;
+    } else {
+      requestUrl = `/notice/${id}`;
     }
 
     await axios({
@@ -45,13 +47,20 @@ const BoardDetail = props => {
             created_at: res.data.bbWriteTime.substring(0, 10),
             // 나만의 팀 정보 추가하기!
           };
-        } else {
+        } else if (boardType === "battleBoard") {
           postData = {
             title: res.data.fbTitle,
             content: res.data.fbContent,
             username: res.data.username,
             created_at: res.data.fbWriteTime.substring(0, 10),
             replies: res.data.replies,
+          };
+        } else {
+          postData = {
+            title: res.data.nTitle,
+            content: res.data.nContent,
+            username: res.data.username,
+            created_at: res.data.nWriteTime.substring(0, 10),
           };
         }
 
@@ -64,7 +73,7 @@ const BoardDetail = props => {
 
   const PostContent = props => {
     switch (boardType) {
-      case "freeBoard":
+      case ("freeBoard", "notice"):
         if (post.content) {
           return (
             <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
@@ -89,12 +98,12 @@ const BoardDetail = props => {
   };
 
   const CommentSection = () => {
-    if (boardType === "battleBoard") {
-      return <></>;
-    } else {
+    if (boardType === "freeBoard") {
       return (
         <CommentForm sx={{ width: "100%" }} post={post} boardId={boardId} />
       );
+    } else {
+      return <></>;
     }
   };
 

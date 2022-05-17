@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -8,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const PostUpdate = props => {
+  const boardType = useSelector(state => state.boardType);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,26 +38,45 @@ const PostUpdate = props => {
     }
 
     let url = window.location.pathname.split("/");
-    // free/:boardId/update => boardId
     let boardId = url[url.length - 2];
 
-    axios({
-      baseURL: process.env.REACT_APP_SERVER_URL,
-      timeout: 3000,
-      method: "PUT",
-      url: "/free/update",
-      data: {
-        title: form.title,
-        content: form.content,
-        boardId: boardId,
-      },
-    })
-      .then(res => {
-        navigate(`/board/free/${boardId}`);
+    if (boardType === "freeBoard") {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        timeout: 3000,
+        method: "PUT",
+        url: "/free/update",
+        data: {
+          title: form.title,
+          content: form.content,
+          boardId: boardId,
+        },
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(res => {
+          navigate(`/board/free/${boardId}`);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        timeout: 3000,
+        method: "PUT",
+        url: "/notice/update",
+        data: {
+          title: form.title,
+          content: form.content,
+          boardId: boardId,
+        },
+      })
+        .then(res => {
+          navigate(`/board/notice/${boardId}`);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   return (

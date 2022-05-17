@@ -27,8 +27,10 @@ const PostDeleteModal = props => {
   const doNavigate = async () => {
     if (boardType === "freeBoard") {
       await navigate("/board/free");
-    } else {
+    } else if (boardType === "battleBoard") {
       await navigate("/board/battle");
+    } else {
+      await navigate("/board/notice");
     }
   };
 
@@ -39,8 +41,10 @@ const PostDeleteModal = props => {
 
     if (boardType === "freeBoard") {
       deleteUrl = `/free/delete/${boardId}`;
-    } else {
+    } else if (boardType === "battleBoard") {
       deleteUrl = `/battle/delete/${boardId}`;
+    } else {
+      deleteUrl = `/notice/delete/${boardId}`;
     }
 
     await axios({

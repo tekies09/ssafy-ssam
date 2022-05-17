@@ -18,7 +18,7 @@ const DetailBottomMenu = props => {
     }
 
     switch (boardType) {
-      case "freeBoard":
+      case ("freeBoard", "notice"):
         return (
           <Button
             sx={{ m: 1, p: 1, color: "white" }}

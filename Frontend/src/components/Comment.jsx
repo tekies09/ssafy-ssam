@@ -49,6 +49,7 @@ const Comment = props => {
         borderLeft: 3,
         my: 1,
       }}
+      key={props.idx}
     >
       <CardContent
         sx={{

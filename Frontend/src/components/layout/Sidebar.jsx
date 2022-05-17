@@ -20,11 +20,11 @@ const Sidebar = props => {
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
 
-    // if (index === 0) {
-    //   dispatch({ type: "noticeType" });
-    // }
+    if (index === 0) {
+      dispatch({ type: "noticeType" });
+    }
 
-    if (index === 0 || index === 1) {
+    if (index === 1) {
       dispatch({ type: "freeBoardType" });
     }
 

@@ -53,6 +53,8 @@ const BoardList = props => {
       requestUrl = "/free/allcount";
     } else if (boardType === "battleBoard") {
       requestUrl = "/battle/allcount";
+    } else {
+      requestUrl = "/notice/allcount";
     }
 
     axios({
@@ -77,8 +79,10 @@ const BoardList = props => {
 
     if (boardType === "freeBoard") {
       requestUrl = "/free/list";
-    } else {
+    } else if (boardType === "battleBoard") {
       requestUrl = "/battle/list";
+    } else {
+      requestUrl = "/notice/list";
     }
 
     await axios({
@@ -89,22 +93,37 @@ const BoardList = props => {
       params: props,
     })
       .then(res => {
-        console.log(res.data.content);
+        // console.log("zzz" + res.data.content);
         let postList = [];
 
         if (boardType === "freeBoard") {
           postList = res.data.content;
-          postList.map(post => {
-            // 작성 시간 날짜만 표기하기
-            post.fbWriteTime = post.fbWriteTime.substring(0, 10);
-          });
-        } else {
+
+          if (postList) {
+            postList.map(post => {
+              // 작성 시간 날짜만 표기하기
+              post.fbWriteTime = post.fbWriteTime.substring(0, 10);
+            });
+          }
+        } else if (boardType === "battleBoard") {
           postList = res.data.battleBoardList;
           postList.map(post => {
             // 작성 시간 날짜만 표기하기
             post.bbWriteTime = post.bbWriteTime.substring(0, 10);
           });
+        } else {
+          postList = res.data.content;
+          postList.map(post => {
+            // 작성 시간 날짜만 표기하기
+            post.nWriteTime = post.nWriteTime.substring(0, 10);
+          });
         }
+
+        // console.log(postList);
+
+        postList.map(post => {
+          console.log("replies" + JSON.stringify(post.replies));
+        });
 
         setPosts(postList);
       })
@@ -234,6 +253,32 @@ const BoardList = props => {
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {post.bbWriteTime}
+                </StyledTableCell>
+              </TableRow>;
+            })}
+          </TableBody>
+        );
+      case "notice":
+        return (
+          <TableBody>
+            {posts.map(post => {
+              <TableRow key={post.noticeId} width="100%">
+                <StyledTableCell component="th" scope="row" align="center">
+                  {post.noticeId}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${post.noticeId}`}
+                >
+                  <Typography noWrap>{post.nTitle}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.username}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.nWriteTime}
                 </StyledTableCell>
               </TableRow>;
             })}
