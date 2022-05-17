@@ -37,6 +37,7 @@ export default function RouterComponent() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/myteams" element={<MyTeams />} />
             <Route path="/account" element={<Account />} />
 
             {/* 나만의 팀 */}
