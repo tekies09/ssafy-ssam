@@ -19,7 +19,14 @@
   display: inline-block;
   text-align: start;
   margin-right: 4px;
-  width: 50%;
+  width: 30%;
+}
+
+.year {
+  display: inline-block;
+  text-align: start;
+  margin-right: 4px;
+  width: 20%;
 }
 
 .position {
