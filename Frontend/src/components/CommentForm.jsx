@@ -18,8 +18,6 @@ const CommentForm = props => {
     content: "",
   });
 
-  // const [content, setContent] = useState("");
-
   const handleCommentInput = event => {
     const { id, value } = event.target;
 
@@ -29,11 +27,14 @@ const CommentForm = props => {
     });
   };
 
-  // 렌더링 시마다 실행
+  // 최초 로딩시에만 실행 (이후 댓글 추가시마다 댓글 목록 업데이트)
   useEffect(() => {
-    setComments(props.post.replies);
-    console.log(comments);
-  }, [props.post.replies, comments]);
+    console.log("useEffect");
+
+    getReplyList({
+      boardId: boardId,
+    });
+  }, []);
 
   const handleSubmitClick = async () => {
     if (form.content === "") {
@@ -52,12 +53,34 @@ const CommentForm = props => {
       },
     })
       .then(res => {
+        // 댓글 입력창 초기화
         setForm({
           content: "",
         });
-        // setContent("");
 
-        window.location.reload();
+        // 댓글 목록 업데이트
+        getReplyList({
+          boardId: props.boardId,
+        });
+
+        // window.location.reload();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  // 토론 커뮤니티 댓글 목록 가져오기
+  const getReplyList = async props => {
+    await axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "GET",
+      url: `free/${props.boardId}/comments`,
+      params: props,
+    })
+      .then(res => {
+        setComments(res.data);
       })
       .catch(err => {
         console.log(err);
