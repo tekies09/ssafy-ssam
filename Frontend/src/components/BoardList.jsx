@@ -93,7 +93,8 @@ const BoardList = props => {
       params: props,
     })
       .then(res => {
-        // console.log("zzz" + res.data.content);
+        console.log(JSON.stringify(res.data));
+
         let postList = [];
 
         if (boardType === "freeBoard") {
@@ -113,10 +114,13 @@ const BoardList = props => {
           });
         } else {
           postList = res.data.content;
-          postList.map(post => {
-            // 작성 시간 날짜만 표기하기
-            post.nWriteTime = post.nWriteTime.substring(0, 10);
-          });
+
+          if (postList) {
+            postList.map(post => {
+              // 작성 시간 날짜만 표기하기
+              post.nwriteTime = post.nwriteTime.substring(0, 10);
+            });
+          }
         }
 
         // console.log(postList);
@@ -261,8 +265,8 @@ const BoardList = props => {
       case "notice":
         return (
           <TableBody>
-            {posts.map(post => {
-              <TableRow key={post.noticeId} width="100%">
+            {posts.map(post => (
+              <TableRow key={post.noticeId}>
                 <StyledTableCell component="th" scope="row" align="center">
                   {post.noticeId}
                 </StyledTableCell>
@@ -272,16 +276,16 @@ const BoardList = props => {
                   component={Link}
                   to={`./${post.noticeId}`}
                 >
-                  <Typography noWrap>{post.nTitle}</Typography>
+                  <Typography noWrap>{post.ntitle}</Typography>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {post.username}
+                  {post.author.username}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {post.nWriteTime}
+                  {post.nwriteTime}
                 </StyledTableCell>
-              </TableRow>;
-            })}
+              </TableRow>
+            ))}
           </TableBody>
         );
       default:

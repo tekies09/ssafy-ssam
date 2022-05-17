@@ -47,20 +47,19 @@ const BoardDetail = props => {
             created_at: res.data.bbWriteTime.substring(0, 10),
             // 나만의 팀 정보 추가하기!
           };
-        } else if (boardType === "battleBoard") {
+        } else if (boardType === "freeBoard") {
           postData = {
             title: res.data.fbTitle,
             content: res.data.fbContent,
             username: res.data.username,
             created_at: res.data.fbWriteTime.substring(0, 10),
-            replies: res.data.replies,
           };
         } else {
           postData = {
-            title: res.data.nTitle,
-            content: res.data.nContent,
+            title: res.data.ntitle,
+            content: res.data.ncontent,
             username: res.data.username,
-            created_at: res.data.nWriteTime.substring(0, 10),
+            created_at: res.data.nwriteTime.substring(0, 10),
           };
         }
 
@@ -73,7 +72,8 @@ const BoardDetail = props => {
 
   const PostContent = props => {
     switch (boardType) {
-      case ("freeBoard", "notice"):
+      case "freeBoard":
+      case "notice":
         if (post.content) {
           return (
             <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
