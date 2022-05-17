@@ -95,31 +95,6 @@ const CommentForm = props => {
       });
   };
 
-  // const CommentInput = () => {
-  //   return (
-  //     <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
-  //       <TextField
-  //         sx={{
-  //           borderRadius: 4,
-  //           backgroundColor: "white",
-  //           disableUnderline: true,
-  //           px: 2,
-  //           py: 1,
-  //         }}
-  //         id="comment"
-  //         autoFocus="autoFocus"
-  //         value={content}
-  //         onChange={handleCommentInput}
-  //         placeholder="댓글을 입력해 주세요."
-  //         variant="standard"
-  //         InputProps={{
-  //           disableUnderline: true,
-  //         }}
-  //       />
-  //     </FormControl>
-  //   );
-  // };
-
   const CommentAddForm = props => {
     if (isLoggedIn) {
       return (
