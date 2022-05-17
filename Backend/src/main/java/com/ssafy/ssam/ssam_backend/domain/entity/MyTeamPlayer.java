@@ -20,9 +20,17 @@ public class MyTeamPlayer {
     @JoinColumn(name="myTeamId")
     private MyTeam myTeam;
 
+
     @ManyToOne
-    @JoinColumn(name="playerId")
-    private Player player;
+    @JoinColumn (name = "HitterYearsSId")
+    private HitterYearsStatus hitterYearsStatus;
+
+    @ManyToOne
+    @JoinColumn (name="PitcherYearsSId")
+    private PitcherYearsStatus pitcherYearsStatus;
+
+    @Column
+    private String pitcherOrHitter;
 
     @Column
     private int backNumber;

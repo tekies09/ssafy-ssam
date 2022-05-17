@@ -4,14 +4,8 @@ import com.ssafy.ssam.ssam_backend.api.dto.request.MyTeamPlayerReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.MyTeamReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamPlayerResDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamResDto;
-import com.ssafy.ssam.ssam_backend.api.repository.MyTeamPlayerRepository;
-import com.ssafy.ssam.ssam_backend.api.repository.MyTeamRepository;
-import com.ssafy.ssam.ssam_backend.api.repository.PlayerRepository;
-import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
-import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
-import com.ssafy.ssam.ssam_backend.domain.entity.MyTeamPlayer;
-import com.ssafy.ssam.ssam_backend.domain.entity.Player;
-import com.ssafy.ssam.ssam_backend.domain.entity.User;
+import com.ssafy.ssam.ssam_backend.api.repository.*;
+import com.ssafy.ssam.ssam_backend.domain.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +20,8 @@ public class MyTeamServiceImpl implements MyTeamService {
     private final MyTeamRepository myTeamRepository;
     private final MyTeamPlayerRepository myTeamPlayerRepository;
     private final PlayerRepository playerRepository;
+    private final HitterYearsStatusRepository hitterYearsStatusRepository;
+    private final PitcherYearsStatusRepository pitcherYearsStatusRepository;
 
     @Override
     public void createMyTeam(MyTeamReqDto myTeamReqDto) throws Exception {
@@ -41,14 +37,31 @@ public class MyTeamServiceImpl implements MyTeamService {
         //저장하는 나만의 팀에 속한 선수정보 저장
         for(MyTeamPlayerReqDto playerDto : myTeamReqDto.getMyTeamPlayerReqDtoList()){
             //선수정보 저장하는 과정에서 실제 선수 DB와 연동
-            Player player = playerRepository.findById(playerDto.getPlayerId()).get();
-            MyTeamPlayer myTeamPlayer = MyTeamPlayer.builder()
+
+            MyTeamPlayer myTeamPlayer;
+            if (playerDto.getPitcherOrHitter().equals("Hitter")){
+                HitterYearsStatus hitterYearsStatus = hitterYearsStatusRepository.findById(playerDto.getStatusId()).get();
+                    myTeamPlayer = MyTeamPlayer.builder()
                     .myTeam(savedMyTeam)
-                    .player(player)
+                    .hitterYearsStatus(hitterYearsStatus)
                     .backNumber(playerDto.getBackNumber())
                     .battingOrder(playerDto.getBattingOrder())
                     .defensePosition(playerDto.getDefensePosition())
+                    .pitcherOrHitter(playerDto.getPitcherOrHitter())
                     .build();
+            }
+
+            else{
+                PitcherYearsStatus pitcherYearsStatus = pitcherYearsStatusRepository.findById(playerDto.getStatusId()).get();
+                    myTeamPlayer = MyTeamPlayer.builder()
+                    .myTeam(savedMyTeam)
+                    .pitcherYearsStatus(pitcherYearsStatus)
+                    .backNumber(playerDto.getBackNumber())
+                    .battingOrder(playerDto.getBattingOrder())
+                    .defensePosition(playerDto.getDefensePosition())
+                    .pitcherOrHitter(playerDto.getPitcherOrHitter())
+                    .build();
+            }
             myTeamPlayerRepository.save(myTeamPlayer);
         }
 
@@ -75,15 +88,33 @@ public class MyTeamServiceImpl implements MyTeamService {
 
         for(MyTeamPlayerReqDto playerDto : myTeamReqDto.getMyTeamPlayerReqDtoList()){
 
-            MyTeamPlayer modPlayer = MyTeamPlayer.builder()
-                    //여기 아이디를 잘 맞추지 않으면 새로운 컬럼으로 인식해서 수정이 안되고 새로 들어감 조심!
-                    .myTeamPlayerId(playerDto.getMyTeamPlayerId())
-                    .player(playerRepository.findById(playerDto.getPlayerId()).get())
-                    .myTeam(newMyTeam)
-                    .backNumber(playerDto.getBackNumber())
-                    .battingOrder(playerDto.getBattingOrder())
-                    .defensePosition(playerDto.getDefensePosition())
-                    .build();
+            MyTeamPlayer modPlayer;
+            if (playerDto.getPitcherOrHitter().equals("Hitter")) {
+                HitterYearsStatus hitterYearsStatus = hitterYearsStatusRepository.findById(playerDto.getStatusId()).get();
+                modPlayer = MyTeamPlayer.builder()
+                        //여기 아이디를 잘 맞추지 않으면 새로운 컬럼으로 인식해서 수정이 안되고 새로 들어감 조심!
+                        .myTeamPlayerId(playerDto.getMyTeamPlayerId())
+                        .hitterYearsStatus(hitterYearsStatus)
+                        .myTeam(newMyTeam)
+                        .backNumber(playerDto.getBackNumber())
+                        .battingOrder(playerDto.getBattingOrder())
+                        .defensePosition(playerDto.getDefensePosition())
+                        .pitcherOrHitter(playerDto.getPitcherOrHitter())
+                        .build();
+            }
+            else{
+                PitcherYearsStatus pitcherYearsStatus = pitcherYearsStatusRepository.findById(playerDto.getStatusId()).get();
+                modPlayer = MyTeamPlayer.builder()
+                        //여기 아이디를 잘 맞추지 않으면 새로운 컬럼으로 인식해서 수정이 안되고 새로 들어감 조심!
+                        .myTeamPlayerId(playerDto.getMyTeamPlayerId())
+                        .pitcherYearsStatus(pitcherYearsStatus)
+                        .myTeam(newMyTeam)
+                        .backNumber(playerDto.getBackNumber())
+                        .battingOrder(playerDto.getBattingOrder())
+                        .defensePosition(playerDto.getDefensePosition())
+                        .pitcherOrHitter(playerDto.getPitcherOrHitter())
+                        .build();
+            }
             myTeamPlayerRepository.save(modPlayer);
         }
 
