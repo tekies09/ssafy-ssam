@@ -204,7 +204,7 @@ const Sidebar = props => {
               color="white"
               className="nav-item"
               component={Link}
-              to="/"
+              to="/myteams"
             >
               <ListItemText sx={{ mr: 1 }} align="right" primary="나만의 팀" />
             </ListItem>

@@ -6,7 +6,7 @@ export default function TeamSummary(props) {
   const team = props.team
 
   return (
-  <Card sx={{maxWidth: 480, textAlign: "start", borderRadius: "24px"}}>
+  <Card sx={{minWidth: 360, textAlign: "start", borderRadius: "24px", margin: "12px"}}>
     <CardHeader title={team.name} sx={{borderRadius: "24px", backgroundColor: "primary.main", color: "white", margin: "6px"}}>
     </CardHeader>
     <CardContent>
@@ -14,6 +14,7 @@ export default function TeamSummary(props) {
         <div key={i} className={styles.row}>
           <div className={styles.order} >{member.ord}</div>
           <div className={styles.name} >{member.name}</div>
+          <div className={styles.year} >{member.year}</div>
           <div className={styles.position} >{member.pos}</div>
         </div>
       ))}
