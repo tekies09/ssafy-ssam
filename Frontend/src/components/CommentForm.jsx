@@ -14,11 +14,13 @@ const CommentForm = props => {
 
   const [comments, setComments] = useState([]);
 
+  // const [content, setContent] = useState("");
   const [form, setForm] = useState({
     content: "",
   });
 
   const handleCommentInput = event => {
+    // setContent(event.target.value);
     const { id, value } = event.target;
 
     setForm({
@@ -36,10 +38,14 @@ const CommentForm = props => {
     });
   }, []);
 
-  const handleSubmitClick = async () => {
+  // 댓글 등록
+  const handleSubmitClick = () => {
     if (form.content === "") {
       return;
     }
+    // if (content === "") {
+    //   return;
+    // }
 
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
@@ -47,6 +53,7 @@ const CommentForm = props => {
       method: "POST",
       url: `/free/${boardId}/comments`,
       data: {
+        // content: content,
         content: form.content,
         freeBoardId: boardId,
         userId: userId,
@@ -55,12 +62,13 @@ const CommentForm = props => {
       .then(res => {
         // 댓글 입력창 초기화
         setForm({
+          ...form,
           content: "",
         });
 
         // 댓글 목록 업데이트
         getReplyList({
-          boardId: props.boardId,
+          boardId: boardId,
         });
 
         // window.location.reload();
@@ -115,7 +123,7 @@ const CommentForm = props => {
   const CommentAddForm = props => {
     if (isLoggedIn) {
       return (
-        <>
+        <Box>
           {/* 새로운 댓글 입력창 */}
           <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
             <TextField
@@ -127,6 +135,8 @@ const CommentForm = props => {
                 py: 1,
               }}
               id="content"
+              required
+              // value={content}
               value={form.content}
               autoFocus="autoFocus"
               onChange={handleCommentInput}
@@ -137,10 +147,10 @@ const CommentForm = props => {
               //   setContent(value);
               // }}
               // onChangeText={text => {
+              //   handleCommentInput(text);
               //   console.log(text);
               //   setContent(text);
               // }}
-              // onChange={handleCommentInput}
               // ref={inputRef}
               placeholder="댓글을 입력해 주세요."
               variant="standard"
@@ -160,7 +170,7 @@ const CommentForm = props => {
               <Typography textAlign="left">등록</Typography>
             </Button>
           </Grid>
-        </>
+        </Box>
       );
     } else {
       return <></>;
