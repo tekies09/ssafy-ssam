@@ -30,7 +30,7 @@ public class MyTeamPlayer {
     private PitcherYearsStatus pitcherYearsStatus;
 
     @Column
-    private String role;
+    private String pitcherOrHitter;
 
     @Column
     private int backNumber;

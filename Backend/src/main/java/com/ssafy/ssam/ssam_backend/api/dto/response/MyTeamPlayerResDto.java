@@ -27,7 +27,7 @@ public class MyTeamPlayerResDto {
 
     public MyTeamPlayerResDto (MyTeamPlayer myTeamPlayer){
         this.myTeamPlayerId=myTeamPlayer.getMyTeamPlayerId();
-        this.pitcherOrHitter = myTeamPlayer.getRole();
+        this.pitcherOrHitter = myTeamPlayer.getPitcherOrHitter();
         if(pitcherOrHitter.equals("Hitter")){
             this.statusId = myTeamPlayer.getHitterYearsStatus().getHitterYearsSId();
             this.years = myTeamPlayer.getHitterYearsStatus().getYears();

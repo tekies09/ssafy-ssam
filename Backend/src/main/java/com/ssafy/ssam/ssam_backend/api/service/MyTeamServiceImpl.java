@@ -47,7 +47,7 @@ public class MyTeamServiceImpl implements MyTeamService {
                     .backNumber(playerDto.getBackNumber())
                     .battingOrder(playerDto.getBattingOrder())
                     .defensePosition(playerDto.getDefensePosition())
-                    .role(playerDto.getPitcherOrHitter())
+                    .pitcherOrHitter(playerDto.getPitcherOrHitter())
                     .build();
             }
 
@@ -59,7 +59,7 @@ public class MyTeamServiceImpl implements MyTeamService {
                     .backNumber(playerDto.getBackNumber())
                     .battingOrder(playerDto.getBattingOrder())
                     .defensePosition(playerDto.getDefensePosition())
-                    .role(playerDto.getPitcherOrHitter())
+                    .pitcherOrHitter(playerDto.getPitcherOrHitter())
                     .build();
             }
             myTeamPlayerRepository.save(myTeamPlayer);
@@ -99,7 +99,7 @@ public class MyTeamServiceImpl implements MyTeamService {
                         .backNumber(playerDto.getBackNumber())
                         .battingOrder(playerDto.getBattingOrder())
                         .defensePosition(playerDto.getDefensePosition())
-                        .role(playerDto.getPitcherOrHitter())
+                        .pitcherOrHitter(playerDto.getPitcherOrHitter())
                         .build();
             }
             else{
@@ -112,7 +112,7 @@ public class MyTeamServiceImpl implements MyTeamService {
                         .backNumber(playerDto.getBackNumber())
                         .battingOrder(playerDto.getBattingOrder())
                         .defensePosition(playerDto.getDefensePosition())
-                        .role(playerDto.getPitcherOrHitter())
+                        .pitcherOrHitter(playerDto.getPitcherOrHitter())
                         .build();
             }
             myTeamPlayerRepository.save(modPlayer);
