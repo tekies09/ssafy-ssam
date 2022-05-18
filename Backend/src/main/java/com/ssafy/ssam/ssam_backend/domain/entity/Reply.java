@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Reply {
@@ -19,6 +18,7 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name="freeBoardId")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private FreeBoard freeBoard;
 
     @ManyToOne
