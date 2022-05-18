@@ -23,6 +23,8 @@ import Account from "../pages/Account";
 import Playerinfo from "../pages/Playerinfo";
 import ScrollTop from "../components/layout/ScrollTop";
 import Header from "../components/layout/Header";
+import PlayerlistHitter from "../pages/PlayerlistHitter";
+import PlayerlistPitcher from "../pages/PlayerlistPitcher";
 import SimulationPage from "../pages/SimulationPage";
 import SimulationSelectPage from "../pages/SimulationSelectPage";
 
@@ -86,7 +88,9 @@ export default function RouterComponent() {
             <Route path="/simulation" element={<SimulationPage />} />
 
             {/* 선수 정보 */}
-            <Route path="/player/:id" element={<Playerinfo />} />
+            <Route path="/player/:playerid" element={<Playerinfo />} />
+            <Route path="/players/hitter" element={<PlayerlistHitter />} />
+            <Route path="/players/pitcher" element={<PlayerlistPitcher />} />
           </Routes>
           <ScrollTop />
         </Box>

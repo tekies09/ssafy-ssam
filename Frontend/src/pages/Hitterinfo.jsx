@@ -120,7 +120,7 @@ const HitterSituationalStat = (props) => {
 }
 
 
-export default function Playerinfo(props) {
+export default function Hitterinfo(props) {
   const defaultProps = {
     player: {
       id: 76313,
@@ -204,7 +204,7 @@ export default function Playerinfo(props) {
         method: 'GET',
         params: {
           playerId: playerid,
-          pOrh: 'p',
+          pOrh: 'h',
           years: '2022',
         }
       })
@@ -242,10 +242,7 @@ export default function Playerinfo(props) {
           <HitterSituationalStat stats={player.situational_stats}></HitterSituationalStat>    
         </TabPanel>
         
-      </Grid>
-    
-    
-    
+      </Grid>   
     </Grid>
   )
 }
