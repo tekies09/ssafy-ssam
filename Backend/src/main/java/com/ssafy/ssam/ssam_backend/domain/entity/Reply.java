@@ -1,6 +1,8 @@
 package com.ssafy.ssam.ssam_backend.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +21,7 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name="freeBoardId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private FreeBoard freeBoard;
 
     @ManyToOne
