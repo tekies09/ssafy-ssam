@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class ScheduleResultResDto {
     @ApiModelProperty(value = "어웨이 팀")
     private String awayTeam;
     @ApiModelProperty(value = "날짜")
-    private LocalDate date;
+    private LocalDateTime date;
     @ApiModelProperty(value = "홈팀 점수")
     private int homeScore;
     @ApiModelProperty(value = "어웨이팀 점수")

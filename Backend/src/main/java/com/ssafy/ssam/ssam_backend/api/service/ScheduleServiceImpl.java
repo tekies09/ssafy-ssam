@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public List<ScheduleResultResDto> getWeeklyScheduleList(LocalDate today) {
-        LocalDate plus7D = today.plusDays(7);
+    public List<ScheduleResultResDto> getWeeklyScheduleList(LocalDateTime today) {
+        LocalDateTime plus7D = today.plusDays(7);
 
         List<ScheduleResultResDto> dtoList = new ArrayList<>();
 
@@ -46,7 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
 	@Override
-	public List<ScheduleResultResDto> getTodayScheduleList(LocalDate today) {
+	public List<ScheduleResultResDto> getTodayScheduleList(LocalDateTime today) {
 		List<ScheduleResultResDto> dtoList = new ArrayList<>();
         List<ScheduleAndScore> entityList = scheduleRepository.findAllByDate(today);
         

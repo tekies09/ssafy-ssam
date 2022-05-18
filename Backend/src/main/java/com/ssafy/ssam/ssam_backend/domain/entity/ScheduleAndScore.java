@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,7 +28,7 @@ public class ScheduleAndScore {
     private Team awayTeam;
 
     @Column
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column
     private int homeScore;

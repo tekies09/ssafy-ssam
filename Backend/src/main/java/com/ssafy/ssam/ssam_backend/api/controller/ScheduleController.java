@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -51,7 +52,7 @@ public class ScheduleController {
 
     @ApiOperation(value="경기 일정 및 결과 조회")
     @GetMapping("/{today}")
-    public ResponseEntity<ScheduleListResDto> getWeeklyScheduleList(@PathVariable @ApiParam(value="경기 날짜 yyyy-MM-dd") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) throws Exception{
+    public ResponseEntity<ScheduleListResDto> getWeeklyScheduleList(@PathVariable @ApiParam(value="경기 날짜 시간 yyyy-MM-dd'T'HH:mm") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime today) throws Exception{
         ScheduleListResDto scheduleListResDto;
         HttpStatus status;
 
@@ -74,8 +75,8 @@ public class ScheduleController {
     @ApiOperation(value = "오늘의 경기 일정 및 결과 조회")
     @GetMapping("/today/{today}")
     public ResponseEntity<ScheduleListResDto> getTodayScheduleList(
-    		@PathVariable @ApiParam(value="경기 날짜 yyyy-MM-dd")
-    		@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate today) throws Exception {
+    		@PathVariable @ApiParam(value="경기 날짜 시간 yyyy-MM-dd'T'HH:mm")
+            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime today) throws Exception {
     	ScheduleListResDto scheduleListResDto;
         HttpStatus status;
         
