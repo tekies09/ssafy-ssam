@@ -15,22 +15,10 @@ const CommentForm = props => {
   const [comments, setComments] = useState([]);
   let content = "";
   // const [content, setContent] = useState("");
-
   // const commentInput = document.querySelector("#comment-input");
-  // const [form, setForm] = useState({
-  //   content: "",
-  // });
 
   const handleCommentInput = event => {
     content = event.target.value;
-
-    // setContent(event.target.value);
-    // const { id, value } = event.target;
-
-    // setForm({
-    //   ...form,
-    //   [id]: value,
-    // });
   };
 
   // 최초 로딩시에만 실행 (이후 댓글 추가시마다 댓글 목록 업데이트)
@@ -62,12 +50,6 @@ const CommentForm = props => {
       .then(res => {
         // 댓글 입력창 초기화
         content = "";
-
-        // setContent("");
-        // setForm({
-        //   ...form,
-        //   content: "",
-        // });
 
         // 댓글 목록 업데이트
         getReplyList({
@@ -116,36 +98,6 @@ const CommentForm = props => {
               // value={content}
               onInput={handleCommentInput}
             />
-            {/* <TextField
-              sx={{
-                borderRadius: 4,
-                backgroundColor: "white",
-                disableUnderline: true,
-                px: 2,
-                py: 1,
-              }}
-              id="comment-input"
-              // value={content}
-              // value={content}
-              autoFocus="autoFocus"
-              // onChange={handleCommentInput}
-              // onChange={event => {
-              //   // const { eventCount, target, text } = event.nativeEvent;
-              //   // let value = target.value;
-              //   console.log(event.target.value);
-              //   setContent(event.target.value);
-              // }}
-              // onChange={text => {
-              //   console.log(text);
-              //   setContent(text);
-              // }}
-              // ref={inputRef}
-              placeholder="댓글을 입력해 주세요."
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            /> */}
           </FormControl>
           {/* 댓글 등록 버튼 */}
           <Grid container justifyContent="flex-end">
