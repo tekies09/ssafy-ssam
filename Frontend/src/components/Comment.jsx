@@ -20,11 +20,11 @@ const Comment = props => {
     } else {
       return (
         <CardActions>
-          <IconButton sx={{ p: 0 }} aria-label="edit" size="large">
+          {/* <IconButton sx={{ p: 0 }} aria-label="edit" size="large">
             <EditIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
-            sx={{ p: 0 }}
+            sx={{ p: 0, mr: 1 }}
             aria-label="delete"
             size="large"
             color="sub_300"
