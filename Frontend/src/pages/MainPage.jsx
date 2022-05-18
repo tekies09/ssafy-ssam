@@ -48,6 +48,11 @@ const CalendarDiv = styled.div`
   margin-right: auto;
   color: #5f5f5f;
   font-family: "Noto Sans KR", sans-serif;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  .fc-scroller::-webkit-scrollbar {
+    display: none;
+  }
 
   td,
   th {
@@ -125,9 +130,6 @@ const CalendarDiv = styled.div`
   .fc-scroller-harness {
     margin-bottom: 10px;
   }
-  div.fc-scroller-harness::webkit-scrollbar {
-    display: none;
-  }
 
   .fc-button {
     font-size: 18px;
@@ -138,6 +140,12 @@ const CalendarDiv = styled.div`
       background-color: #2d323f66;
       border: 0px solid #2d323f66;
     }
+  }
+  .fc-gotoToday-button {
+    font-size: 18px;
+    line-height: 18px;
+    border: 0px solid #ffffff;
+    background-color: #638493;
   }
 
   .event-list-item {
@@ -317,16 +325,20 @@ const MainPage = (props) => {
   ]);
 
   var year = new Date().getUTCFullYear();
-  var month = new Date().getMonth() + 1;
+  var month =
+    new Date().getMonth() < 9
+      ? "0" + (new Date().getMonth() + 1)
+      : new Date().getMonth() + 1;
   var day =
     new Date().getDate() -
     new Date().getDay() +
-    (new Date().getDay() == 0 ? -6 : 1);
-  const tod = year + "-" + month + "-" + day;
+    (new Date().getDay() == 0 ? -6 : 1) -
+    1;
+  const tod = new Date(year + "-" + month + "-" + day)
+    .toISOString()
+    .substring(0, 16);
 
-  const [selectDate, setSelectDate] = useState(
-    new Date(tod).toISOString().substring(0, 16)
-  ); // * 달력의 기준으로 삼을 날짜
+  const [selectDate, setSelectDate] = useState(tod); // * 달력의 기준으로 삼을 날짜
   const [showGame, setShowGame] = useState({});
   const calendarRef = React.useRef();
 
@@ -400,7 +412,7 @@ const MainPage = (props) => {
               year: "numeric",
             }}
             headerToolbar={{
-              start: "title",
+              start: "title gotoToday",
               center: "",
               end: "prevWeek nextWeek",
             }}
@@ -468,6 +480,20 @@ const MainPage = (props) => {
                   calendarRef.current
                     .getApi()
                     .gotoDate(new Date().toISOString());
+                  var year = new Date().getUTCFullYear();
+                  var month =
+                    new Date().getMonth() < 9
+                      ? "0" + (new Date().getMonth() + 1)
+                      : new Date().getMonth() + 1;
+                  var day =
+                    new Date().getDate() -
+                    new Date().getDay() +
+                    (new Date().getDay() == 0 ? -6 : 1) -
+                    1;
+                  const tod = new Date(year + "-" + month + "-" + day)
+                    .toISOString()
+                    .substring(0, 16);
+                  fetchEventList(tod);
                 },
               },
             }}
