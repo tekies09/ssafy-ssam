@@ -7,29 +7,58 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const BattleUpdate = props => {
+  const userId = useSelector(state => state.user.userId);
+  const [teamList, setTeamList] = useState([]);
+
   const location = useLocation();
-  console.log(location);
+  console.log(location.state);
 
-  const [form, setForm] = useState({
-    title: location.state.title,
-  });
+  const [title, setTitle] = useState(location.state.title);
+  const [myTeamId, setMyTeamId] = useState(location.state.myTeamId);
 
-  const handleFormInput = event => {
-    const { id, value } = event.target;
-    setForm({
-      ...form,
-      [id]: value,
-    });
+  useEffect(() => {
+    getMyTeamList();
+  }, []);
+
+  // 글 작성자의 나만의 팀 목록을 가져온다.
+  const getMyTeamList = () => {
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "GET",
+      url: `myteam/userTeamList/${userId}`,
+    })
+      .then(res => {
+        let teamList = res.data;
+        setTeamList(teamList);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleTitleInput = event => {
+    setTitle(event.target.value);
+  };
+
+  const handleTeamSelect = event => {
+    setMyTeamId(event.target.value);
+
+    // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
 
   const handleUpdateClick = () => {
-    if (form.title === "") {
+    if (title === "") {
       alert("제목을 입력해주세요.");
       return;
     }
 
+    if (myTeamId === "") {
+      alert("나의 팀을 선택해주세요.");
+      return;
+    }
+
     let url = window.location.pathname.split("/");
-    // battle/:boardId/update => boardId
     let boardId = url[url.length - 2];
 
     axios({
@@ -38,10 +67,9 @@ const BattleUpdate = props => {
       method: "PUT",
       url: "/battle/update",
       data: {
-        bbTitle: form.title,
+        bbTitle: title,
         battleBoardId: boardId,
-        // TODO: my team id 받아와서 저장하기!
-        myTeamId: 1,
+        myTeamId: myTeamId,
       },
     })
       .then(res => {
@@ -93,6 +121,7 @@ const BattleUpdate = props => {
             variant="contained"
             color="sub_300"
             size="large"
+            onClick={handleUpdateClick}
           >
             <Typography textAlign="left">수정</Typography>
           </Button>
@@ -105,6 +134,9 @@ const BattleUpdate = props => {
         <Box sx={{ m: 2 }}>
           {/* 제목 입력창 */}
           <FormControl sx={{ mb: 2 }} fullWidth>
+            <Typography sx={{ mb: 1 }} variant="h6">
+              Title
+            </Typography>
             <TextField
               sx={{
                 borderRadius: 4,
@@ -115,14 +147,27 @@ const BattleUpdate = props => {
               }}
               id="title"
               required
-              value={form.title}
-              onChange={handleFormInput}
+              value={title}
+              onChange={handleTitleInput}
               placeholder="제목을 입력해 주세요."
               variant="standard"
               InputProps={{
                 disableUnderline: true,
               }}
             />
+          </FormControl>
+          {/* 나만의 팀 선택 */}
+          <FormControl fullWidth>
+            <Typography sx={{ mb: 1 }} variant="h6">
+              ⚾ My Team ⚾
+            </Typography>
+            <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
+              {mockData.map(data => (
+                <MenuItem value={data.myTeamId} key={data.myTeamId}>
+                  {data.myTeamName}
+                </MenuItem>
+              ))}
+            </Select>
           </FormControl>
         </Box>
       </Box>
