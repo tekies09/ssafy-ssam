@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Box, Divider, Paper, Typography } from "@mui/material";
+import { Box, Divider, Paper, Typography, Button } from "@mui/material";
 import DetailBottomMenu from "./DetailBottomMenu";
 import CommentForm from "./CommentForm";
 
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const BoardDetail = props => {
   const [post, setPost] = useState({});
   const [boardId, setBoardId] = useState(undefined);
   const boardType = useSelector(state => state.boardType);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     let urlArr = window.location.pathname.split("/");
@@ -45,7 +48,7 @@ const BoardDetail = props => {
             title: res.data.bbTitle,
             username: res.data.username,
             created_at: res.data.bbWriteTime.substring(0, 10),
-            // 나만의 팀 정보 추가하기!
+            my_team: res.data.myTeam,
           };
         } else if (boardType === "freeBoard") {
           postData = {
@@ -70,6 +73,13 @@ const BoardDetail = props => {
       });
   };
 
+  const handleBattleClick = () => {
+    // 팀 정보를 넘겨 시뮬레이션 페이지로 이동
+    navigate("/simulation/select", {
+      state: { teamInfo: post.my_team, username: post.username },
+    });
+  };
+
   const PostContent = props => {
     switch (boardType) {
       case "freeBoard":
@@ -92,6 +102,22 @@ const BoardDetail = props => {
             </Box>
           );
         }
+      case "battleBoard":
+        <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
+          {/* TODO : 팀 정보 보여주기 */}
+          {post.my_team}
+
+          {/* 배틀 버튼 */}
+          <Button
+            sx={{ m: 0, color: "white", borderRadius: 8 }}
+            variant="contained"
+            color="mint"
+            size="large"
+            onClick={handleBattleClick}
+          >
+            <Typography textAlign="left">배틀</Typography>
+          </Button>
+        </Box>;
       default:
         return <Box></Box>;
     }
@@ -182,8 +208,6 @@ const BoardDetail = props => {
       <Divider sx={{ mt: 1, width: "100%" }} />
 
       <CommentSection />
-
-      {/* <CommentForm post={post} boardId={boardId} /> */}
     </Box>
   );
 };
