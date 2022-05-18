@@ -89,11 +89,11 @@ const PlayerTable = (props) => {
 
 
 const defaultValue = {
-  id: 1,
+  playerId: 1,
   name: "",
   year: "",
   team: "",
-  cat: "",
+  pos: "",
 }
 
 // 선수 목록 예시값
@@ -112,12 +112,7 @@ const MemberInput = function (props) {
   const [pos, setPos] = useState("")
   const [ord, setOrd] = useState("")
   const [year, setYear] = useState("")
-
   const [open, setOpen] = useState(false)
-
-  // {ord: "10", name: "", pos: "P", playerId: undefined}
-
-  
 
   const [inputValue, setInputValue] = useState(defaultValue)
   const [list, setList] = useState([...samplePlayers])
@@ -126,7 +121,7 @@ const MemberInput = function (props) {
   const loadPlayers = (year) => {
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
-      url: `player/nameList/?year=${year}`,
+      url: `player/yearNameList?year=${year}`,
       timeout: 3000,
       method: 'GET',
     })
@@ -137,8 +132,10 @@ const MemberInput = function (props) {
       console.log(error)
     })
   }
+
   useEffect(() => {
-  })
+    loadPlayers(year)
+  }, [year])
 
   const handleOrdChange = (event) => {
     setOrd(()=>(event.target.value))
@@ -152,6 +149,16 @@ const MemberInput = function (props) {
   }
 
   const handleAdd = (event) => {
+    if (inputValue.pos === 'P' && pos !== 'P') {
+      console.log("투수를 야수로 배치할 수 없습니다.")
+      return
+    }
+    
+    if (inputValue.pos !== 'P' && pos === 'P') {
+      console.log("야수를 투수로 배치할 수 없습니다.")
+      return
+    }
+
     const newMember = {
       ord: ord,
       pos: pos,
@@ -159,6 +166,7 @@ const MemberInput = function (props) {
       year: inputValue.year,
       playerId: inputValue.playerId
     }
+
     console.log(newMember)
     props.addMember(newMember)
     console.log(props.team)
@@ -288,7 +296,7 @@ export default function MyTeams(props) {
       url: 'myteam/createMyTeam',
       method: 'POST',
       headers: {
-        Authentication: `Bearer ${localStorage.getItem("token")}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`
       },
       data: {
         myTeamName: teamname,
