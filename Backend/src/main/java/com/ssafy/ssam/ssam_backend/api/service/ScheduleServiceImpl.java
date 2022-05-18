@@ -36,7 +36,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
         List<ScheduleResultResDto> dtoList = new ArrayList<>();
 
-        List<ScheduleAndScore> entityList = scheduleRepository.findAllByDateBetween(today.MIN,plus7D.MIN);
+        List<ScheduleAndScore> entityList = scheduleRepository.findAllByDateBetween(today, plus7D);
 
         for (ScheduleAndScore entity : entityList){
             ScheduleResultResDto dto = new ScheduleResultResDto(entity);
