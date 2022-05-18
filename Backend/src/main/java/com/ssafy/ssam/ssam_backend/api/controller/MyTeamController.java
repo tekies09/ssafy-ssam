@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/myteam")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class MyTeamController {
 
