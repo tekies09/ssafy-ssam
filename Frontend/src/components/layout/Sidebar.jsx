@@ -88,6 +88,7 @@ const Sidebar = props => {
               size="large"
               textAlign="left"
               startIcon={<AccountCircleIcon />}
+              onClick={() => {navigate("/account")}}
             >
               <Typography textAlign="left">마이 페이지</Typography>
             </Button>
