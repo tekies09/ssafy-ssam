@@ -191,10 +191,12 @@ const Sidebar = props => {
             {/* 선수정보 하위 메뉴 */}
             <Collapse in={playerInfoOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem sx={{ borderRadius: 1 }} button key="타자">
+                <ListItem sx={{ borderRadius: 1 }} button key="타자"
+                  color="white" component={Link} to="players/hitter">
                   <ListItemText align="right" primary="타자" />
                 </ListItem>
-                <ListItem sx={{ borderRadius: 1 }} button key="투수">
+                <ListItem sx={{ borderRadius: 1 }} button key="투수"
+                  color="white" component={Link} to="players/pitcher">
                   <ListItemText align="right" primary="투수" />
                 </ListItem>
               </List>

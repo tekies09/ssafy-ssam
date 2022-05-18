@@ -44,7 +44,7 @@ const BaseStat = (props) => {
   )
 }
 
-const HitterYearStat = (props) => {
+const PitcherYearStat = (props) => {
   const {year, team, avg, G, PA, AB, R, H, RBI} = props.stats
 
   const columns = ["", "소속팀", "타율", "경기", "타석", "타수", "안타", "타점", "득점"]
@@ -70,7 +70,7 @@ const HitterYearStat = (props) => {
   )
 }
 
-const HitterSituationalStat = (props) => {
+const PitcherSituationalStat = (props) => {
   const {runner, ballcount, batorder, pitcher, outcount} = props.stats
   const columns = ["구분", "타율", "타석", "안타"]
   const rows = ["cat", "avg", "AB", "H"]
@@ -120,7 +120,7 @@ const HitterSituationalStat = (props) => {
 }
 
 
-export default function Playerinfo(props) {
+export default function Pitcherinfo(props) {
   const defaultProps = {
     player: {
       id: 76313,
@@ -233,19 +233,15 @@ export default function Playerinfo(props) {
 
       <Grid item xs={12}>
         <TabPanel value={tabValue} index={0}>
-          <HitterYearStat stats={player.stats}></HitterYearStat>    
+          <PitcherYearStat stats={player.stats}></PitcherYearStat>    
         </TabPanel>
       </Grid>
 
       <Grid item xs={12}>
         <TabPanel value={tabValue} index={1}>
-          <HitterSituationalStat stats={player.situational_stats}></HitterSituationalStat>    
+          <PitcherSituationalStat stats={player.situational_stats}></PitcherSituationalStat>    
         </TabPanel>
-        
-      </Grid>
-    
-    
-    
+      </Grid>   
     </Grid>
   )
 }
