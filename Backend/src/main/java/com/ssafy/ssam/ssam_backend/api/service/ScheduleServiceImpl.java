@@ -36,7 +36,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
         List<ScheduleResultResDto> dtoList = new ArrayList<>();
 
-        List<ScheduleAndScore> entityList = scheduleRepository.findAllByDateBetween(today,plus7D);
+        List<ScheduleAndScore> entityList = scheduleRepository.findAllByDateBetween(today.MIN,plus7D.MIN);
 
         for (ScheduleAndScore entity : entityList){
             ScheduleResultResDto dto = new ScheduleResultResDto(entity);
@@ -48,8 +48,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 	@Override
 	public List<ScheduleResultResDto> getTodayScheduleList(LocalDateTime today) {
+		LocalDateTime todayStart = today.MIN;
+		LocalDateTime todayEnd = today.plusDays(1).MIN;
+		
 		List<ScheduleResultResDto> dtoList = new ArrayList<>();
-        List<ScheduleAndScore> entityList = scheduleRepository.findAllByDate(today);
+        List<ScheduleAndScore> entityList = scheduleRepository.findAllByDateBetween(todayStart, todayEnd);
         
         for(ScheduleAndScore entity : entityList) {
         	ScheduleResultResDto dto = new ScheduleResultResDto(entity);
