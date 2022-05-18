@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { Button, Card, CardActions, CardContent, CardHeader, Dialog, DialogTitle, Grid, Typography } from '@mui/material'
 import MyteamSummary from '../components/MyteamSummary'
 import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const testTeams = [
   {
@@ -43,25 +43,34 @@ const testTeams = [
 export default function MyTeamlist() {
   const [teams, setTeams] = useState([testTeams])
   const user = useSelector((state) => state.user)
+  const isLoggedIn = useSelector((state) => state.isLoggedIn)
   const navigate = useNavigate()
 
   useEffect(() => {
+    if (isLoggedIn === false) {
+      alert("나만의 팀 기능을 이용하려면 로그인해야 합니다.")
+      navigate("/")
+      console.log("go")
+      return
+    }
+
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
-      url: "",
+      url: `myteam/userTeamList/${user.userid}`,
       timeout: 3000,
       method: "GET",
       headers: {
-        Authentication: `Bearer ${localStorage.getItem("token")}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
     .then(response => {
-      setTeams(response.data)
+      setTeams(response.data.myTeamList)
     })
     .catch(error => {
       console.log(error)
     })
-  }, [])
+  }, [isLoggedIn, user])
+  
   
 
   return (
@@ -77,10 +86,17 @@ export default function MyTeamlist() {
         </Button>
       </Grid>
       <Grid item xs={12} sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-        {testTeams.map((team) => (
-            <MyteamSummary team={team} key={team.id} />
-        ))}      
+        {teams.length === 0 && (<Typography>아직 나만의 팀을 작성하지 않았습니다.</Typography>)}
+        {() => {
+          if (teams !== []) {
+            return teams.map((team) => (
+                <MyteamSummary team={team} key={team.id} />
+            ))}      
+          }
+        }
+        
       </Grid>
+
     </Grid>
     
   )
