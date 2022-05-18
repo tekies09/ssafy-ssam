@@ -19,7 +19,8 @@ function getUserfromToken() {
   const user = JSON.parse(atob(token.split('.')[1]))
 
   // 토큰 만료
-  if (user.exp < Date.now() ) {
+  if (user.exp * 1000 < Date.now()) {
+    console.log("token expired")
     return defaultUser
   }
 
