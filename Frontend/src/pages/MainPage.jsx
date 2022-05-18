@@ -25,6 +25,8 @@ import {
 
 import axios from "axios";
 
+import teamName from "../assets/teamName";
+
 const monthName = [
   "1월",
   "2월",
@@ -123,7 +125,7 @@ const CalendarDiv = styled.div`
   .fc-scroller-harness {
     margin-bottom: 10px;
   }
-  .fc-scroller-harness::webkit-scrollbar {
+  div.fc-scroller-harness::webkit-scrollbar {
     display: none;
   }
 
@@ -164,9 +166,22 @@ const CalendarDiv = styled.div`
     font-weight: bold;
   }
   .today-event-end {
-    background-color: #C5C5C5;
+    background-color: #c5c5c5;
     color: #565656;
     font-weight: bold;
+  }
+
+  .team-logo {
+    height: 150px;
+    margin: 20px 0 10px 0;
+  }
+  .vs-typo {
+    font-size: 32px;
+    font-weight: bold;
+  }
+  .team-name {
+    font-size: 24px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -176,8 +191,14 @@ const HeaderDiv = styled.div`
 `;
 
 function renderEventContent(events) {
-  //console.log(events);
-  if (events.event._def.extendedProps.type === "end") {
+  // console.log(events.event);
+  if (events.event._def.extendedProps.gameState === "END") {
+    const homeTeamName = String(events.event._def.extendedProps.homeTeam).split(
+      " "
+    )[0];
+    const awayTeamName = String(events.event._def.extendedProps.awayTeam).split(
+      " "
+    )[0];
     return (
       <div
         style={{
@@ -185,12 +206,12 @@ function renderEventContent(events) {
           color: "#565656",
           paddingLeft: "7px",
         }}
-        class="event-list-item"
+        className="event-list-item"
       >
-        {events.event._def.title}
+        {homeTeamName} vs {awayTeamName}
       </div>
     );
-  } else if (events.event._def.extendedProps.type === "playing") {
+  } else if (events.event._def.extendedProps.gameState === "PLAYING") {
     return (
       <div
         style={{
@@ -199,14 +220,21 @@ function renderEventContent(events) {
           textAlign: "center",
           fontWeight: "bold",
         }}
-        class="event-list-item"
+        className="event-list-item"
       >
         ! 현재 진행 중인 경기 !
       </div>
     );
-  } else if (events.event._def.extendedProps.type === "yet") {
+  } else if (events.event._def.extendedProps.gameState === "NOTYET") {
     // 아직 치루지 않은 경기일 떄,
-    const startTime = String(events.event.startStr);
+    const startTime = String(events.event.start).substring(16, 21);
+    const homeTeamName = String(events.event._def.extendedProps.homeTeam).split(
+      " "
+    )[0];
+    const awayTeamName = String(events.event._def.extendedProps.awayTeam).split(
+      " "
+    )[0];
+    // console.log(homeTeamName, awayTeamName);
     return (
       <div
         style={{
@@ -214,9 +242,9 @@ function renderEventContent(events) {
           color: "#000000",
           paddingLeft: "7px",
         }}
-        class="event-list-item"
+        className="event-list-item"
       >
-        {startTime.substring(11, 16)} {events.event._def.title}
+        {startTime} {homeTeamName} vs {awayTeamName}
       </div>
     );
   }
@@ -229,7 +257,7 @@ const MainPage = (props) => {
       title: "롯데 승",
       start: "2022-05-16T15:00:00",
       end: "2022-05-16T15:00:00",
-      type: "end",
+      type: "END",
       team1: "롯데 자이언츠",
       team2: "삼성 라이온즈",
     },
@@ -238,7 +266,7 @@ const MainPage = (props) => {
       title: "두산 베어스 vs 키움 히어로즈",
       start: "2022-05-16T13:00:00",
       end: "2022-05-16T16:00:00",
-      type: "playing",
+      type: "PLAYING",
       team1: "두산 베어스",
       team2: "키움 히어로즈",
     },
@@ -247,7 +275,7 @@ const MainPage = (props) => {
       title: "SSG vs LG",
       start: "2022-05-16T19:00:00",
       end: "2022-05-16T23:00:00",
-      type: "yet",
+      type: "NOTYET",
       team1: "SSG 랜더스",
       team2: "LG 트윈스",
     },
@@ -287,14 +315,25 @@ const MainPage = (props) => {
       stadium: "사직 야구장",
     },
   ]);
+
+  var year = new Date().getUTCFullYear();
+  var month = new Date().getMonth() + 1;
+  var day =
+    new Date().getDate() -
+    new Date().getDay() +
+    (new Date().getDay() == 0 ? -6 : 1);
+  const tod = year + "-" + month + "-" + day;
+
   const [selectDate, setSelectDate] = useState(
-    new Date().toISOString().substring(0, 10)
+    new Date(tod).toISOString().substring(0, 16)
   ); // * 달력의 기준으로 삼을 날짜
+  const [showGame, setShowGame] = useState({});
   const calendarRef = React.useRef();
 
   const fetchEventList = (date) => {
     axios({
-      baseURL: process.env.REACT_APP_SERVER_URL,
+      // baseURL: process.env.REACT_APP_SERVER_URL,
+      baseURL: "https://ssafy-ssam.com/api",
       timeout: 3000,
       method: "GET",
       url: `/schedule/${date}`,
@@ -302,7 +341,7 @@ const MainPage = (props) => {
       .then((res) => {
         // console.log(res.data);
         setEventList(res.data.scheduleList);
-        // console.log(eventList);
+        console.log(eventList);
       })
       .catch((err) => {
         console.log(err);
@@ -310,9 +349,10 @@ const MainPage = (props) => {
   };
 
   const fetchTodayEventList = () => {
-    const today = new Date().toISOString().substring(0, 10);
+    const today = new Date().toISOString().substring(0, 16);
     axios({
-      baseURL: process.env.REACT_APP_SERVER_URL,
+      // baseURL: process.env.REACT_APP_SERVER_URL,
+      baseURL: "https://ssafy-ssam.com/api",
       timeout: 3000,
       method: "GET",
       url: `/schedule/today/${today}`,
@@ -328,8 +368,8 @@ const MainPage = (props) => {
 
   useEffect(() => {
     fetchTodayEventList();
-    fetchEventList(new Date().toISOString().substring(0, 10));
-  }, [selectDate, eventList, todayEvent]);
+    fetchEventList(selectDate);
+  }, []);
 
   return (
     <>
@@ -383,9 +423,8 @@ const MainPage = (props) => {
                     .getApi()
                     .getDate()
                     .toISOString()
-                    .substring(0, 10);
+                    .substring(0, 16);
                   fetchEventList(day);
-                  fetchTodayEventList();
                 },
               },
               prevWeek: {
@@ -403,10 +442,9 @@ const MainPage = (props) => {
                     .getApi()
                     .getDate()
                     .toISOString()
-                    .substring(0, 10);
+                    .substring(0, 16);
                   // console.log(day);
                   fetchEventList(day);
-                  fetchTodayEventList();
                 },
               },
               selectModal: {
@@ -438,6 +476,7 @@ const MainPage = (props) => {
           <Box
             sx={{
               backgroundColor: "#FFFFFF",
+              mt: "15px",
             }}
           >
             <div
@@ -486,7 +525,57 @@ const MainPage = (props) => {
                   </Typography>
                 </div>
               ) : (
-                <div></div>
+                <div style={{ textAlign: "center" }}>
+                  <Grid
+                    container
+                    spacing={0}
+                    sx={{ justifyContent: "space-between", height: "auto" }}
+                  >
+                    <Grid item xs={5}>
+                      <div>
+                        <img
+                          src={require(`../assets/${
+                            teamName.find(
+                              (x) =>
+                                x.id === todayEvent[0].homeTeam.split(" ")[0]
+                            ).imageLink
+                          }.svg`)}
+                          className="team-logo home-team"
+                        />
+                      </div>
+                      <div>
+                        <Typography className="team-name">
+                          {todayEvent[0].homeTeam}
+                        </Typography>
+                      </div>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{ justifyContent: "space-between", margin: "auto" }}
+                    >
+                      <Typography className="vs-typo">VS</Typography>
+                    </Grid>
+                    <Grid item xs={5}>
+                      <div>
+                        <img
+                          src={require(`../assets/${
+                            teamName.find(
+                              (x) =>
+                                x.id === todayEvent[0].awayTeam.split(" ")[0]
+                            ).imageLink
+                          }.svg`)}
+                          className="team-logo away-team"
+                        />
+                      </div>
+                      <div>
+                        <Typography className="team-name">
+                          {todayEvent[0].awayTeam}
+                        </Typography>
+                      </div>
+                    </Grid>
+                  </Grid>
+                </div>
               )}
             </Paper>
             {todayEvent.map(
@@ -501,9 +590,9 @@ const MainPage = (props) => {
                 homeTeam,
                 stadium,
               }) => {
-                if (gameState === "playing") {
+                if (gameState === "PLAYING") {
                   return (
-                    <Box class="today-event today-event-playing">
+                    <Box className="today-event today-event-playing">
                       <Grid
                         container
                         spacing={0}
@@ -524,9 +613,9 @@ const MainPage = (props) => {
                       </Grid>
                     </Box>
                   );
-                } else if(gameState === "end") {
+                } else if (gameState === "END") {
                   return (
-                    <Box class="today-event today-event-end">
+                    <Box className="today-event today-event-end">
                       <Grid
                         container
                         spacing={0}
@@ -545,9 +634,9 @@ const MainPage = (props) => {
                       </Grid>
                     </Box>
                   );
-                } else {
+                } else if (gameState === "NOTYET") {
                   return (
-                    <Box class="today-event">
+                    <Box className="today-event">
                       <Grid
                         container
                         spacing={0}
