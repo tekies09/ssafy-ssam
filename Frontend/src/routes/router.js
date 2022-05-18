@@ -23,6 +23,7 @@ import Account from "../pages/Account";
 import Playerinfo from "../pages/Playerinfo";
 import ScrollTop from "../components/layout/ScrollTop";
 import Header from "../components/layout/Header";
+import SimulationSelectPage from "../pages/SimulationSelectPage";
 
 export default function RouterComponent() {
   return (
@@ -75,6 +76,11 @@ export default function RouterComponent() {
             <Route
               path="/board/battle/:battleBoardId/update"
               element={<BattleUpdatePage />}
+            />
+            {/* 시뮬레이션 */}
+            <Route
+              path="/simulation/select"
+              element={<SimulationSelectPage />}
             />
 
             {/* 선수 정보 */}

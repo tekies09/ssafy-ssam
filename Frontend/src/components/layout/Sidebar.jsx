@@ -43,8 +43,7 @@ const Sidebar = props => {
   const handleLogout = () => {
     dispatch({ type: "logout" });
     localStorage.removeItem("token");
-    navigate("/")
-
+    navigate("/");
   };
 
   const sidebarWidth = 202;
@@ -54,7 +53,7 @@ const Sidebar = props => {
     { name: "공지사항", url: "/board/notice" },
     { name: "자유게시판", url: "/board/free" },
     { name: "배틀게시판", url: "/board/battle" },
-    { name: "시뮬레이션", url: "/" },
+    { name: "시뮬레이션", url: "/simulation/select" },
   ];
 
   const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -65,7 +64,6 @@ const Sidebar = props => {
           <Button
             sx={{ color: "white" }}
             size="large"
-            // align="left"
             onClick={handleLogout}
             startIcon={<LogoutIcon />}
           >
@@ -88,7 +86,9 @@ const Sidebar = props => {
               size="large"
               textAlign="left"
               startIcon={<AccountCircleIcon />}
-              onClick={() => {navigate("/account")}}
+              onClick={() => {
+                navigate("/account");
+              }}
             >
               <Typography textAlign="left">마이 페이지</Typography>
             </Button>
