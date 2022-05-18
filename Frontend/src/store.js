@@ -42,6 +42,7 @@ function reducer(currentState, action) {
   }
   const newState = { ...currentState }
   const newModal = { ...currentState.modal }
+  const newUser = {...currentState.user}
 
 
   // store Dispatch 작성
@@ -55,6 +56,11 @@ function reducer(currentState, action) {
     case "logout":
       newState.user = defaultUser
       newState.isLoggedIn = false
+      break
+
+    case "changeNickname":
+      newUser.nickname = action.payload
+      newState.user = newUser
       break
 
     case "openLoginModal":
