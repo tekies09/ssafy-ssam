@@ -92,72 +92,116 @@ const PostCreate = props => {
       });
   };
 
-  const MyTeamSelectForm = () => {
-    if (mockData) {
-      return (
-        <Box sx={{ m: 2 }}>
-          {/* 제목 입력창 */}
-          <FormControl sx={{ mb: 2 }} fullWidth>
-            <Typography sx={{ mb: 1 }} variant="h6">
-              Title
-            </Typography>
-            <TextField
-              sx={{
-                borderRadius: 4,
-                backgroundColor: "white",
-                disableUnderline: true,
-                px: 2,
-                py: 1,
-              }}
-              id="title"
-              required
-              value={title}
-              onChange={handleTitleInput}
-              placeholder="제목을 입력해 주세요."
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </FormControl>
-          {/* 나만의 팀 선택 */}
-          <FormControl fullWidth>
-            <Typography sx={{ mb: 1 }} variant="h6">
-              ⚾ My Team ⚾
-            </Typography>
-            <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
-              {mockData.map(data => (
-                <MenuItem value={data.myTeamId} key={data.myTeamId}>
-                  {data.myTeamName}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-      );
-    } else {
-      return (
-        <Box>
-          <FormControl fullWidth>
-            <Typography sx={{ mb: 1 }} variant="h6">
-              ⚾ My Team ⚾
-            </Typography>
-          </FormControl>
-          <Button
-            sx={{ m: 1, p: 1, color: "white" }}
-            variant="contained"
-            color="sub_300"
-            component={Link}
-            to="/myteams"
-          >
-            <Typography textAlign="left" variant="subtitle2">
-              아직 나만의 팀이 없습니다. 나만의 팀을 만들러 가볼까요?
-            </Typography>
-          </Button>
-        </Box>
-      );
-    }
-  };
+  // const MyTeamSelectForm = () => {
+  //   return (
+  //     <Box sx={{ m: 2 }}>
+  //       {/* 제목 입력창 */}
+  //       <FormControl sx={{ mb: 2 }} fullWidth>
+  //         <Typography sx={{ mb: 1 }} variant="h6">
+  //           Title
+  //         </Typography>
+  //         <TextField
+  //           sx={{
+  //             borderRadius: 4,
+  //             backgroundColor: "white",
+  //             disableUnderline: true,
+  //             px: 2,
+  //             py: 1,
+  //           }}
+  //           id="title"
+  //           required
+  //           value={title}
+  //           onChange={handleTitleInput}
+  //           placeholder="제목을 입력해 주세요."
+  //           variant="standard"
+  //           InputProps={{
+  //             disableUnderline: true,
+  //           }}
+  //         />
+  //       </FormControl>
+  //       {/* 나만의 팀 선택 */}
+  //       <FormControl fullWidth>
+  //         <Typography sx={{ mb: 1 }} variant="h6">
+  //           ⚾ My Team ⚾
+  //         </Typography>
+  //         <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
+  //           {mockData.map(data => (
+  //             <MenuItem value={data.myTeamId} key={data.myTeamId}>
+  //               {data.myTeamName}
+  //             </MenuItem>
+  //           ))}
+  //         </Select>
+  //       </FormControl>
+  //     </Box>
+  //   );
+  // };
+
+  // const MyTeamSelectForm = () => {
+  //   if (mockData) {
+  //     return (
+  //       <Box sx={{ m: 2 }}>
+  //         {/* 제목 입력창 */}
+  //         <FormControl sx={{ mb: 2 }} fullWidth>
+  //           <Typography sx={{ mb: 1 }} variant="h6">
+  //             Title
+  //           </Typography>
+  //           <TextField
+  //             sx={{
+  //               borderRadius: 4,
+  //               backgroundColor: "white",
+  //               disableUnderline: true,
+  //               px: 2,
+  //               py: 1,
+  //             }}
+  //             id="title"
+  //             required
+  //             value={title}
+  //             onChange={handleTitleInput}
+  //             placeholder="제목을 입력해 주세요."
+  //             variant="standard"
+  //             InputProps={{
+  //               disableUnderline: true,
+  //             }}
+  //           />
+  //         </FormControl>
+  //         {/* 나만의 팀 선택 */}
+  //         <FormControl fullWidth>
+  //           <Typography sx={{ mb: 1 }} variant="h6">
+  //             ⚾ My Team ⚾
+  //           </Typography>
+  //           <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
+  //             {mockData.map(data => (
+  //               <MenuItem value={data.myTeamId} key={data.myTeamId}>
+  //                 {data.myTeamName}
+  //               </MenuItem>
+  //             ))}
+  //           </Select>
+  //         </FormControl>
+  //       </Box>
+  //     );
+  //   } else {
+  //     return (
+  //       <Box>
+  //         <FormControl fullWidth>
+  //           <Typography sx={{ mb: 1 }} variant="h6">
+  //             ⚾ My Team ⚾
+  //           </Typography>
+  //         </FormControl>
+  //         <Button
+  //           sx={{ m: 1, p: 1, color: "white" }}
+  //           variant="contained"
+  //           color="sub_300"
+  //           component={Link}
+  //           to="/myteams"
+  //         >
+  //           <Typography textAlign="left" variant="subtitle2">
+  //             아직 나만의 팀이 없습니다. 나만의 팀을 만들러 가볼까요?
+  //           </Typography>
+  //         </Button>
+  //       </Box>
+  //     );
+  //   }
+  // };
 
   return (
     <Box
@@ -210,9 +254,66 @@ const PostCreate = props => {
       <Divider sx={{ mt: 1, mb: 2, width: "100%" }} />
 
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ m: 2 }}>
-          <MyTeamSelectForm />
-        </Box>
+        {mockData ? (
+          <Box sx={{ m: 2 }}>
+            {/* 제목 입력창 */}
+            <FormControl sx={{ mb: 2 }} fullWidth>
+              <Typography sx={{ mb: 1 }} variant="h6">
+                Title
+              </Typography>
+              <TextField
+                sx={{
+                  borderRadius: 4,
+                  backgroundColor: "white",
+                  disableUnderline: true,
+                  px: 2,
+                  py: 1,
+                }}
+                id="title"
+                required
+                value={title}
+                onChange={handleTitleInput}
+                placeholder="제목을 입력해 주세요."
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                }}
+              />
+            </FormControl>
+            {/* 나만의 팀 선택 */}
+            <FormControl fullWidth>
+              <Typography sx={{ mb: 1 }} variant="h6">
+                ⚾ My Team ⚾
+              </Typography>
+              <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
+                {mockData.map(data => (
+                  <MenuItem value={data.myTeamId} key={data.myTeamId}>
+                    {data.myTeamName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        ) : (
+          <Box>
+            <FormControl fullWidth>
+              <Typography sx={{ mb: 1 }} variant="h6">
+                ⚾ My Team ⚾
+              </Typography>
+            </FormControl>
+            <Button
+              sx={{ m: 1, p: 1, color: "white" }}
+              variant="contained"
+              color="sub_300"
+              component={Link}
+              to="/myteams"
+            >
+              <Typography textAlign="left" variant="subtitle2">
+                아직 나만의 팀이 없습니다. 나만의 팀을 만들러 가볼까요?
+              </Typography>
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );
