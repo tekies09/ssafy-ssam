@@ -194,7 +194,6 @@ export default function Signup(props) {
               <Button
                 fullWidth
                 size="large"
-                type="submit"
                 color="primary"
                 variant="outlined"
                 onClick={() => {checkUsername(form.username)}}
@@ -226,7 +225,7 @@ export default function Signup(props) {
                 helperText={errors.passwordConfirm}
                 />
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 required
                 id="email"
@@ -239,14 +238,14 @@ export default function Signup(props) {
                 helperText={errors.email}
                 />
             </Grid>
-            <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
+            {/* <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
               <Button
                 fullWidth
                 type="submit"
                 color="primary"
                 variant="outlined"
                 >이메일 인증</Button>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 required

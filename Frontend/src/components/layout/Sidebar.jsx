@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Box, Divider, Button, Typography, Drawer } from "@mui/material";
 import { List, ListItem, ListItemText, Collapse } from "@mui/material";
@@ -16,6 +16,7 @@ const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
@@ -41,7 +42,9 @@ const Sidebar = props => {
 
   const handleLogout = () => {
     dispatch({ type: "logout" });
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
+    navigate("/")
+
   };
 
   const sidebarWidth = 202;
