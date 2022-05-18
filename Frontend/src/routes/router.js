@@ -23,6 +23,7 @@ import Account from "../pages/Account";
 import Playerinfo from "../pages/Playerinfo";
 import ScrollTop from "../components/layout/ScrollTop";
 import Header from "../components/layout/Header";
+import SimulationPage from "../pages/SimulationPage";
 import SimulationSelectPage from "../pages/SimulationSelectPage";
 
 export default function RouterComponent() {
@@ -82,6 +83,7 @@ export default function RouterComponent() {
               path="/simulation/select"
               element={<SimulationSelectPage />}
             />
+            <Route path="/simulation" element={<SimulationPage />} />
 
             {/* 선수 정보 */}
             <Route path="/player/:id" element={<Playerinfo />} />
