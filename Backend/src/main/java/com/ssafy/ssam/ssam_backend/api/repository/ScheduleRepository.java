@@ -9,5 +9,4 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<ScheduleAndScore , Long> {
     List<ScheduleAndScore> findAllByDateBetween(LocalDateTime start , LocalDateTime end);
-    List<ScheduleAndScore> findAllByDate(LocalDateTime today);
 }
