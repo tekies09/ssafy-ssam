@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { Box, Button, Typography, Grid } from "@mui/material";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, TextField, Input } from "@mui/material";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -13,20 +13,24 @@ const CommentForm = props => {
   const boardId = props.boardId;
 
   const [comments, setComments] = useState([]);
-
+  let content = "";
   // const [content, setContent] = useState("");
-  const [form, setForm] = useState({
-    content: "",
-  });
+
+  // const commentInput = document.querySelector("#comment-input");
+  // const [form, setForm] = useState({
+  //   content: "",
+  // });
 
   const handleCommentInput = event => {
-    // setContent(event.target.value);
-    const { id, value } = event.target;
+    content = event.target.value;
 
-    setForm({
-      ...form,
-      [id]: value,
-    });
+    // setContent(event.target.value);
+    // const { id, value } = event.target;
+
+    // setForm({
+    //   ...form,
+    //   [id]: value,
+    // });
   };
 
   // 최초 로딩시에만 실행 (이후 댓글 추가시마다 댓글 목록 업데이트)
@@ -39,39 +43,36 @@ const CommentForm = props => {
   }, []);
 
   // 댓글 등록
-  const handleSubmitClick = () => {
-    if (form.content === "") {
+  const handleSubmitClick = async () => {
+    if (content === "") {
       return;
     }
-    // if (content === "") {
-    //   return;
-    // }
 
-    axios({
+    await axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "POST",
       url: `/free/${boardId}/comments`,
       data: {
-        // content: content,
-        content: form.content,
+        content: content,
         freeBoardId: boardId,
         userId: userId,
       },
     })
       .then(res => {
         // 댓글 입력창 초기화
-        setForm({
-          ...form,
-          content: "",
-        });
+        content = "";
+
+        // setContent("");
+        // setForm({
+        //   ...form,
+        //   content: "",
+        // });
 
         // 댓글 목록 업데이트
         getReplyList({
           boardId: boardId,
         });
-
-        // window.location.reload();
       })
       .catch(err => {
         console.log(err);
@@ -101,7 +102,7 @@ const CommentForm = props => {
         <Box>
           {/* 새로운 댓글 입력창 */}
           <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
-            <TextField
+            <Input
               sx={{
                 borderRadius: 4,
                 backgroundColor: "white",
@@ -109,20 +110,32 @@ const CommentForm = props => {
                 px: 2,
                 py: 1,
               }}
-              id="content"
-              required
+              id="comment-input"
+              size="small"
+              disableUnderline="true"
               // value={content}
-              value={form.content}
+              onInput={handleCommentInput}
+            />
+            {/* <TextField
+              sx={{
+                borderRadius: 4,
+                backgroundColor: "white",
+                disableUnderline: true,
+                px: 2,
+                py: 1,
+              }}
+              id="comment-input"
+              // value={content}
+              // value={content}
               autoFocus="autoFocus"
-              onChange={handleCommentInput}
+              // onChange={handleCommentInput}
               // onChange={event => {
-              //   const { eventCount, target, text } = event.nativeEvent;
-              //   let value = target.value;
-              //   console.log(value);
-              //   setContent(value);
+              //   // const { eventCount, target, text } = event.nativeEvent;
+              //   // let value = target.value;
+              //   console.log(event.target.value);
+              //   setContent(event.target.value);
               // }}
-              // onChangeText={text => {
-              //   handleCommentInput(text);
+              // onChange={text => {
               //   console.log(text);
               //   setContent(text);
               // }}
@@ -132,7 +145,7 @@ const CommentForm = props => {
               InputProps={{
                 disableUnderline: true,
               }}
-            />
+            /> */}
           </FormControl>
           {/* 댓글 등록 버튼 */}
           <Grid container justifyContent="flex-end">
@@ -163,7 +176,6 @@ const CommentForm = props => {
         p: 2,
       }}
     >
-      {/* <Box sx={{ bgcolor: "red", width: "100%" }}>asdf</Box> */}
       <Box sx={{ width: "100%" }}>
         <Box sx={{ my: 2 }}>
           {comments
