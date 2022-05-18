@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +49,10 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 	@Override
 	public List<ScheduleResultResDto> getTodayScheduleList(LocalDateTime today) {
-		LocalDateTime todayStart = today.MIN;
-		LocalDateTime todayEnd = today.plusDays(1).MIN;
+		LocalDateTime todayStart = today.with(LocalTime.MIDNIGHT);
+		LocalDateTime todayEnd = today.with(LocalTime.MAX);
+		
+//		System.out.println(todayStart+", "+todayEnd);
 		
 		List<ScheduleResultResDto> dtoList = new ArrayList<>();
         List<ScheduleAndScore> entityList = scheduleRepository.findAllByDateBetween(todayStart, todayEnd);
