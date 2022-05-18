@@ -1,5 +1,7 @@
 package com.ssafy.ssam.ssam_backend.api.controller.board;
 
+import com.ssafy.ssam.ssam_backend.api.dto.response.ReplyResDto;
+import com.ssafy.ssam.ssam_backend.api.service.FreeBoardReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/free")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -23,11 +27,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 public class FreeCommunityController {
 	
 	private final FreeCommunityService freeCommunityService;
+	private final FreeBoardReplyService freeBoardReplyService;
 	
 	@Autowired
-	public FreeCommunityController(FreeCommunityService freeCommunityService) {
+	public FreeCommunityController(FreeCommunityService freeCommunityService, FreeBoardReplyService freeBoardReplyService) {
 		super();
 		this.freeCommunityService = freeCommunityService;
+		this.freeBoardReplyService = freeBoardReplyService;
 	}
 	
 	@GetMapping("/list")
@@ -80,6 +86,13 @@ public class FreeCommunityController {
 	@DeleteMapping("/delete/{boardId}")
 	@Operation(summary = "토론 게시판 글 삭제하기")
 	public ResponseEntity<BaseResponseBody> deleteFreeBoard(@PathVariable Long boardId) {
+		List<ReplyResDto> replyList = freeBoardReplyService.findReplyList(boardId);
+
+		for (ReplyResDto replyResDto : replyList) {
+			Long replyId = replyResDto.getReplyId();
+			freeBoardReplyService.deleteReply(replyId);
+		}
+
 		freeCommunityService.deleteFreeBoard(boardId);
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, "토론 게시판 글 삭제 성공"));
 	}
