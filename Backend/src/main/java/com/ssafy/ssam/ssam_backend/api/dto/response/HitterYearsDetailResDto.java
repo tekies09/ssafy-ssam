@@ -61,21 +61,19 @@ public class HitterYearsDetailResDto {
     @ApiModelProperty(value = "타점")
     private int rbi_cn;
 
-    //희생번트
-    @ApiModelProperty(value = "희생번트")
-    private int sac_cn;
+    //도루
+    @ApiModelProperty(value = "도루")
+    private int sb_cn;
 
-    //희생플라이
-    @ApiModelProperty(value = "희생 플라이")
-    private int sf_cn;
+    //도루실패
+    @ApiModelProperty(value = "도루실패")
+    private int cs_cn;
 
     //볼넷
     @ApiModelProperty(value = "볼넷")
     private int bb_cn;
 
-    //고의4구
-    @ApiModelProperty(value = "고의4구")
-    private int ibb_cn;
+
 
     //사구
     @ApiModelProperty(value = "사구")
@@ -93,66 +91,9 @@ public class HitterYearsDetailResDto {
     @ApiModelProperty(value = "장타율")
     private BigDecimal slg_rt;
 
-    //출루율
-    @ApiModelProperty(value = "출루율")
-    private BigDecimal obp_rt;
-
-    //출루율+장타율
-    @ApiModelProperty(value = "출루율 + 장타율")
-    private BigDecimal ops_rt;
-
-    //멀티히트
-    @ApiModelProperty(value = "멀티 히트")
-    private int mh_cn;
-
-    //득점권타율
-    @ApiModelProperty(value = "득점권 타율")
-    private BigDecimal risp_rt;
-
-    //대타타율
-    @ApiModelProperty(value = "대타타율")
-    private BigDecimal phba_rt;
-
-    //장타
-    @ApiModelProperty(value = "장타")
-    private int xbh_cn;
-
-
-    //땅볼
-    @ApiModelProperty(value = "땅볼")
-    private int go_cn;
-
-    //뜬공
-    @ApiModelProperty(value = "뜬공")
-    private int ao_cn;
-
-    //땅볼/뜬공
-    @ApiModelProperty(value = "땅볼/뜬공 비율")
-    private BigDecimal goao_rt;
-
-    //결승타
-    @ApiModelProperty(value = "결승타")
-    private int gwrbi_cn;
-
-    //볼넷/삼진
-    @ApiModelProperty(value = "볼넷 / 삼진 비율")
-    private BigDecimal bbk_rt;
-
-    //투구수/타석
-    @ApiModelProperty(value = "투구수 / 타석 비율")
-    private BigDecimal ppa_rt;
-
-    //순수 장타율
-    @ApiModelProperty(value = "순수 장타율")
-    private BigDecimal isop_rt;
-
-    //추정득점
-    @ApiModelProperty(value = "추정 득점")
-    private BigDecimal xr_rt;
-
-    //(1.8x출루율+장타율)/4
-    @ApiModelProperty(value = "(1.8 * 출루율 + 장타율) / 4")
-    private BigDecimal gpa_rt;
+    //실책
+    @ApiModelProperty(value = "실책")
+    private int e_cn;
 
     public HitterYearsDetailResDto(HitterYearsStatus hitterYearsStatus){
         this.team = hitterYearsStatus.getTeam().getTeamName();
@@ -169,29 +110,17 @@ public class HitterYearsDetailResDto {
         this.hr_cn= hitterYearsStatus.getHr_cn();
         this.tb_cn = hitterYearsStatus.getTb_cn();
         this.rbi_cn= hitterYearsStatus.getRbi_cn();
-        this.sac_cn= hitterYearsStatus.getSac_cn();
-        this.sf_cn= hitterYearsStatus.getSf_cn();
+
         this.bb_cn= hitterYearsStatus.getBb_cn();
-        this.ibb_cn= hitterYearsStatus.getIbb_cn();
+
         this.hbp_cn = hitterYearsStatus.getHbp_cn();
         this.so_cn= hitterYearsStatus.getSo_cn();
         this.gdp_cn = hitterYearsStatus.getGdp_cn();
         this.slg_rt= hitterYearsStatus.getSlg_rt();
-        this.obp_rt= hitterYearsStatus.getObp_rt();
-        this.ops_rt= hitterYearsStatus.getOps_rt();
-        this.mh_cn= hitterYearsStatus.getMh_cn();
-        this.risp_rt= hitterYearsStatus.getRisp_rt();
-        this.phba_rt= hitterYearsStatus.getPhba_rt();
-        this.xbh_cn= hitterYearsStatus.getXbh_cn();
-        this.go_cn= hitterYearsStatus.getGo_cn();
-        this.ao_cn= hitterYearsStatus.getAo_cn();
-        this.goao_rt= hitterYearsStatus.getGoao_rt();
-        this.gwrbi_cn= hitterYearsStatus.getGwrbi_cn();
-        this.bbk_rt= hitterYearsStatus.getBbk_rt();
-        this.ppa_rt= hitterYearsStatus.getPpa_rt();
-        this.isop_rt= hitterYearsStatus.getIsop_rt();
-        this.xr_rt= hitterYearsStatus.getXr_rt();
-        this.gpa_rt= hitterYearsStatus.getGpa_rt();
+        this.sb_cn = hitterYearsStatus.getSb_cn();
+        this.cs_cn= hitterYearsStatus.getCs_cn();
+        this.e_cn= hitterYearsStatus.getE_cn();
+
 
     }
 

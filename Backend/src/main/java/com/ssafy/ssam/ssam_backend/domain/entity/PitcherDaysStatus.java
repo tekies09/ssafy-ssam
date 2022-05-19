@@ -32,6 +32,12 @@ public class PitcherDaysStatus {
     @Column
     private LocalDate date;
 
+    @Column
+    private String pitchType;
+
+    @Column
+    private String result;
+
     //경기평균자책점
     @Column(columnDefinition = "decimal(5,3)")
     private BigDecimal era1_rt;

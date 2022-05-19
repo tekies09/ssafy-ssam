@@ -72,21 +72,18 @@ public class HitterYearsStatus {
     @Column
     private int rbi_cn;
 
-    //희생번트
+    //도루
     @Column
-    private int sac_cn;
+    private int sb_cn;
 
-    //희생플라이
-    @Column
-    private int sf_cn;
+    //도루실패
+    @Column int cs_cn;
+
 
     //볼넷
     @Column
     private int bb_cn;
 
-    //고의4구
-    @Column
-    private int ibb_cn;
 
     //사구
     @Column
@@ -108,59 +105,7 @@ public class HitterYearsStatus {
     @Column(columnDefinition = "decimal(5,3)")
     private BigDecimal obp_rt;
 
-    //출루율+장타율
-    @Column(columnDefinition = "decimal(5,3)")
-    private BigDecimal ops_rt;
-
-    //멀티히트
+    //실책
     @Column
-    private int mh_cn;
-
-    //득점권타율
-    @Column(columnDefinition = "decimal(5,3)")
-    private BigDecimal risp_rt;
-
-    //대타타율
-    @Column(columnDefinition = "decimal(5,3)")
-    private BigDecimal phba_rt;
-
-    //장타
-    @Column
-    private int xbh_cn;
-
-    //땅볼
-    @Column
-    private int go_cn;
-
-    //뜬공
-    @Column
-    private int ao_cn;
-
-    //땅볼/뜬공
-    @Column(columnDefinition = "decimal(5,2)")
-    private BigDecimal goao_rt;
-
-    //결승타
-    @Column
-    private int gwrbi_cn;
-
-    //볼넷/삼진
-    @Column(columnDefinition = "decimal(5,2)")
-    private BigDecimal bbk_rt;
-
-    //투구수/타석
-    @Column(columnDefinition = "decimal(5,2)")
-    private BigDecimal ppa_rt;
-
-    //순수 장타율
-    @Column(columnDefinition = "decimal(5,3)")
-    private BigDecimal isop_rt;
-
-    //추정득점
-    @Column(columnDefinition = "decimal(5,1)")
-    private BigDecimal xr_rt;
-
-    //(1.8x출루율+장타율)/4
-    @Column(columnDefinition = "decimal(5,3)")
-    private BigDecimal gpa_rt;
+    private int e_cn;
 }
