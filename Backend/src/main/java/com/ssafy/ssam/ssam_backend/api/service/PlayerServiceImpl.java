@@ -161,4 +161,14 @@ public class PlayerServiceImpl implements PlayerService {
         return dtolist;
 
     }
+
+    @Override
+    public Long getHitterAllCount() throws Exception {
+        return hitterYearsStatusRepository.count();
+    }
+
+    @Override
+    public Long getPitcherAllCount() throws Exception {
+        return pitcherYearsStatusRepository.count();
+    }
 }
