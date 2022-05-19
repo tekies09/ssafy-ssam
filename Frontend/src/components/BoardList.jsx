@@ -20,13 +20,13 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import CreateIcon from "@mui/icons-material/Create";
 import { useSelector } from "react-redux";
 
-const BoardList = props => {
+const BoardList = (props) => {
   const navigate = useNavigate();
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
-  const boardType = useSelector(state => state.boardType);
-  const userRole = useSelector(state => state.user.role);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const boardType = useSelector((state) => state.boardType);
+  const userRole = useSelector((state) => state.user.role);
 
   const [posts, setPosts] = useState([]);
 
@@ -64,18 +64,18 @@ const BoardList = props => {
       method: "GET",
       url: requestUrl,
     })
-      .then(res => {
+      .then((res) => {
         let totalCount = res.data;
         setMaxPage(Math.ceil(totalCount / POST_PER_PAGE));
         console.log("총 페이지 수 : " + maxPage);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   // 게시글 목록 받아오기
-  const getPostList = async props => {
+  const getPostList = async (props) => {
     let requestUrl = "";
 
     if (boardType === "freeBoard") {
@@ -93,21 +93,21 @@ const BoardList = props => {
       url: requestUrl,
       params: props,
     })
-      .then(res => {
+      .then((res) => {
         let postList = [];
 
         if (boardType === "freeBoard") {
           postList = res.data.content;
 
           if (postList) {
-            postList.map(post => {
+            postList.map((post) => {
               // 작성 시간 날짜만 표기하기
               post.fbWriteTime = post.fbWriteTime.substring(0, 10);
             });
           }
         } else if (boardType === "battleBoard") {
           postList = res.data.battleBoardList;
-          postList.map(post => {
+          postList.map((post) => {
             // 작성 시간 날짜만 표기하기
             post.bbWriteTime = post.bbWriteTime.substring(0, 10);
           });
@@ -115,7 +115,7 @@ const BoardList = props => {
           postList = res.data.content;
 
           if (postList) {
-            postList.map(post => {
+            postList.map((post) => {
               // 작성 시간 날짜만 표기하기
               post.nwriteTime = post.nwriteTime.substring(0, 10);
             });
@@ -124,7 +124,7 @@ const BoardList = props => {
 
         setPosts(postList);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -159,7 +159,7 @@ const BoardList = props => {
     console.log("현재 페이지 : " + page);
   };
 
-  const handleSearchMenuChange = event => {
+  const handleSearchMenuChange = (event) => {
     setSearchMenu(event.target.value);
   };
 
@@ -210,12 +210,12 @@ const BoardList = props => {
     );
   };
 
-  const PostData = post => {
+  const PostData = () => {
     switch (boardType) {
       case "freeBoard":
         return (
           <TableBody>
-            {posts.map(post => (
+            {posts.map((post) => (
               <TableRow key={post.freeBoardId}>
                 <StyledTableCell component="th" scope="row" align="center">
                   {post.freeBoardId}
@@ -241,7 +241,7 @@ const BoardList = props => {
       case "battleBoard":
         return (
           <TableBody>
-            {posts.map(post => {
+            {posts.map((post) => (
               <TableRow key={post.battleBoardId} width="100%">
                 <StyledTableCell component="th" scope="row" align="center">
                   {post.battleBoardId}
@@ -260,14 +260,14 @@ const BoardList = props => {
                 <StyledTableCell align="center">
                   {post.bbWriteTime}
                 </StyledTableCell>
-              </TableRow>;
-            })}
+              </TableRow>
+            ))}
           </TableBody>
         );
       case "notice":
         return (
           <TableBody>
-            {posts.map(post => (
+            {posts.map((post) => (
               <TableRow key={post.noticeId}>
                 <StyledTableCell component="th" scope="row" align="center">
                   {post.noticeId}
