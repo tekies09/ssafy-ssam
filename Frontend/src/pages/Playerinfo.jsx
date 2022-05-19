@@ -41,7 +41,7 @@ const BaseStat = (props) => {
             <b>{birthYear}</b>
           </Typography>
           <Typography>
-            출신고교(팀)
+            출신학교(팀)
           </Typography>
           <Typography mb={2}>
             <b>{graudate}</b>

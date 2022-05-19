@@ -236,7 +236,7 @@ function renderEventContent(events) {
     );
   } else if (events.event._def.extendedProps.gameState === "NOTYET") {
     // 아직 치루지 않은 경기일 떄,
-    const startHour = parseInt(String(events.event.start).substring(16, 18));
+    const startHour = parseInt(String(events.event.start).substring(16, 18))+9;
     const startMin =  String(events.event.start).substring(19, 21);
     const homeTeamName = String(events.event._def.extendedProps.homeTeam).split(
       " "
