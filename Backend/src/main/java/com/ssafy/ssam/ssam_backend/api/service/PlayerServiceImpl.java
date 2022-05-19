@@ -90,28 +90,26 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<SearchResultResDto> getNameList(String word, String year) throws Exception {
+    public List<SearchResultResDto> getNameList(String year) throws Exception {
 
         List<SearchResultResDto> resultList = new ArrayList<>();
 
 
 
-        List<Player> list = playerRepository.findByPlayerNameLike("%"+word+"%");
+//        List<Player> list = playerRepository.findByPlayerNameLike("%"+word+"%");
 
-        for(Player player : list){
-
-            List<HitterIdMapping> hitterIdList = hitterYearsStatusRepository.findAllIdByPlayerAndYears(player, year);
-            for(HitterIdMapping statusId : hitterIdList){
-                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(), player.getPlayerId(), statusId.getHitterYearsSId(),"Hitter",year);
+        List<HitterYearsStatus> hitterIdList = hitterYearsStatusRepository.findAllIdByYears(year);
+            for(HitterYearsStatus yearstatus : hitterIdList){
+                SearchResultResDto dto = new SearchResultResDto(yearstatus.getPlayer().getPlayerName(), yearstatus.getPlayer().getPlayerId(), yearstatus.getHitterYearsSId(),"Hitter",year);
                 resultList.add(dto);
             }
-            List<PitcherIdMapping> pitcherIdList = pitcherYearsStatusRepository.findAllIdByPlayerAndYears(player,year);
-            for(PitcherIdMapping statusId : pitcherIdList){
-                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(), player.getPlayerId(), statusId.getPitcherYearsSId(),"Pitcher",year);
+            List<PitcherYearsStatus> pitcherIdList = pitcherYearsStatusRepository.findAllIdByYears(year);
+            for(PitcherYearsStatus yearsStatus : pitcherIdList){
+                SearchResultResDto dto = new SearchResultResDto(yearsStatus.getPlayer().getPlayerName(), yearsStatus.getPlayer().getPlayerId(), yearsStatus.getPitcherYearsSId(),"Pitcher",year);
                 resultList.add(dto);
             }
 
-        }
+
 
         return resultList;
 
