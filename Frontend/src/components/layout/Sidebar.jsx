@@ -180,8 +180,6 @@ const Sidebar = props => {
               key="선수정보"
               color="white"
               className="nav-item"
-              component={Link}
-              to="/"
             >
               <ListItemText sx={{ mr: 1 }} align="right" primary="선수정보" />
               {playerInfoOpen ? <ExpandLess /> : <ExpandMore />}
