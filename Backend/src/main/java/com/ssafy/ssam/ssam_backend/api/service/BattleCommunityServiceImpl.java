@@ -1,5 +1,8 @@
 package com.ssafy.ssam.ssam_backend.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -13,11 +16,13 @@ import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardCreateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.BattleBoardUpdateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardListResDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardResDto;
+import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamPlayerResDto;
 import com.ssafy.ssam.ssam_backend.api.repository.BattleBoardRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.MyTeamRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
 import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
+import com.ssafy.ssam.ssam_backend.domain.entity.MyTeamPlayer;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 
 import lombok.RequiredArgsConstructor;
@@ -117,7 +122,14 @@ public class BattleCommunityServiceImpl implements BattleCommunityService {
 			e.printStackTrace();
 		}
 		
-		return new BattleBoardResDto(new Integer(200), "글 상세 조회 성공", board);
+		MyTeam myTeam = myTeamRepository.findById(board.getMyTeam().getMyTeamId()).get();
+        List<MyTeamPlayerResDto> dtoList = new ArrayList<>();
+        for(MyTeamPlayer myTeamPlayer : myTeam.getMyTeamPlayerList()){
+            MyTeamPlayerResDto teamPlayer= new MyTeamPlayerResDto(myTeamPlayer);
+            dtoList.add(teamPlayer);
+        }
+		
+		return new BattleBoardResDto(new Integer(200), "글 상세 조회 성공", board, dtoList, myTeam.getMyTeamName());
 	}
 
 }
