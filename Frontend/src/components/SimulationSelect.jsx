@@ -7,9 +7,9 @@ import { Box, Button, Divider, Typography } from "@mui/material";
 import { FormControl, TextField, Select, MenuItem } from "@mui/material";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 
-const SimulationSelect = props => {
+const SimulationSelect = (props) => {
   const location = useLocation();
-  const userInfo = useSelector(state => state.user);
+  const userInfo = useSelector((state) => state.user);
 
   const [myTeamName, setMyTeamName] = useState("");
   const [teamList, setTeamList] = useState([]);
@@ -24,13 +24,13 @@ const SimulationSelect = props => {
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "GET",
-      url: `myteam/userTeamList/${userInfo.userId}`,
+      url: `myteam/userTeamList/${userInfo.userid}`,
     })
-      .then(res => {
-        let teamList = res.data;
+      .then((res) => {
+        let teamList = res.data.myTeamList;
         setTeamList(teamList);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -42,9 +42,8 @@ const SimulationSelect = props => {
     { myTeamId: 4, myTeamName: "리버풀" },
   ];
 
-  const handleTeamSelect = event => {
+  const handleTeamSelect = (event) => {
     setMyTeamName(event.target.value);
-
     // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
 
@@ -90,7 +89,7 @@ const SimulationSelect = props => {
         {/* 나의 팀 */}
         <Box sx={{ width: "40%" }}>
           <Typography variant="h4" sx={{ mb: 1 }}>
-            {myTeamName}
+            {myTeamName == "" ? "나만의 팀" : myTeamName}
           </Typography>
           <Typography variant="h6">{userInfo.nickname}</Typography>
         </Box>
@@ -113,34 +112,50 @@ const SimulationSelect = props => {
         <Box sx={{ m: 2 }}>
           {/* 나만의 팀 선택 */}
           <FormControl fullWidth>
-            <Typography sx={{ mb: 1 }} variant="h6">
-              ⚾ Select My Team ⚾
-            </Typography>
-            <Select id="myTeam" value={myTeamName} onChange={handleTeamSelect}>
-              {mockData.map(data => (
-                <MenuItem value={data.myTeamName} key={data.myTeamId}>
-                  {data.myTeamName}
-                </MenuItem>
-              ))}
-            </Select>
+            {teamList.length > 0 ? (
+              <div>
+                <Typography sx={{ mb: 1 }} variant="h6">
+                  ⚾ Select My Team ⚾
+                </Typography>
+                <Select
+                  id="myTeam"
+                  value={myTeamName}
+                  onChange={handleTeamSelect}
+                >
+                  {teamList.map((data) => (
+                    <MenuItem value={data.myTeamName} key={data.myTeamId}>
+                      {data.myTeamName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+            ) : (
+              <Typography>
+                아직 나만의 팀이 없습니다. 나만의 팀을 만들러 가볼까요?
+              </Typography>
+            )}
           </FormControl>
         </Box>
       </Box>
 
-      <Box>
-        <Button
-          sx={{ mt: 4, color: "white" }}
-          variant="contained"
-          color="mint"
-          size="large"
-          component={Link}
-          to="./.."
-          startIcon={<SportsBaseballIcon />}
-          endIcon={<SportsBaseballIcon />}
-        >
-          <Typography textAlign="left">START BATTLE</Typography>
-        </Button>
-      </Box>
+      {teamList.length > 0 ? (
+        <Box>
+          <Button
+            sx={{ mt: 4, color: "white" }}
+            variant="contained"
+            color="mint"
+            size="large"
+            component={Link}
+            to="./.."
+            startIcon={<SportsBaseballIcon />}
+            endIcon={<SportsBaseballIcon />}
+          >
+            <Typography textAlign="left">START BATTLE</Typography>
+          </Button>
+        </Box>
+      ) : (
+        ""
+      )}
     </Box>
   );
 };
