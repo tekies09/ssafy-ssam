@@ -104,7 +104,8 @@ const CalendarDiv = styled.div`
     background-color: #ffffff;
   }
   th.fc-col-header-cell.fc-day.fc-day-today {
-    background: linear-gradient(135deg, #638493, #37468b);
+    // background: linear-gradient(135deg, #638493, #37468b);
+    background-color: #4684ce;
     border-radius: 2px 2px 0 0;
     color: #ffffff;
   }
@@ -144,7 +145,7 @@ const CalendarDiv = styled.div`
     font-size: 18px;
     line-height: 18px;
     border: 0px solid #ffffff;
-    background-color: #638493;
+    background-color: #3e628d;
   }
 
   .event-list-item {
@@ -235,7 +236,8 @@ function renderEventContent(events) {
     );
   } else if (events.event._def.extendedProps.gameState === "NOTYET") {
     // 아직 치루지 않은 경기일 떄,
-    const startTime = String(events.event.start).substring(16, 21);
+    const startHour = parseInt(String(events.event.start).substring(16, 18));
+    const startMin =  String(events.event.start).substring(19, 21);
     const homeTeamName = String(events.event._def.extendedProps.homeTeam).split(
       " "
     )[0];
@@ -252,7 +254,7 @@ function renderEventContent(events) {
         }}
         className="event-list-item"
       >
-        {startTime} {homeTeamName} vs {awayTeamName}
+        {startHour}:{startMin} {homeTeamName} vs {awayTeamName}
       </div>
     );
   }
@@ -351,9 +353,8 @@ const MainPage = (props) => {
       url: `/schedule/${date}`,
     })
       .then((res) => {
-        // console.log(res.data);
         setEventList(res.data.scheduleList);
-        console.log(eventList);
+        // console.log(eventList);
       })
       .catch((err) => {
         console.log(err);
@@ -361,13 +362,19 @@ const MainPage = (props) => {
   };
 
   const fetchTodayEventList = () => {
-    const today = new Date().toISOString().substring(0, 16);
+    const today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() < 9 ? "0" + (today.getMonth() + 1) : today.getMonth() + 1;
+    var date = today.getDate();
+    var hour = today.getHours() < 10 ? "0"+today.getHours() : today.getHours();
+    var min = today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
+    const todayS = year + "-" + month + "-" + date + "T" + hour + ":" + min;
     axios({
       // baseURL: process.env.REACT_APP_SERVER_URL,
       baseURL: "https://ssafy-ssam.com/api",
       timeout: 3000,
       method: "GET",
-      url: `/schedule/today/${today}`,
+      url: `/schedule/today/${todayS}`,
     })
       .then((res) => {
         // console.log(res.data.scheduleList);
@@ -628,7 +635,8 @@ const MainPage = (props) => {
                           {date.substring(0, 10).replaceAll("-", ".")}
                         </Grid>
                         <Grid item xs={1}>
-                          {date.substring(11, 16)}
+                          {parseInt(date.substring(11, 13)) + 9} :{" "}
+                          {date.substring(14, 16)}
                         </Grid>
                         <Grid item xs={7}>
                           {homeTeam} vs {awayTeam}
@@ -651,7 +659,8 @@ const MainPage = (props) => {
                           {date.substring(0, 10).replaceAll("-", ".")}
                         </Grid>
                         <Grid item xs={1}>
-                          {date.substring(11, 16)}
+                          {parseInt(date.substring(11, 13)) + 9}:
+                          {date.substring(14, 16)}
                         </Grid>
                         <Grid item xs={7}>
                           {homeTeam} {homeScore} : {awayTeam} {awayScore}
@@ -672,7 +681,8 @@ const MainPage = (props) => {
                           {date.substring(0, 10).replaceAll("-", ".")}
                         </Grid>
                         <Grid item xs={1}>
-                          {date.substring(11, 16)}
+                          {parseInt(date.substring(11, 13)) + 9}:
+                          {date.substring(14, 16)}
                         </Grid>
                         <Grid item xs={7}>
                           {homeTeam} vs {awayTeam}
