@@ -33,7 +33,7 @@ const Sidebar = props => {
       dispatch({ type: "battleBoardType" });
     }
 
-    if (index === 4) {
+    if (index === 3) {
       setPlayerInfoOpen(!playerInfoOpen);
     } else {
       setPlayerInfoOpen(false);
@@ -48,7 +48,6 @@ const Sidebar = props => {
 
   const sidebarWidth = 202;
   const myPoint = 100;
-  // 로그인한 경우 => "나만의 팀" 메뉴 추가
   const menus = [
     { name: "공지사항", url: "/board/notice" },
     { name: "자유게시판", url: "/board/free" },
@@ -177,8 +176,8 @@ const Sidebar = props => {
             <ListItem
               sx={{ borderRadius: 1 }}
               button
-              selected={selectedIndex === 4}
-              onClick={event => handleMenuClick(event, 4)}
+              selected={selectedIndex === 3}
+              onClick={event => handleMenuClick(event, 3)}
               key="선수정보"
               color="white"
               className="nav-item"
@@ -216,8 +215,8 @@ const Sidebar = props => {
             <ListItem
               sx={{ borderRadius: 1 }}
               button
-              selected={selectedIndex === 5}
-              onClick={event => handleMenuClick(event, 5)}
+              selected={selectedIndex === 4}
+              onClick={event => handleMenuClick(event, 4)}
               key="나만의 팀"
               color="white"
               className="nav-item"
