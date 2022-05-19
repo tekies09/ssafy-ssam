@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Box, Divider, Paper, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Paper,
+  Typography,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Grid,
+} from "@mui/material";
 import DetailBottomMenu from "./DetailBottomMenu";
 import CommentForm from "./CommentForm";
 
@@ -7,10 +18,13 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const BoardDetail = props => {
-  const [post, setPost] = useState({});
+import styles from "./MyteamSummary.module.css";
+
+const BoardDetail = (props) => {
+  const [post, setPost] = useState([]);
   const [boardId, setBoardId] = useState(undefined);
-  const boardType = useSelector(state => state.boardType);
+  const [playerL, setPlayerL] = useState([]);
+  const boardType = useSelector((state) => state.boardType);
 
   const navigate = useNavigate();
 
@@ -18,12 +32,11 @@ const BoardDetail = props => {
     let urlArr = window.location.pathname.split("/");
     let currentId = urlArr[urlArr.length - 1];
     setBoardId(currentId);
-
     getPostDetail(currentId);
   }, []);
 
   // 게시글 받아오기
-  const getPostDetail = async id => {
+  const getPostDetail = async (id) => {
     let requestUrl = "";
 
     if (boardType === "freeBoard") {
@@ -40,7 +53,7 @@ const BoardDetail = props => {
       method: "GET",
       url: requestUrl,
     })
-      .then(res => {
+      .then((res) => {
         let postData = {};
 
         if (boardType === "battleBoard") {
@@ -67,9 +80,10 @@ const BoardDetail = props => {
           };
         }
 
+        setPlayerL(res.data.myTeamPlayerList);
         setPost(postData);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -80,19 +94,20 @@ const BoardDetail = props => {
       state: {
         teamName: post.teamName,
         username: post.username,
-        players: post.players,
+        players: playerL,
       },
     });
   };
 
-  const PostContent = props => {
+  const PostContent = (props) => {
+    // console.log(playerL)
     switch (boardType) {
       case "freeBoard":
       case "notice":
         if (post.content) {
           return (
             <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-              {post.content.split("\n").map(txt => (
+              {post.content.split("\n").map((txt) => (
                 <>
                   {txt}
                   <br />
@@ -110,28 +125,82 @@ const BoardDetail = props => {
       case "battleBoard":
         return (
           // player 목록 보여줄 부분 (post.players)
-
           <Box
-            textAlign="left"
+            textAlign="center"
             sx={{
               mb: 2,
               width: "100%",
-              display: "flex",
+              // display: "flex",
               justifyContent: "center",
             }}
           >
-            {/* 배틀 버튼 */}
-            <Button
-              sx={{ m: 0, color: "white", borderRadius: 8 }}
-              variant="contained"
-              color="mint"
-              size="large"
-              onClick={handleBattleClick}
+            <Card
+              sx={{
+                minWidth: 360,
+                maxWidth: "30%",
+                textAlign: "center",
+                margin: "12px",
+                mb: "5vh",
+              }}
             >
-              <Typography textAlign="left">
-                {post.teamName} 팀과 배틀하시겠습니까?
-              </Typography>
-            </Button>
+              <CardHeader
+                title={post.teamName}
+                sx={{
+                  backgroundColor: "#6674A7",
+                  color: "white",
+                  fontSize: "15px"
+                }}
+              ></CardHeader>
+              <CardContent sx={{
+                backgroundColor: "#475174",
+                color: "white"
+              }}>
+                {playerL &&
+                  playerL.map((member, i) => {
+                    if (i == 9) {
+                      return (
+                        <div key={i} className={styles.row}>
+                          <div className={styles.battleorder}>
+                            투수
+                          </div>
+                          <div className={styles.battleposition}>{member.myTeamPlayerId}</div>
+                          <div className={styles.battlename}>{member.name}</div>
+                          <div className={styles.battleposition}>
+                            {member.defensePosition}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <div key={i} className={styles.row}>
+                        <div className={styles.battleorder}>
+                          {member.battingOrder}
+                        </div>
+                        <div className={styles.battleposition}>{member.myTeamPlayerId}</div>
+                        <div className={styles.battlename}>{member.name}</div>
+                        <div className={styles.battleposition}>
+                          {member.defensePosition}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </CardContent>
+            </Card>
+            {/* 배틀 버튼 */}
+            <Divider />
+            <Box sx={{ width: "100%", mt: "5vh" }}>
+              <Button
+                sx={{ m: 0, color: "white", borderRadius: 8 }}
+                variant="contained"
+                color="mint"
+                size="large"
+                onClick={handleBattleClick}
+              >
+                <Typography textAlign="left">
+                  {post.teamName} 팀과 배틀하시겠습니까?
+                </Typography>
+              </Button>
+            </Box>
           </Box>
         );
       default:
