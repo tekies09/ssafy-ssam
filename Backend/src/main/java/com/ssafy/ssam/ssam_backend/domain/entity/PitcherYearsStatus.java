@@ -28,7 +28,7 @@ public class PitcherYearsStatus {
     private String years;
 
     //평균자책점
-    @Column(columnDefinition = "decimal(5,3)")
+    @Column(columnDefinition = "decimal(7,3)")
     private BigDecimal era_rt;
 
     //경기
@@ -60,7 +60,7 @@ public class PitcherYearsStatus {
     private int hld_cn;
 
     //승률
-    @Column(columnDefinition = "decimal(5,3)")
+    @Column(columnDefinition = "decimal(7,3)")
     private BigDecimal wpct_rt;
 
     //타자수
@@ -68,7 +68,7 @@ public class PitcherYearsStatus {
     private int tbf_cn;
 
     //이닝 1/3 이닝 0.3 으로 표현 , 2/3 = 0.6
-    @Column(columnDefinition = "decimal(5,1)")
+    @Column(columnDefinition = "decimal(7,1)")
     private BigDecimal ip_cn;
 
     //피안타
@@ -101,7 +101,7 @@ public class PitcherYearsStatus {
 
 
     //삼진/볼넷
-    @Column(columnDefinition = "decimal(5,2)")
+    @Column(columnDefinition = "decimal(7,2)")
     private BigDecimal kbb_rt;
 
 

@@ -39,11 +39,11 @@ public class PitcherDaysStatus {
     private String result;
 
     //경기평균자책점
-    @Column(columnDefinition = "decimal(5,3)")
+    @Column(columnDefinition = "decimal(7,3)")
     private BigDecimal era1_rt;
 
     //누적평균자책점
-    @Column(columnDefinition = "decimal(5,3)")
+    @Column(columnDefinition = "decimal(7,3)")
     private BigDecimal era2_rt;
 
     //타자수
@@ -51,7 +51,7 @@ public class PitcherDaysStatus {
     private int tbf_cn;
 
     //이닝 1/3 이닝 0.3 으로 표현 , 2/3 = 0.6
-    @Column(columnDefinition = "decimal(5,3)")
+    @Column(columnDefinition = "decimal(7,1)")
     private BigDecimal ip_cn;
 
     //피안타
