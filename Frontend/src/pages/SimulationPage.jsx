@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Box, Grow, List, Button, Link } from "@mui/material";
+import { Typography, Box, Grow, List, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import MyTeamSummarySimulation from "../components/MyTeamSummarySimulation";
 
 import { styled } from "@mui/material/styles";
@@ -52,35 +53,8 @@ const testTeams = [
 const SimulationPage = props => {
   const [teams, setTeams] = useState(testTeams);
   const [checked, setChecked] = useState(false);
-  const [finished, setFinished] = useState(false);
-  const [logFinished, setLogFinished] = useState(false);
+  // const [finished, setFinished] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
-
-  // const [myScore, setMyScore] = useState({
-  //   1: 0,
-  //   2: 0,
-  //   3: 0,
-  //   4: 0,
-  //   5: 0,
-  //   6: 0,
-  //   7: 0,
-  //   8: 0,
-  //   9: 0,
-  //   total: 0,
-  // });
-  // const [yourScore, setYourScore] = useState({
-  //   1: 0,
-  //   2: 0,
-  //   3: 0,
-  //   4: 0,
-  //   5: 0,
-  //   6: 0,
-  //   7: 0,
-  //   8: 0,
-  //   9: 0,
-  //   total: 0,
-  // });
-  // const [yourScore, setYourScore] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const logList = [];
   const showedLogList = [];
@@ -94,18 +68,19 @@ const SimulationPage = props => {
     team1Point: 0,
     team2Point: 0,
     base: [0, 0, 0],
-    team1takehitnum: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    team2takehitnum: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    team1takehitnum: 0,
+    team2takehitnum: 0,
   };
 
   const team1 = [
     {
-      ab_cn: 151,
-      so_cn: 14,
-      h_cn: 60,
-      h2_cn: 11,
-      h3_cn: 2,
-      hr_cn: 5,
+      ab_cn: 151, // 타수
+      so_cn: 14, // 삼진
+      h_cn: 60, // 안타
+      h2_cn: 11, // 2루타
+      h3_cn: 2, // 3루타
+      hr_cn: 5, // 홈런
+      name: "피렐라", // 타자 이름
     },
     {
       ab_cn: 141,
@@ -114,6 +89,7 @@ const SimulationPage = props => {
       h2_cn: 4,
       h3_cn: 0,
       hr_cn: 5,
+      name: "김현수",
     },
     {
       ab_cn: 144,
@@ -122,6 +98,7 @@ const SimulationPage = props => {
       h2_cn: 11,
       h3_cn: 0,
       hr_cn: 8,
+      name: "이대호",
     },
     {
       ab_cn: 136,
@@ -130,6 +107,7 @@ const SimulationPage = props => {
       h2_cn: 10,
       h3_cn: 0,
       hr_cn: 1,
+      name: "한동희",
     },
     {
       ab_cn: 145,
@@ -138,6 +116,7 @@ const SimulationPage = props => {
       h2_cn: 9,
       h3_cn: 0,
       hr_cn: 4,
+      name: "김선빈",
     },
     {
       ab_cn: 135,
@@ -146,6 +125,7 @@ const SimulationPage = props => {
       h2_cn: 6,
       h3_cn: 0,
       hr_cn: 2,
+      name: "이정후",
     },
     {
       ab_cn: 132,
@@ -154,6 +134,7 @@ const SimulationPage = props => {
       h2_cn: 15,
       h3_cn: 1,
       hr_cn: 5,
+      name: "전준우",
     },
     {
       ab_cn: 143,
@@ -162,6 +143,7 @@ const SimulationPage = props => {
       h2_cn: 11,
       h3_cn: 1,
       hr_cn: 5,
+      name: "한유섬",
     },
     {
       ab_cn: 140,
@@ -170,12 +152,14 @@ const SimulationPage = props => {
       h2_cn: 10,
       h3_cn: 0,
       hr_cn: 8,
+      name: "나성범",
     },
     {
       kbb_rt: 5.33,
+      name: "김광현",
     },
     {
-      myTeamName: "싸피 이글스",
+      myTeamName: "열정의 1팀",
     },
   ];
 
@@ -187,6 +171,7 @@ const SimulationPage = props => {
       h2_cn: 11,
       h3_cn: 2,
       hr_cn: 5,
+      name: "손아섭",
     },
     {
       ab_cn: 141,
@@ -195,6 +180,7 @@ const SimulationPage = props => {
       h2_cn: 4,
       h3_cn: 0,
       hr_cn: 5,
+      name: "홍창기",
     },
     {
       ab_cn: 144,
@@ -203,6 +189,7 @@ const SimulationPage = props => {
       h2_cn: 11,
       h3_cn: 0,
       hr_cn: 8,
+      name: "노시환",
     },
     {
       ab_cn: 136,
@@ -211,6 +198,7 @@ const SimulationPage = props => {
       h2_cn: 10,
       h3_cn: 0,
       hr_cn: 1,
+      name: "박건우",
     },
     {
       ab_cn: 145,
@@ -219,6 +207,7 @@ const SimulationPage = props => {
       h2_cn: 9,
       h3_cn: 0,
       hr_cn: 4,
+      name: "조용호",
     },
     {
       ab_cn: 135,
@@ -227,6 +216,7 @@ const SimulationPage = props => {
       h2_cn: 6,
       h3_cn: 0,
       hr_cn: 2,
+      name: "김지찬",
     },
     {
       ab_cn: 132,
@@ -235,6 +225,7 @@ const SimulationPage = props => {
       h2_cn: 15,
       h3_cn: 1,
       hr_cn: 5,
+      name: "허경민",
     },
     {
       ab_cn: 143,
@@ -243,6 +234,7 @@ const SimulationPage = props => {
       h2_cn: 11,
       h3_cn: 1,
       hr_cn: 5,
+      name: "안치홍",
     },
     {
       ab_cn: 140,
@@ -251,12 +243,14 @@ const SimulationPage = props => {
       h2_cn: 10,
       h3_cn: 0,
       hr_cn: 8,
+      name: "최정",
     },
     {
       kbb_rt: 5.33,
+      name: "양현종",
     },
     {
-      myTeamName: "싸피 라이온즈",
+      myTeamName: "정열의 2팀",
     },
   ];
 
@@ -391,8 +385,6 @@ const SimulationPage = props => {
   teamNum: 1이면 선공 팀(n회 초), 2면 후공 팀(n회 말)*/
 
   function hit(a, b, teamNum) {
-    // storeLog("hit! = ");
-
     let hit = 0;
     let hitterNum = 0;
     let ball = 0;
@@ -402,19 +394,31 @@ const SimulationPage = props => {
 
     if (teamNum === 1) {
       count = result["team1Point"];
+      hitterNum = result["team1takehitnum"];
     } else if (teamNum === 2) {
       count = result["team2Point"];
+      hitterNum = result["team2takehitnum"];
     }
 
     while (out !== 3) {
       hitterNum += 1;
-      result["team1takehitnum"][(hitterNum - 1) % 9] += 1;
-      storeLog(`[${hitterNum % 9}번 타자]`);
+
+      if (teamNum === 1) {
+        result["team1takehitnum"] += 1;
+      } else if (teamNum === 2) {
+        result["team2takehitnum"] += 1;
+      }
+
+      storeLog(
+        `[${((hitterNum - 1) % 9) + 1}번 타자 ${
+          b[(hitterNum - 1) % 9]["name"]
+        }]`
+      );
 
       let currentLog = "";
 
       while (true) {
-        currentLog += `(${strike}S, ${ball}B) `;
+        // currentLog += `(${strike}S, ${ball}B) `;
         // storeLog(`(${strike}S, ${ball}B)`);
         hit = Math.random() * 100;
 
@@ -424,6 +428,7 @@ const SimulationPage = props => {
           } else if (hit < 80) {
             strike += 1;
           } else {
+            currentLog = `(${strike}S, ${ball}B)`;
             hit = Math.random();
 
             if (
@@ -436,7 +441,7 @@ const SimulationPage = props => {
               out += 1;
               storeLog(
                 currentLog +
-                  `, 결과 -> 땅볼/뜬공(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                  `, 타격 -> 아웃(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
               );
               break;
             } else {
@@ -453,7 +458,7 @@ const SimulationPage = props => {
                 movePlayer(1, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 1루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 1루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               } else if (
@@ -466,7 +471,7 @@ const SimulationPage = props => {
                 movePlayer(2, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 2루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 2루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               } else if (
@@ -478,34 +483,38 @@ const SimulationPage = props => {
                 movePlayer(3, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 3루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 3루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               } else {
                 movePlayer(4, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 홈런!!(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 홈런!!(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               }
             }
           }
 
+          // 4볼
           if (ball === 4) {
+            currentLog = `(${strike}S, ${ball}B)`;
             movePlayer(5, teamNum);
             storeLog(
               currentLog +
-                `, 결과 -> 볼넷(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                `, -> 볼넷(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
             );
             break;
           }
 
+          // 3스트라이크
           if (strike === 3) {
+            currentLog = `(${strike}S, ${ball}B)`;
             out += 1;
             storeLog(
               currentLog +
-                `, 결과 -> 삼진(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                `, -> 삼진(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
             );
             break;
           }
@@ -515,6 +524,7 @@ const SimulationPage = props => {
           } else if (hit < 80) {
             strike += 1;
           } else {
+            currentLog = `(${strike}S, ${ball}B)`;
             hit = Math.random();
 
             if (
@@ -527,7 +537,7 @@ const SimulationPage = props => {
               out += 1;
               storeLog(
                 currentLog +
-                  `, 결과 -> 땅볼/뜬공(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                  `, 타격 -> 아웃(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
               );
               break;
             } else {
@@ -544,7 +554,7 @@ const SimulationPage = props => {
                 movePlayer(1, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 1루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 1루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               } else if (
@@ -557,7 +567,7 @@ const SimulationPage = props => {
                 movePlayer(2, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 2루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 2루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               } else if (
@@ -569,34 +579,38 @@ const SimulationPage = props => {
                 movePlayer(3, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 3루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 3루타(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               } else {
                 movePlayer(4, teamNum);
                 storeLog(
                   currentLog +
-                    `, 결과 -> 홈런!!(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                    `, 타격 -> 홈런!!(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
                 );
                 break;
               }
             }
           }
 
+          // 4볼
           if (ball === 4) {
+            currentLog = `(${strike}S, ${ball}B)`;
             movePlayer(5, teamNum);
             storeLog(
               currentLog +
-                `, 결과 -> 볼넷(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                `, -> 볼넷(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
             );
             break;
           }
 
+          // 3스트라이크
           if (strike === 3) {
+            currentLog = `(${strike}S, ${ball}B)`;
             out += 1;
             storeLog(
               currentLog +
-                `, 결과 -> 삼진(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
+                `, -> 삼진(${out}아웃)(주자: ${result["base"][0]}, ${result["base"][1]}, ${result["base"][2]})`
             );
             break;
           }
@@ -637,10 +651,11 @@ const SimulationPage = props => {
         `->${i} 회초 ${a[10]["myTeamName"]}팀 : ${result["team1Point"]}점, ${b[10]["myTeamName"]}팀 : ${result["team2Point"]}점`
       );
 
-      // 점수 전광판에 표시하기
+      // 전광판에 표시할 점수 저장 (나의 팀이 i회에 num점을 얻음.)
       pointChange[logCount] = ["me", i, num];
 
-      storeLog(`\n===${a[10]["myTeamName"]}팀 ${num}점 증가===`);
+      // storeLog(`\n===${a[10]["myTeamName"]}팀 ${num}점 증가===`);
+      storeLog("\n");
 
       for (let j = 0; j < 3; j += 1) {
         result["base"][j] = 0;
@@ -654,10 +669,11 @@ const SimulationPage = props => {
         `->${i} 회말 ${a[10]["myTeamName"]}팀 : ${result["team1Point"]}점, ${b[10]["myTeamName"]}팀 : ${result["team2Point"]}점`
       );
 
-      // 점수 전광판에 표시하기
+      // 전광판에 표시할 점수 저장 (상대 팀이 i회에 num점을 얻음.)
       pointChange[logCount] = ["you", i, num];
 
-      storeLog(`\n===${b[10]["myTeamName"]}팀 ${num}점 증가===`);
+      // storeLog(`\n===${b[10]["myTeamName"]}팀 ${num}점 증가===`);
+      storeLog("\n");
 
       for (let j = 0; j < 3; j += 1) {
         result["base"][j] = 0;
@@ -712,23 +728,20 @@ const SimulationPage = props => {
 
       // 점수판을 로그에 맞춰 실시간으로 업데이트한다.
       if (idx in pointChange) {
-        // 점수를 얻은 경우
-        if (pointChange[idx][2] > 0) {
-          let point = pointChange[idx][2];
-          let findId = `#${pointChange[idx][0]}-${pointChange[idx][1]}`;
-          let totalId = `#${pointChange[idx][0]}-total`;
+        let point = pointChange[idx][2];
+        let findId = `#${pointChange[idx][0]}-${pointChange[idx][1]}`;
+        let totalId = `#${pointChange[idx][0]}-total`;
 
-          // 현재 점수 업데이트
-          document.querySelector(findId).innerText = pointChange[idx][2];
+        // 현재 점수 업데이트 (ex. findId가 you-3인 경우 => 3회말 점수 업데이트)
+        document.querySelector(findId).innerText = pointChange[idx][2];
 
-          // 총 점수 업데이트
-          if (pointChange[idx][0] === "me") {
-            myTotalPoint += point;
-            document.querySelector(totalId).innerText = myTotalPoint;
-          } else {
-            yourTotalPoint += point;
-            document.querySelector(totalId).innerText = yourTotalPoint;
-          }
+        // 총 점수 업데이트
+        if (pointChange[idx][0] === "me") {
+          myTotalPoint += point;
+          document.querySelector(totalId).innerText = myTotalPoint;
+        } else {
+          yourTotalPoint += point;
+          document.querySelector(totalId).innerText = yourTotalPoint;
         }
       }
 
@@ -751,68 +764,36 @@ const SimulationPage = props => {
   const TableData = post => {
     return (
       <TableBody>
-        <TableRow key={post.freeBoardId}>
-          <StyledTableCell align="center">나의 팀</StyledTableCell>
-          <StyledTableCell align="center" id="me-1">
-            0
+        <TableRow>
+          <StyledTableCell align="center">
+            {team1[10]["myTeamName"]}
           </StyledTableCell>
-          <StyledTableCell align="center" id="me-2">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="me-3">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="me-4">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="me-5">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="me-6">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="me-7">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="me-8">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="me-9">
-            0
-          </StyledTableCell>
+          <StyledTableCell align="center" id="me-1"></StyledTableCell>
+          <StyledTableCell align="center" id="me-2"></StyledTableCell>
+          <StyledTableCell align="center" id="me-3"></StyledTableCell>
+          <StyledTableCell align="center" id="me-4"></StyledTableCell>
+          <StyledTableCell align="center" id="me-5"></StyledTableCell>
+          <StyledTableCell align="center" id="me-6"></StyledTableCell>
+          <StyledTableCell align="center" id="me-7"></StyledTableCell>
+          <StyledTableCell align="center" id="me-8"></StyledTableCell>
+          <StyledTableCell align="center" id="me-9"></StyledTableCell>
           <StyledTableCell align="center" id="me-total">
             0
           </StyledTableCell>
         </TableRow>
-        <TableRow key={post.freeBoardId}>
-          <StyledTableCell align="center">상대 팀</StyledTableCell>
-          <StyledTableCell align="center" id="you-1">
-            0
+        <TableRow>
+          <StyledTableCell align="center">
+            {team2[10]["myTeamName"]}
           </StyledTableCell>
-          <StyledTableCell align="center" id="you-2">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="you-3">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="you-4">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="you-5">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="you-6">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="you-7">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="you-8">
-            0
-          </StyledTableCell>
-          <StyledTableCell align="center" id="you-9">
-            0
-          </StyledTableCell>
+          <StyledTableCell align="center" id="you-1"></StyledTableCell>
+          <StyledTableCell align="center" id="you-2"></StyledTableCell>
+          <StyledTableCell align="center" id="you-3"></StyledTableCell>
+          <StyledTableCell align="center" id="you-4"></StyledTableCell>
+          <StyledTableCell align="center" id="you-5"></StyledTableCell>
+          <StyledTableCell align="center" id="you-6"></StyledTableCell>
+          <StyledTableCell align="center" id="you-7"></StyledTableCell>
+          <StyledTableCell align="center" id="you-8"></StyledTableCell>
+          <StyledTableCell align="center" id="you-9"></StyledTableCell>
           <StyledTableCell align="center" id="you-total">
             0
           </StyledTableCell>
@@ -838,7 +819,7 @@ const SimulationPage = props => {
         await new Promise((resolve, reject) => setTimeout(resolve, 200));
       }
 
-      setFinished(true);
+      // setFinished(true);
     }
 
     playSimulation();
@@ -948,23 +929,18 @@ const SimulationPage = props => {
 
       {/* 다시하기 버튼 */}
       {/* 작동 제대로 안 될 수 있음 */}
-      <Grow
-        in={finished}
-        style={{ transformOrigin: "0 0 0" }}
-        {...(finished ? { timeout: 2000 } : {})}
-      >
+      <Box>
         <Button
           sx={{ mt: 3, color: "white" }}
           variant="contained"
           color="mint"
           size="large"
-          onClick={() => {
-            window.location.reload();
-          }}
+          component={Link}
+          to="/board/battle"
         >
-          <Typography textAlign="left">RESTART?</Typography>
+          <Typography textAlign="left">Another Battle?</Typography>
         </Button>
-      </Grow>
+      </Box>
     </Box>
   );
 };

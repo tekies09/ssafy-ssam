@@ -33,7 +33,7 @@ const Sidebar = props => {
       dispatch({ type: "battleBoardType" });
     }
 
-    if (index === 4) {
+    if (index === 3) {
       setPlayerInfoOpen(!playerInfoOpen);
     } else {
       setPlayerInfoOpen(false);
@@ -48,12 +48,11 @@ const Sidebar = props => {
 
   const sidebarWidth = 202;
   const myPoint = 100;
-  // 로그인한 경우 => "나만의 팀" 메뉴 추가
   const menus = [
     { name: "공지사항", url: "/board/notice" },
     { name: "자유게시판", url: "/board/free" },
     { name: "배틀게시판", url: "/board/battle" },
-    { name: "시뮬레이션", url: "/simulation/select" },
+    // { name: "시뮬레이션", url: "/simulation/select" },
   ];
 
   const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -177,8 +176,8 @@ const Sidebar = props => {
             <ListItem
               sx={{ borderRadius: 1 }}
               button
-              selected={selectedIndex === 4}
-              onClick={event => handleMenuClick(event, 4)}
+              selected={selectedIndex === 3}
+              onClick={event => handleMenuClick(event, 3)}
               key="선수정보"
               color="white"
               className="nav-item"
@@ -191,12 +190,24 @@ const Sidebar = props => {
             {/* 선수정보 하위 메뉴 */}
             <Collapse in={playerInfoOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem sx={{ borderRadius: 1 }} button key="타자"
-                  color="white" component={Link} to="players/hitter">
+                <ListItem
+                  sx={{ borderRadius: 1 }}
+                  button
+                  key="타자"
+                  color="white"
+                  component={Link}
+                  to="players/hitter"
+                >
                   <ListItemText align="right" primary="타자" />
                 </ListItem>
-                <ListItem sx={{ borderRadius: 1 }} button key="투수"
-                  color="white" component={Link} to="players/pitcher">
+                <ListItem
+                  sx={{ borderRadius: 1 }}
+                  button
+                  key="투수"
+                  color="white"
+                  component={Link}
+                  to="players/pitcher"
+                >
                   <ListItemText align="right" primary="투수" />
                 </ListItem>
               </List>
@@ -204,8 +215,8 @@ const Sidebar = props => {
             <ListItem
               sx={{ borderRadius: 1 }}
               button
-              selected={selectedIndex === 5}
-              onClick={event => handleMenuClick(event, 5)}
+              selected={selectedIndex === 4}
+              onClick={event => handleMenuClick(event, 4)}
               key="나만의 팀"
               color="white"
               className="nav-item"

@@ -7,9 +7,9 @@ import { Box, Button, Divider, Typography } from "@mui/material";
 import { FormControl, TextField, Select, MenuItem } from "@mui/material";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 
-const SimulationSelect = (props) => {
+const SimulationSelect = props => {
   const location = useLocation();
-  const userInfo = useSelector((state) => state.user);
+  const userInfo = useSelector(state => state.user);
 
   const [myTeamName, setMyTeamName] = useState("");
   const [teamList, setTeamList] = useState([]);
@@ -26,11 +26,11 @@ const SimulationSelect = (props) => {
       method: "GET",
       url: `myteam/userTeamList/${userInfo.userid}`,
     })
-      .then((res) => {
+      .then(res => {
         let teamList = res.data.myTeamList;
         setTeamList(teamList);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -42,7 +42,7 @@ const SimulationSelect = (props) => {
     { myTeamId: 4, myTeamName: "리버풀" },
   ];
 
-  const handleTeamSelect = (event) => {
+  const handleTeamSelect = event => {
     setMyTeamName(event.target.value);
     // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
@@ -122,7 +122,7 @@ const SimulationSelect = (props) => {
                   value={myTeamName}
                   onChange={handleTeamSelect}
                 >
-                  {teamList.map((data) => (
+                  {teamList.map(data => (
                     <MenuItem value={data.myTeamName} key={data.myTeamId}>
                       {data.myTeamName}
                     </MenuItem>
@@ -130,9 +130,17 @@ const SimulationSelect = (props) => {
                 </Select>
               </div>
             ) : (
-              <Typography>
-                아직 나만의 팀이 없습니다. 나만의 팀을 만들러 가볼까요?
-              </Typography>
+              <Button
+                sx={{ m: 1, p: 1, color: "white" }}
+                variant="contained"
+                color="sub_300"
+                component={Link}
+                to="/myteams"
+              >
+                <Typography textAlign="left" variant="subtitle2">
+                  아직 나만의 팀이 없습니다. 나만의 팀을 만들러 가볼까요?
+                </Typography>
+              </Button>
             )}
           </FormControl>
         </Box>
