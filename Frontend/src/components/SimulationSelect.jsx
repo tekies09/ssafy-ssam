@@ -24,10 +24,10 @@ const SimulationSelect = (props) => {
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "GET",
-      url: `myteam/userTeamList/${userInfo.userId}`,
+      url: `myteam/userTeamList/${userInfo.userid}`,
     })
       .then((res) => {
-        let teamList = res.data;
+        let teamList = res.data.myTeamList;
         setTeamList(teamList);
       })
       .catch((err) => {

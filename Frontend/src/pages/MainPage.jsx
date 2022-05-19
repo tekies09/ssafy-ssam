@@ -13,7 +13,6 @@ import {
   CardHeader,
   Divider,
   Grid,
-  TextField,
 } from "@mui/material";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -216,7 +215,8 @@ function renderEventContent(events) {
         }}
         className="event-list-item"
       >
-        {homeTeamName} vs {awayTeamName}
+        {homeTeamName} {events.event._def.extendedProps.homeScore} vs{" "}
+        {awayTeamName} {events.event._def.extendedProps.awayScore}
       </div>
     );
   } else if (events.event._def.extendedProps.gameState === "PLAYING") {
