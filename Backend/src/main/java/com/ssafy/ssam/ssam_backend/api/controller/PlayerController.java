@@ -147,28 +147,6 @@ public class PlayerController {
         return new ResponseEntity<>(playerDetailResDto,status);
     }
 
-//    @ApiOperation(value = "선수 이름 조회")
-//    @GetMapping("/nameList")
-//    public ResponseEntity<SearchListResDto> getNameList(@RequestParam @ApiParam(value="검색어") String word){
-//
-//        SearchListResDto searchListResDto;
-//        HttpStatus status = null;
-//        try{
-//
-//            List<SearchResultResDto> list = playerService.getNameList(word);
-//
-//            searchListResDto = new SearchListResDto(200,"OK",list);
-//            status = HttpStatus.OK;
-//        }
-//        catch ( Exception e ){
-//
-//            System.out.println(e);
-//            searchListResDto=new SearchListResDto(500,"INTERNAL_SERVER_ERROR");
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return  new ResponseEntity<>(searchListResDto,status);
-//
-//    }
 
     @ApiOperation(value = "연도별 선수 이름 조회")
     @GetMapping("/yearNameList")
@@ -211,6 +189,29 @@ public class PlayerController {
         }
 
         return new ResponseEntity<>(playerInfoResultResDto,status);
+    }
+
+    @ApiOperation(value = "타자 연간정보 + 이름 + 팀")
+    @GetMapping("/hitterList")
+    public ResponseEntity<HitterYearsListResDto> getHitterList(@RequestParam @ApiParam(value = "연도") String year , @RequestParam @ApiParam(value = "페이지") int page, @RequestParam @ApiParam(value = "페이지 당 몇개") int limit)throws  Exception{
+        HitterYearsListResDto hitterYearsListResDto;
+        HttpStatus status;
+
+        try{
+            List<HitterYearsDetailResDto> dtolist = playerService.getHitterList(page,limit,year);
+            hitterYearsListResDto = new HitterYearsListResDto(200,"OK",dtolist);
+            status=HttpStatus.OK;
+        }
+        catch (Exception e){
+            hitterYearsListResDto = new HitterYearsListResDto(500,"INTERNAL_SERVER_ERROR");
+            status=HttpStatus.INTERNAL_SERVER_ERROR;
+
+        }
+
+
+
+        return new ResponseEntity<>(hitterYearsListResDto,status);
+
     }
 
 }

@@ -21,4 +21,6 @@ public interface PlayerService {
     List<SearchResultResDto> getNameList(String word,String year)throws Exception;
 
     PlayerInfoResDto getPlayerInfo(Long playerId)throws Exception;
+
+    List<HitterYearsDetailResDto> getHitterList(int page, int limit, String year)throws Exception;
 }

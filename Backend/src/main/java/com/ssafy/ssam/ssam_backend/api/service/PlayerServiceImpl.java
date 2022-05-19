@@ -7,6 +7,10 @@ import com.ssafy.ssam.ssam_backend.api.repository.mapping.PitcherIdMapping;
 import com.ssafy.ssam.ssam_backend.api.repository.mapping.PlayerMapping;
 import com.ssafy.ssam.ssam_backend.domain.entity.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -124,5 +128,22 @@ public class PlayerServiceImpl implements PlayerService {
         dto = new PlayerInfoResDto(entity);
 
         return dto;
+    }
+
+    @Override
+    public List<HitterYearsDetailResDto> getHitterList(int page, int limit, String year) throws Exception {
+
+        List<HitterYearsDetailResDto> dtolist = new ArrayList<>();
+        Pageable paging  = PageRequest.of(page,limit);
+
+        Page<HitterYearsStatus> hitters =hitterYearsStatusRepository.findAllByYears(year,paging);
+
+        for(HitterYearsStatus yearsStatus : hitters){
+            System.out.println(yearsStatus.getPlayer().getPlayerName());
+            HitterYearsDetailResDto dto = new HitterYearsDetailResDto(yearsStatus);
+            dtolist.add(dto);
+        }
+
+        return dtolist;
     }
 }
