@@ -18,7 +18,7 @@ public interface PlayerService {
 
     PitcherSituationResDto getPitcherSituation(Long playerId, String years) throws Exception;
 
-    List<SearchResultResDto> getNameList(String word,String year)throws Exception;
+    List<SearchResultResDto> getNameList(String year)throws Exception;
 
     PlayerInfoResDto getPlayerInfo(Long playerId)throws Exception;
 }

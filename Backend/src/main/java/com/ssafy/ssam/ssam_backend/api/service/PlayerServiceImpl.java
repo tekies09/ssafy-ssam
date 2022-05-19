@@ -90,7 +90,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<SearchResultResDto> getNameList(String word, String year) throws Exception {
+    public List<SearchResultResDto> getNameList(String year) throws Exception {
 
         List<SearchResultResDto> resultList = new ArrayList<>();
 
