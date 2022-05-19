@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, TextField, MenuItem, Select } from "@mui/material";
+import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-const BattleUpdate = (props) => {
-  const user = useSelector((state) => state.user);
+const BattleUpdate = props => {
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user);
   const [teamList, setTeamList] = useState([]);
 
   const location = useLocation();
@@ -28,20 +31,20 @@ const BattleUpdate = (props) => {
       method: "GET",
       url: `myteam/userTeamList/${user.userId}`,
     })
-      .then((res) => {
+      .then(res => {
         let tList = res.data.myTeamList;
         setTeamList(tList);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
-  const handleTitleInput = (event) => {
+  const handleTitleInput = event => {
     setTitle(event.target.value);
   };
 
-  const handleTeamSelect = (event) => {
+  const handleTeamSelect = event => {
     setMyTeamId(event.target.value);
 
     // TODO: 화면에 팀 정보를 표 형태로 보여준다.
@@ -72,10 +75,10 @@ const BattleUpdate = (props) => {
         myTeamId: myTeamId,
       },
     })
-      .then((res) => {
+      .then(res => {
         navigate(`/board/battle/${boardId}`);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -163,7 +166,7 @@ const BattleUpdate = (props) => {
             </Typography>
             {teamList.length != 0 ? (
               <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
-                {teamList.map((data) => (
+                {teamList.map(data => (
                   <MenuItem value={data.myTeamId} key={data.myTeamId}>
                     {data.myTeamName}
                   </MenuItem>
