@@ -200,7 +200,7 @@ const SimulationPage = props => {
 
       storeLog(
         `[${((hitterNum - 1) % 9) + 1}번 타자 ${
-          a[(hitterNum - 1) % 9]["name"]
+          b[(hitterNum - 1) % 9]["name"]
         }]`
       );
 
