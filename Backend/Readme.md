@@ -1,3 +1,0 @@
-#### Backend 디렉토리 입니다.
-final project...
-
