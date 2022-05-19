@@ -484,16 +484,6 @@ const SimulationPage = props => {
     storeLog("endgame");
   }
 
-  // const [logs, setLogs] = useState([]);
-
-  // const printLog = setInterval(() => {
-  //   console.log(testLogs[logIdx++]);
-
-  //   if (logIdx === testLogs.length) {
-  //     clearInterval(printLog);
-  //   }
-  // }, 500);
-
   // 로그 내용을 logs 배열에 저장한다.
   const storeLog = log => {
     logList.push(log);
@@ -599,16 +589,6 @@ const SimulationPage = props => {
       teamFight(myPlayers, yourPlayers);
       await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
-      // console.log(myPlayers);
-      // console.log(yourPlayers);
-      // console.log(myTeamToServe);
-      // console.log(yourTeamToServe);
-
-      // console.log(location.state.myPlayers);
-      // console.log(location.state.yourPlayers);
-      // console.log(location.state.myTeamToServe);
-      // console.log(location.state.yourTeamToServe);
-
       // 3초 후 로그 보여주기 시작
       for (let i = 0; i < logList.length; i++) {
         // 반복 실행 방지
@@ -665,7 +645,6 @@ const SimulationPage = props => {
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#F6F6F6",
-        // border: "2px solid black",
         alignItems: "center",
         m: 4,
         p: 4,
@@ -711,8 +690,6 @@ const SimulationPage = props => {
         sx={{
           mt: 1,
           width: "100%",
-          // maxWidth: 360,
-          // bgcolor: "background.paper",
           position: "relative",
           overflow: "auto",
           minHeight: "25vh",
@@ -722,14 +699,8 @@ const SimulationPage = props => {
         }}
         id="log-box"
       ></List>
-      {/* <Box sx={{ mt: 4 }} id="log-box">
-        {logs.map(log => {
-          <Typography>{log}</Typography>;
-        })}
-      </Box> */}
 
       {/* 다시하기 버튼 */}
-      {/* 작동 제대로 안 될 수 있음 */}
       <Box>
         <Button
           sx={{ mt: 3, color: "white" }}
