@@ -109,7 +109,8 @@ const BoardDetail = props => {
         }
       case "battleBoard":
         return (
-          // player 목록 보여주기 (post.players)
+          // player 목록 보여줄 부분 (post.players)
+
           <Box
             textAlign="left"
             sx={{

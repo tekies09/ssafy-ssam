@@ -37,8 +37,6 @@ const SimulationSelect = props => {
 
   const handleTeamSelect = event => {
     setMyTeamName(event.target.value);
-
-    location.state.players;
     // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
 
