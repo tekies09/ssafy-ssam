@@ -43,188 +43,6 @@ const SimulationPage = props => {
     team2takehitnum: 0,
   };
 
-  const team1 = [
-    {
-      ab_cn: 151, // 타수
-      so_cn: 14, // 삼진
-      h_cn: 60, // 안타
-      h2_cn: 11, // 2루타
-      h3_cn: 2, // 3루타
-      hr_cn: 5, // 홈런
-      name: "피렐라", // 타자 이름
-    },
-    {
-      ab_cn: 141,
-      so_cn: 14,
-      h_cn: 52,
-      h2_cn: 4,
-      h3_cn: 0,
-      hr_cn: 5,
-      name: "김현수",
-    },
-    {
-      ab_cn: 144,
-      so_cn: 16,
-      h_cn: 51,
-      h2_cn: 11,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "이대호",
-    },
-    {
-      ab_cn: 136,
-      so_cn: 17,
-      h_cn: 46,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 1,
-      name: "한동희",
-    },
-    {
-      ab_cn: 145,
-      so_cn: 3,
-      h_cn: 48,
-      h2_cn: 9,
-      h3_cn: 0,
-      hr_cn: 4,
-      name: "김선빈",
-    },
-    {
-      ab_cn: 135,
-      so_cn: 17,
-      h_cn: 44,
-      h2_cn: 6,
-      h3_cn: 0,
-      hr_cn: 2,
-      name: "이정후",
-    },
-    {
-      ab_cn: 132,
-      so_cn: 30,
-      h_cn: 43,
-      h2_cn: 15,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "전준우",
-    },
-    {
-      ab_cn: 143,
-      so_cn: 38,
-      h_cn: 46,
-      h2_cn: 11,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "한유섬",
-    },
-    {
-      ab_cn: 140,
-      so_cn: 17,
-      h_cn: 45,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "나성범",
-    },
-    {
-      kbb_rt: 5.33,
-      name: "김광현",
-    },
-    {
-      myTeamName: "열정의 1팀",
-    },
-  ];
-
-  const team2 = [
-    {
-      ab_cn: 151,
-      so_cn: 14,
-      h_cn: 60,
-      h2_cn: 11,
-      h3_cn: 2,
-      hr_cn: 5,
-      name: "손아섭",
-    },
-    {
-      ab_cn: 141,
-      so_cn: 14,
-      h_cn: 52,
-      h2_cn: 4,
-      h3_cn: 0,
-      hr_cn: 5,
-      name: "홍창기",
-    },
-    {
-      ab_cn: 144,
-      so_cn: 16,
-      h_cn: 51,
-      h2_cn: 11,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "노시환",
-    },
-    {
-      ab_cn: 136,
-      so_cn: 17,
-      h_cn: 46,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 1,
-      name: "박건우",
-    },
-    {
-      ab_cn: 145,
-      so_cn: 3,
-      h_cn: 48,
-      h2_cn: 9,
-      h3_cn: 0,
-      hr_cn: 4,
-      name: "조용호",
-    },
-    {
-      ab_cn: 135,
-      so_cn: 17,
-      h_cn: 44,
-      h2_cn: 6,
-      h3_cn: 0,
-      hr_cn: 2,
-      name: "김지찬",
-    },
-    {
-      ab_cn: 132,
-      so_cn: 30,
-      h_cn: 43,
-      h2_cn: 15,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "허경민",
-    },
-    {
-      ab_cn: 143,
-      so_cn: 38,
-      h_cn: 46,
-      h2_cn: 11,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "안치홍",
-    },
-    {
-      ab_cn: 140,
-      so_cn: 17,
-      h_cn: 45,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "최정",
-    },
-    {
-      kbb_rt: 5.33,
-      name: "양현종",
-    },
-    {
-      myTeamName: "정열의 2팀",
-    },
-  ];
-
   function movePlayer(plusNum, teamNum) {
     if (plusNum === 1) {
       for (let i = 2; i > -1; i -= 1) {
@@ -737,7 +555,7 @@ const SimulationPage = props => {
       <TableBody>
         <TableRow>
           <StyledTableCell align="center">
-            {team1[10]["myTeamName"]}
+            {myPlayers[10]["myTeamName"]}
           </StyledTableCell>
           <StyledTableCell align="center" id="me-1"></StyledTableCell>
           <StyledTableCell align="center" id="me-2"></StyledTableCell>
@@ -754,7 +572,7 @@ const SimulationPage = props => {
         </TableRow>
         <TableRow>
           <StyledTableCell align="center">
-            {team2[10]["myTeamName"]}
+            {yourPlayers[10]["myTeamName"]}
           </StyledTableCell>
           <StyledTableCell align="center" id="you-1"></StyledTableCell>
           <StyledTableCell align="center" id="you-2"></StyledTableCell>
@@ -778,13 +596,13 @@ const SimulationPage = props => {
       setChecked(true);
       await new Promise((resolve, reject) => setTimeout(resolve, 1000));
 
-      // teamFight(location.state.myPlayers, location.state.yourPlayers);
+      teamFight(myPlayers, yourPlayers);
       await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
-      console.log(myPlayers);
-      console.log(yourPlayers);
-      console.log(myTeamToServe);
-      console.log(yourTeamToServe);
+      // console.log(myPlayers);
+      // console.log(yourPlayers);
+      // console.log(myTeamToServe);
+      // console.log(yourTeamToServe);
 
       // console.log(location.state.myPlayers);
       // console.log(location.state.yourPlayers);
