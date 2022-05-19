@@ -15,11 +15,25 @@
   width: 15%;
 }
 
+.battleorder {
+  display: inline-block;
+  text-align: start;
+  margin-right: 4px;
+  width: 15%;
+}
+
 .name {
   display: inline-block;
   text-align: start;
   margin-right: 4px;
   width: 30%;
+}
+
+.battlename {
+  display: inline-block;
+  text-align: start;
+  margin-right: 4px;
+  width: 40%;
 }
 
 .year {
@@ -33,4 +47,10 @@
   display: inline-block;
   text-align: start;
   width: 30%;
+}
+
+.battleposition {
+  display: inline-block;
+  text-align: start;
+  width: 10%;
 }

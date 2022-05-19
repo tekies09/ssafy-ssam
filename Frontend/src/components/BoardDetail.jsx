@@ -100,6 +100,7 @@ const BoardDetail = (props) => {
   };
 
   const PostContent = (props) => {
+    // console.log(playerL)
     switch (boardType) {
       case "freeBoard":
       case "notice":
@@ -136,9 +137,8 @@ const BoardDetail = (props) => {
             <Card
               sx={{
                 minWidth: 360,
-                maxWidth: "50%",
-                textAlign: "start",
-                borderRadius: "24px",
+                maxWidth: "30%",
+                textAlign: "center",
                 margin: "12px",
                 mb: "5vh",
               }}
@@ -146,24 +146,44 @@ const BoardDetail = (props) => {
               <CardHeader
                 title={post.teamName}
                 sx={{
-                  borderRadius: "24px",
-                  backgroundColor: "primary.main",
+                  backgroundColor: "#6674A7",
                   color: "white",
-                  margin: "6px",
+                  fontSize: "15px"
                 }}
               ></CardHeader>
-              <CardContent>
+              <CardContent sx={{
+                backgroundColor: "#475174",
+                color: "white"
+              }}>
                 {playerL &&
-                  playerL.map((member, i) => (
-                    <div key={i} className={styles.row}>
-                      <div className={styles.order}>{member.battingOrder}</div>
-                      <div className={styles.name}>{member.name}</div>
-                      <div className={styles.year}>{member.years}</div>
-                      <div className={styles.position}>
-                        {member.defensePosition}
+                  playerL.map((member, i) => {
+                    if (i == 9) {
+                      return (
+                        <div key={i} className={styles.row}>
+                          <div className={styles.battleorder}>
+                            투수
+                          </div>
+                          <div className={styles.battleposition}>{member.myTeamPlayerId}</div>
+                          <div className={styles.battlename}>{member.name}</div>
+                          <div className={styles.battleposition}>
+                            {member.defensePosition}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <div key={i} className={styles.row}>
+                        <div className={styles.battleorder}>
+                          {member.battingOrder}
+                        </div>
+                        <div className={styles.battleposition}>{member.myTeamPlayerId}</div>
+                        <div className={styles.battlename}>{member.name}</div>
+                        <div className={styles.battleposition}>
+                          {member.defensePosition}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </CardContent>
             </Card>
             {/* 배틀 버튼 */}
