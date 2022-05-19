@@ -1,9 +1,27 @@
 import React from 'react'
+import axios from 'axios'
 import { Button, Card, CardActions, CardContent, CardHeader, Grid, Typography } from '@mui/material'
 import styles from './MyteamSummary.module.css'
 
 export default function TeamSummary(props) {
   const team = props.team
+
+  const handleDelete = () => {
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: `myteam/${team.myTeamId}`,
+      method: "DELETE",
+      headers: {
+        Authorization : `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
   return (
   <Card sx={{minWidth: 360, textAlign: "start", borderRadius: "24px", margin: "12px"}}>
@@ -20,8 +38,8 @@ export default function TeamSummary(props) {
       ))}
     </CardContent>
     <CardActions>
-      <Button>수정</Button>
-      <Button>삭제</Button>
+      {/* <Button>수정</Button> */}
+      <Button onClick={handleDelete}>삭제</Button>
     </CardActions>
   </Card>
   )

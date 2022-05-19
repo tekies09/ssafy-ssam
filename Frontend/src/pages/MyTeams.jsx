@@ -192,7 +192,7 @@ const MemberInput = function (props) {
         onOpen={() => {setOpen(true)}}
         onClose={() => {setOpen(false)}}
         options={list}
-        getOptionLabel={(option) => `${option.name} ${option.year}` || ""}
+        getOptionLabel={(option) => `${option.name} ${option.pitcherOrHitter === "Pitcher" ? "투수" : "야수"}` || ""}
         isOptionEqualToValue={(option, value) => option.statusId === value.statusId}
         value={inputValue}
         onChange={(event, value) => {setInputValue(value)}}
@@ -229,7 +229,7 @@ const MemberInput = function (props) {
           <MenuItem value={"3B"}>3루수</MenuItem>
           <MenuItem value={"SS"}>유격수</MenuItem>
           <MenuItem value={"LF"}>좌익수</MenuItem>
-          <MenuItem value={"MF"}>중견수</MenuItem>
+          <MenuItem value={"CF"}>중견수</MenuItem>
           <MenuItem value={"RF"}>우익수</MenuItem>
           <MenuItem value={"DH"}>지명타자</MenuItem>
           <MenuItem value={"C"}>포수</MenuItem>
@@ -286,6 +286,7 @@ export default function MyTeams(props) {
     setMembers([...newMembers])
     console.log(members)
   }
+
   const deleteMember = (ord) => {
     let newMembers = members
     newMembers[(ord - 1)] = {ord: String(ord), name: "", pos: "", year: "", playerId: undefined, statusId: undefined}
