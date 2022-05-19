@@ -24,7 +24,6 @@ const CommentForm = props => {
   // 최초 로딩시에만 실행 (이후 댓글 추가시마다 댓글 목록 업데이트)
   useEffect(() => {
     console.log("useEffect");
-
     getReplyList({
       boardId: boardId,
     });
