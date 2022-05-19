@@ -235,7 +235,8 @@ function renderEventContent(events) {
     );
   } else if (events.event._def.extendedProps.gameState === "NOTYET") {
     // 아직 치루지 않은 경기일 떄,
-    const startTime = String(events.event.start).substring(16, 21);
+    const startHour = parseInt(String(events.event.start).substring(16, 18))+9;
+    const startMin =  String(events.event.start).substring(19, 21);
     const homeTeamName = String(events.event._def.extendedProps.homeTeam).split(
       " "
     )[0];
@@ -252,7 +253,7 @@ function renderEventContent(events) {
         }}
         className="event-list-item"
       >
-        {startTime} {homeTeamName} vs {awayTeamName}
+        {startHour}:{startMin} {homeTeamName} vs {awayTeamName}
       </div>
     );
   }
@@ -628,7 +629,8 @@ const MainPage = (props) => {
                           {date.substring(0, 10).replaceAll("-", ".")}
                         </Grid>
                         <Grid item xs={1}>
-                          {date.substring(11, 16)}
+                          {parseInt(date.substring(11, 13)) + 9} :{" "}
+                          {date.substring(14, 16)}
                         </Grid>
                         <Grid item xs={7}>
                           {homeTeam} vs {awayTeam}
@@ -651,7 +653,8 @@ const MainPage = (props) => {
                           {date.substring(0, 10).replaceAll("-", ".")}
                         </Grid>
                         <Grid item xs={1}>
-                          {date.substring(11, 16)}
+                          {parseInt(date.substring(11, 13)) + 9}:
+                          {date.substring(14, 16)}
                         </Grid>
                         <Grid item xs={7}>
                           {homeTeam} {homeScore} : {awayTeam} {awayScore}
@@ -672,7 +675,8 @@ const MainPage = (props) => {
                           {date.substring(0, 10).replaceAll("-", ".")}
                         </Grid>
                         <Grid item xs={1}>
-                          {date.substring(11, 16)}
+                          {parseInt(date.substring(11, 13)) + 9}:
+                          {date.substring(14, 16)}
                         </Grid>
                         <Grid item xs={7}>
                           {homeTeam} vs {awayTeam}
