@@ -19,7 +19,6 @@ function getUserfromToken() {
   }
 
   const user = jwt_decode(token)
-  console.log(user);
 
   // 토큰 만료
   if (user.exp * 1000 < Date.now()) {
