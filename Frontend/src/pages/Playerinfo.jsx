@@ -50,7 +50,7 @@ const BaseStat = (props) => {
             연봉
           </Typography>
           <Typography mb={2}>
-            <b>{payroll}만원</b>
+            <b>{payroll}</b>
           </Typography>
           <br />
           <Typography>
@@ -140,69 +140,6 @@ const HitterSituationalStat = (props) => {
 
 
 export default function Playerinfo(props) {
-  // const defaultProps = {
-  //   player: {
-  //     id: 76313,
-  //     name: "황재균",
-  //     debut_year: "2006",
-  //     birth_year: "1987",
-  //     team: "KT 위즈",
-  //     position: "내야수(우투우타)",
-  //     backnumber: "10",
-  //     stats: {
-  //       year: 2022,
-  //       team: "KT",
-  //       avg: 0.313,
-  //       G: 30,
-  //       PA: 128,
-  //       AB: 112,
-  //       R: 15,
-  //       H: 35,
-  //       RBI: 15, 
-  //     },
-  //     situational_stats: {
-  //       runner: [
-  //         {
-  //           cat: "주자없음",
-  //           avg: 0.281,
-  //           AB: 64,
-  //           H: 18,
-  //         },
-  //         {
-  //           cat: "1루",
-  //           avg: 0.300,
-  //           AB: 20,
-  //           H: 6,
-  //         },
-  //         {
-  //           cat: "2루",
-  //           avg: 0.462,
-  //           AB: 13,
-  //           H: 6,
-  //         },
-  //       ],
-  //       ballcount: [
-  //         {
-  //           cat: "0-0",
-  //           avg: 0.417,
-  //           AB: 12,
-  //           H: 5,
-  //         }
-  //       ],
-  //       batorder: [
-
-  //       ],
-  //       pitcher: [
-
-  //       ],
-  //       outcount: [
-
-  //       ],
-  //     },
-
-  //   }
-  // }
-
   const defaultProps = {
     player: {
       playerName: "이름",

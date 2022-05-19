@@ -81,9 +81,14 @@ export default function MyTeamlist() {
         </Typography>
       </Grid>
       <Grid item xs={12} textAlign="end" mx={3}>
-        <Button size="large" variant="contained" onClick={() => {navigate("/myteams/form")}}>
-          신규등록
-        </Button>
+        { teams.length < 5 && (
+          <Button size="large" variant="contained" onClick={() => {navigate("/myteams/form")}}>
+            신규등록
+          </Button>
+        )}
+        { teams.length === 5 && (
+          <Typography>나만의 팀은 최대 5팀까지 작성할 수 있습니다.</Typography>
+        )}
       </Grid>
       <Grid item xs={12} sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
         {teams.length === 0 && (<Typography>아직 나만의 팀을 작성하지 않았습니다.</Typography>)}
@@ -94,10 +99,7 @@ export default function MyTeamlist() {
             ))}      
           }
         }
-        
       </Grid>
-
     </Grid>
-    
   )
 }
