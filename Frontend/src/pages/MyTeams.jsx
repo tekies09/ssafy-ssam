@@ -97,22 +97,11 @@ const defaultValue = {
   statusId: 0,
 }
 
-// 선수 목록 예시값
-const samplePlayers = [
-  defaultValue,
-  {playerId: 77829, name: '김광현', year: "2008", pitcherOrHitter: "Pitcher", statusId: 12342 },
-  {playerId: 61101, name: '임찬규', year: "2021", pitcherOrHitter: "Pitcher", statusId: 11222 },
-  {playerId: 77248, name: '오재원', year: "2019", pitcherOrHitter: "Hitter", statusId: 12322 },
-  {playerId: 71564, name: '이대호', year: "2021", pitcherOrHitter: "Hitter", statusId: 42334 },
-  {playerId: 71565, name: '이대호', year: "2022", pitcherOrHitter: "Hitter", statusId: 44333 },
-]
-
 // 나만의 팀에 선수를 등록하는 컴포넌트
 const MemberInput = function (props) {
-  const [player, setPlayer] = useState("")
   const [pos, setPos] = useState("")
   const [ord, setOrd] = useState("")
-  const [year, setYear] = useState("")
+  const [year, setYear] = useState("2022")
   const [open, setOpen] = useState(false)
   
   const [inputValue, setInputValue] = useState(defaultValue)
@@ -174,6 +163,16 @@ const MemberInput = function (props) {
       return
     }
 
+    if (ord === "") {
+      alert("타순을 입력해주세요.")
+      return
+    }
+
+    if (pos === "") {
+      alert("수비위치를 입력해주세요.")
+      return
+    }
+
     const newMember = {
       ord: ord,
       pos: pos,
@@ -184,10 +183,12 @@ const MemberInput = function (props) {
     }
 
     console.log(newMember)
-    props.addMember(newMember)
-    setInputValue(defaultValue)
-    setOrd("")
-    setPos("")
+    const addresult = props.addMember(newMember)
+    if (!!addresult) {
+      setInputValue(defaultValue)
+      setOrd("")
+      setPos("")
+    }
   }
 
   return (<Grid container item xs={12} >
@@ -213,10 +214,15 @@ const MemberInput = function (props) {
             </li>
           )
         }}
-
         // isOptionEqualToValue={(option, value) => option.statusId === value.statusId}
         value={inputValue}
-        onChange={(event, value) => {setInputValue(value)}}
+        onChange={(event, value) => {
+          setInputValue(value)
+          if (value.pitcherOrHitter === "Pitcher") {
+            setOrd("10")
+            setPos("P")
+          }
+        }}
         renderInput={(params) => (
           <TextField {...params}
             InputProps={{
@@ -304,17 +310,17 @@ export default function MyTeams(props) {
 
     if (newMembers[(player.ord) - 1].playerId !== undefined) {
       alert('이미 사용중인 타순입니다.')
-      return
+      return false
     }
     
     if (newMembers.find(member => (member.pos === player.pos)) !== undefined) {
       alert('이미 사용중인 포지션입니다.')
-      return
+      return false
     }
     
     newMembers[(player.ord) - 1] = player
     setMembers([...newMembers])
-    console.log(members)
+    return true
   }
 
   const deleteMember = (ord) => {

@@ -4,24 +4,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Grid, Typography } 
 import styles from './MyteamSummary.module.css'
 
 export default function TeamSummary(props) {
-  const team = props.team
-
-  const handleDelete = () => {
-    axios({
-      baseURL: process.env.REACT_APP_SERVER_URL,
-      url: `myteam/${team.myTeamId}`,
-      method: "DELETE",
-      headers: {
-        Authorization : `Bearer ${localStorage.getItem("token")}`
-      }
-    })
-    .then(response => {
-      console.log(response)
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  }
+  const { team, handleDelete } = props
 
   return (
   <Card sx={{minWidth: 360, textAlign: "start", borderRadius: "24px", margin: "12px"}}>
@@ -39,7 +22,7 @@ export default function TeamSummary(props) {
     </CardContent>
     <CardActions>
       {/* <Button>수정</Button> */}
-      <Button onClick={handleDelete}>삭제</Button>
+      <Button onClick={() => {handleDelete(team.myTeamId)}}>삭제</Button>
     </CardActions>
   </Card>
   )
