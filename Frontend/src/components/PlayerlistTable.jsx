@@ -19,7 +19,7 @@ export default function PlayerlistTable(props) {
         <TableBody>
           {players.map((player, index) => (
           <TableRow hover id={index}
-          // onClick={() => {handleClickRow(player.id)}}
+          onClick={() => {handleClickRow(player.playerId)}}
           >
             {columns.map((item, itemindex) => {
               if (item === "era_rt") {
