@@ -94,8 +94,7 @@ export default function MyTeamlist() {
         {teams.length === 0 && (<Typography>아직 나만의 팀을 작성하지 않았습니다.</Typography>)}
         {() => {
           if (teams !== []) {
-            return teams.map((team) => (
-                <MyteamSummary team={team} key={team.id} />
+            return teams.map((team) => (<MyteamSummary team={team} key={team.id} />
             ))}      
           }
         }

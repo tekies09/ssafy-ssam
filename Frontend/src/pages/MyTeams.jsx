@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { styled, Table, TableHead, TableCell, TableContainer, TableRow, TableBody, Link } from '@mui/material'
+import { styled, Table, TableHead, TableCell, TableContainer, TableRow, TableBody, Link, CircularProgress } from '@mui/material'
 import { Container, Box, Grid, Typography, FormControl, InputLabel, Paper, Select, MenuItem, TextField, Button, InputAdornment, Autocomplete } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import axios from 'axios'
@@ -114,17 +114,19 @@ const MemberInput = function (props) {
   const [ord, setOrd] = useState("")
   const [year, setYear] = useState("")
   const [open, setOpen] = useState(false)
-
+  
   const [inputValue, setInputValue] = useState(defaultValue)
-  const [list, setList] = useState([...samplePlayers])
+  const [list, setList] = useState([])
+  
+  const loading = open && list.length === 0;
 
   // 선수 목록 로드에 필요한 메서드
   const loadPlayers = (year) => {
+    console.log("test")
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       url: `player/yearNameList?year=${year}&word=`,
       // url: `player/yearsdetail?`,
-      timeout: 3000,
       method: 'GET',
     })
     .then(response => {
@@ -135,9 +137,19 @@ const MemberInput = function (props) {
     })
   }
 
+  // useEffect(() => {
+  //   loadPlayers(year)
+  // }, [year])
+
   useEffect(() => {
+    let active = true
+    if (!loading) {
+      return undefined
+    }
+
     loadPlayers(year)
-  }, [year])
+    return () => {active = false}
+  }, [loading])
 
   const handleOrdChange = (event) => {
     setOrd(()=>(event.target.value))
@@ -147,6 +159,7 @@ const MemberInput = function (props) {
   }
   const handleYearChange = (event) => {
     setYear(()=>(event.target.value))
+    setList([])
     loadPlayers(year)
   }
 
@@ -198,6 +211,15 @@ const MemberInput = function (props) {
         onChange={(event, value) => {setInputValue(value)}}
         renderInput={(params) => (
           <TextField {...params}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {params.InputProps.endAdornment}
+                </>
+              )
+            }}
           
           ></TextField>
         )} />
