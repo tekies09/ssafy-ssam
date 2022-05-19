@@ -77,7 +77,7 @@ export default function MyTeamlist() {
     <Grid container spacing={2} my={2}>
       <Grid item xs={12} textAlign="start" mx={3}>
         <Typography variant="h5">
-          {user.nickname}님의 나만의 팀
+          나만의 팀 목록
         </Typography>
       </Grid>
       <Grid item xs={12} textAlign="end" mx={3}>
@@ -92,12 +92,7 @@ export default function MyTeamlist() {
       </Grid>
       <Grid item xs={12} sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
         {teams.length === 0 && (<Typography>아직 나만의 팀을 작성하지 않았습니다.</Typography>)}
-        {() => {
-          if (teams !== []) {
-            return teams.map((team) => (<MyteamSummary team={team} key={team.id} />
-            ))}      
-          }
-        }
+        {teams.length > 0 && teams.map((team) => (<MyteamSummary team={team} />))}
       </Grid>
     </Grid>
   )
