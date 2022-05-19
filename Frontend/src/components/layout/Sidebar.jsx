@@ -53,7 +53,7 @@ const Sidebar = props => {
     { name: "공지사항", url: "/board/notice" },
     { name: "자유게시판", url: "/board/free" },
     { name: "배틀게시판", url: "/board/battle" },
-    { name: "시뮬레이션", url: "/simulation/select" },
+    // { name: "시뮬레이션", url: "/simulation/select" },
   ];
 
   const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -191,12 +191,24 @@ const Sidebar = props => {
             {/* 선수정보 하위 메뉴 */}
             <Collapse in={playerInfoOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem sx={{ borderRadius: 1 }} button key="타자"
-                  color="white" component={Link} to="players/hitter">
+                <ListItem
+                  sx={{ borderRadius: 1 }}
+                  button
+                  key="타자"
+                  color="white"
+                  component={Link}
+                  to="players/hitter"
+                >
                   <ListItemText align="right" primary="타자" />
                 </ListItem>
-                <ListItem sx={{ borderRadius: 1 }} button key="투수"
-                  color="white" component={Link} to="players/pitcher">
+                <ListItem
+                  sx={{ borderRadius: 1 }}
+                  button
+                  key="투수"
+                  color="white"
+                  component={Link}
+                  to="players/pitcher"
+                >
                   <ListItemText align="right" primary="투수" />
                 </ListItem>
               </List>
