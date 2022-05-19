@@ -26,10 +26,10 @@ public class PlayerServiceImpl implements PlayerService {
     private final PitcherSituationStatusRepository pitcherSituationStatusRepository;
 
     @Override
-    public HitterYearsDetailResDto getHitterYearsDetail(Long playerId, String years) throws Exception{
-        Player player = playerRepository.findById(playerId).get();
+    public HitterYearsDetailResDto getHitterYearsDetail(Long statusId, String years) throws Exception{
 
-        HitterYearsStatus entity = hitterYearsStatusRepository.findByPlayerAndYears(player,years);
+
+        HitterYearsStatus entity = hitterYearsStatusRepository.findById(statusId).get();
 
         HitterYearsDetailResDto dto = new HitterYearsDetailResDto(entity);
 
@@ -38,10 +38,10 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public PitcherYearsDetailResDto getPitcherYearsDetail(Long playerId, String years) throws Exception {
-        Player player = playerRepository.findById(playerId).get();
+    public PitcherYearsDetailResDto getPitcherYearsDetail(Long statusId, String years) throws Exception {
 
-        PitcherYearsStatus entity = pitcherYearsStatusRepository.findByPlayerAndYears(player,years);
+
+        PitcherYearsStatus entity = pitcherYearsStatusRepository.findById(statusId).get();
 
         PitcherYearsDetailResDto dto  = new PitcherYearsDetailResDto(entity);
 

@@ -23,12 +23,12 @@ public class PlayerController {
 
     @ApiOperation(value = "선수 연도별 스탯상세조회")
     @GetMapping("/yearsdetail")
-    public ResponseEntity<PlayerDetailResDto> playerYearsDetail(@RequestParam @ApiParam(value="선수 id") Long playerId, @RequestParam @ApiParam(value="Pitcher or Hitter") String pOrh, @RequestParam String years)throws Exception{
+    public ResponseEntity<PlayerDetailResDto> playerYearsDetail(@RequestParam @ApiParam(value="선수 id") Long statusId, @RequestParam @ApiParam(value="Pitcher or Hitter") String pOrh, @RequestParam String years)throws Exception{
         PlayerDetailResDto playerDetailResDto;
         HttpStatus status = null;
         if(pOrh.equals("Hitter")){
             try {
-                HitterYearsDetailResDto  hitterYearsDetailResDto = playerService.getHitterYearsDetail(playerId, years);
+                HitterYearsDetailResDto  hitterYearsDetailResDto = playerService.getHitterYearsDetail(statusId, years);
 
 
                 playerDetailResDto = new PlayerDetailResDto(200,"OK",hitterYearsDetailResDto);
@@ -44,7 +44,7 @@ public class PlayerController {
         }
         else {
             try {
-                PitcherYearsDetailResDto pitcherYearsDetailResDto = playerService.getPitcherYearsDetail(playerId, years);
+                PitcherYearsDetailResDto pitcherYearsDetailResDto = playerService.getPitcherYearsDetail(statusId, years);
 
 
                 playerDetailResDto = new PlayerDetailResDto(200,"OK",pitcherYearsDetailResDto);

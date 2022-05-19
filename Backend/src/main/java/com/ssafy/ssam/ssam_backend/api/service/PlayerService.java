@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PlayerService {
-    HitterYearsDetailResDto getHitterYearsDetail(Long playerId, String years)throws Exception;
+    HitterYearsDetailResDto getHitterYearsDetail(Long statusId, String years)throws Exception;
 
-    PitcherYearsDetailResDto getPitcherYearsDetail(Long playerId, String years)throws Exception;
+    PitcherYearsDetailResDto getPitcherYearsDetail(Long statusId, String years)throws Exception;
 
     HitterDaysDetailResDto getHitterDaysDetail(Long playerId, LocalDate days)throws Exception;
 
