@@ -335,7 +335,7 @@ export default function MyTeams(props) {
       return {
         battingOrder: member.ord,
         defensePosition: member.pos,
-        pitcherOrHitter: member.ord === 10 ? "Pitcher" : "Hitter",
+        pitcherOrHitter: member.pos === "P" ? "Pitcher" : "Hitter",
         statusId: member.statusId
       }
     })
