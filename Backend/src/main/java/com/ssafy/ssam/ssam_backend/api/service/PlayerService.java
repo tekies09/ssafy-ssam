@@ -25,4 +25,8 @@ public interface PlayerService {
     List<HitterYearsDetailResDto> getHitterList(int page, int limit, String year)throws Exception;
 
     List<PitcherYearsDetailResDto> getPitcherList(int page, int limit, String year)throws Exception;
+
+    Long getHitterAllCount()throws Exception;
+
+    Long getPitcherAllCount()throws Exception;
 }

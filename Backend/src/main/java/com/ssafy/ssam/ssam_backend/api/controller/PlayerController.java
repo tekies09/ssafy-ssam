@@ -213,8 +213,14 @@ public class PlayerController {
         return new ResponseEntity<>(hitterYearsListResDto,status);
 
     }
+    @ApiOperation(value = "타자 전체 개수")
+    @GetMapping("/hitterAllCount")
+    public ResponseEntity<Long> hitterAllCount()throws Exception{
+        return new ResponseEntity<Long>(playerService.getHitterAllCount(),HttpStatus.OK);
+    }
 
-    @ApiOperation(value = "타자 연간정보 + 이름 + 팀")
+
+    @ApiOperation(value = "투수 연간정보 + 이름 + 팀")
     @GetMapping("/pitcherList")
     public ResponseEntity<PitcherYearsListResDto> getPitcherList(@RequestParam @ApiParam(value = "연도") String year , @RequestParam @ApiParam(value = "페이지") int page, @RequestParam @ApiParam(value = "페이지 당 몇개") int limit)throws  Exception{
         PitcherYearsListResDto pitcherYearsListResDto;
@@ -231,10 +237,13 @@ public class PlayerController {
 
         }
 
-
-
         return new ResponseEntity<>(pitcherYearsListResDto,status);
 
+    }
+    @ApiOperation(value = "투수수 전체 개수")
+   @GetMapping("/pitcherAllCount")
+    public ResponseEntity<Long> pitcherAllCount()throws Exception{
+        return new ResponseEntity<Long>(playerService.getPitcherAllCount(),HttpStatus.OK);
     }
 
 }

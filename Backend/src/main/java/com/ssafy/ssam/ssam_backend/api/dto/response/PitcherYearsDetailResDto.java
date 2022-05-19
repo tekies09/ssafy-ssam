@@ -13,6 +13,10 @@ import java.math.BigDecimal;
 public class PitcherYearsDetailResDto {
     @ApiModelProperty(value = "팀")
     private String team;
+    @ApiModelProperty(value = "선수 id")
+    private Long playerId;
+    @ApiModelProperty(value = "이 기록 id")
+    private Long statusId;
     @ApiModelProperty(value = "선수 이름")
     private String name;
     @ApiModelProperty(value = "연도")
@@ -127,7 +131,8 @@ public class PitcherYearsDetailResDto {
         this.tbf_cn = pitcherYearsStatus.getTbf_cn();
 
         this.kbb_rt = pitcherYearsStatus.getKbb_rt();
-
+        this.playerId = pitcherYearsStatus.getPlayer().getPlayerId();
+        this.statusId = pitcherYearsStatus.getPitcherYearsSId();
 
     }
 
