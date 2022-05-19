@@ -10,9 +10,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const PostCreate = props => {
+const PostCreate = (props) => {
   const navigate = useNavigate();
-  const userId = useSelector(state => state.user.userId);
+  const user = useSelector((state) => state.user);
   const [title, setTitle] = useState("");
   const [myTeamId, setMyTeamId] = useState(0);
   const [teamList, setTeamList] = useState([]);
@@ -28,17 +28,18 @@ const PostCreate = props => {
 
   // 글 작성자의 나만의 팀 목록을 가져온다.
   const getMyTeamList = () => {
+    // console.log(user);
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "GET",
-      url: `myteam/userTeamList/${userId}`,
+      url: `myteam/userTeamList/${user.userId}`,
     })
-      .then(res => {
-        let teamList = res.data;
-        setTeamList(teamList);
+      .then((res) => {
+        let tList = res.data.myTeamList;
+        setTeamList(tList);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -50,11 +51,11 @@ const PostCreate = props => {
     { myTeamId: 4, myTeamName: "리버풀" },
   ];
 
-  const handleTitleInput = event => {
+  const handleTitleInput = (event) => {
     setTitle(event.target.value);
   };
 
-  const handleTeamSelect = event => {
+  const handleTeamSelect = (event) => {
     setMyTeamId(event.target.value);
 
     // TODO: 화면에 팀 정보를 표 형태로 보여준다.
@@ -80,14 +81,14 @@ const PostCreate = props => {
       data: {
         bbTitle: title,
         myTeamId: myTeamId,
-        userId: userId,
+        userId: user.userId,
       },
     })
-      .then(res => {
+      .then((res) => {
         navigate("/board/battle/");
         console.log(res.data.message);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -128,22 +129,26 @@ const PostCreate = props => {
             <KeyboardBackspaceIcon fontSize="large" />
           </IconButton>
           {/* 등록 버튼 */}
-          <Button
-            sx={{ m: 0, color: "white", borderRadius: 8 }}
-            variant="contained"
-            color="sub_300"
-            size="large"
-            onClick={handleSubmitClick}
-          >
-            <Typography textAlign="left">등록</Typography>
-          </Button>
+          {teamList.length > 0 ? (
+            <Button
+              sx={{ m: 0, color: "white", borderRadius: 8 }}
+              variant="contained"
+              color="sub_300"
+              size="large"
+              onClick={handleSubmitClick}
+            >
+              <Typography textAlign="left">등록</Typography>
+            </Button>
+          ) : (
+            ""
+          )}
         </Box>
       </Box>
 
       <Divider sx={{ mt: 1, mb: 2, width: "100%" }} />
 
       <Box sx={{ width: "100%" }}>
-        {mockData ? (
+        {teamList.length > 0 ? (
           <Box sx={{ m: 2 }}>
             {/* 제목 입력창 */}
             <FormControl sx={{ mb: 2 }} fullWidth>
@@ -175,7 +180,7 @@ const PostCreate = props => {
                 ⚾ My Team ⚾
               </Typography>
               <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
-                {mockData.map(data => (
+                {teamList.map((data) => (
                   <MenuItem value={data.myTeamId} key={data.myTeamId}>
                     {data.myTeamName}
                   </MenuItem>
