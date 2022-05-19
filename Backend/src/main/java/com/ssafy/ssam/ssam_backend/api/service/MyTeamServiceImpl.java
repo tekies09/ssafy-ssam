@@ -123,7 +123,12 @@ public class MyTeamServiceImpl implements MyTeamService {
         List<MyTeam> entityList = myTeamRepository.findAllByUser(userRepository.findById(userId).get());
 
         for(MyTeam myTeam : entityList){
-            MyTeamResDto myTeamResDto = new MyTeamResDto(myTeam);
+            List<MyTeamPlayerResDto> dtoList = new ArrayList<>();
+            for(MyTeamPlayer myTeamPlayer : myTeam.getMyTeamPlayerList()){
+                MyTeamPlayerResDto teamPlayer= new MyTeamPlayerResDto(myTeamPlayer);
+                dtoList.add(teamPlayer);
+            }
+            MyTeamResDto myTeamResDto = new MyTeamResDto(myTeam.getMyTeamId(),myTeam.getMyTeamName(),dtoList);
             teamDtoList.add(myTeamResDto);
         }
 
