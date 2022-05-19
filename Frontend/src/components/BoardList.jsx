@@ -216,7 +216,7 @@ const BoardList = (props) => {
         return (
           <TableBody>
             {posts.map((post) => (
-              <TableRow key={post.freeBoardId}>
+              <TableRow id={post.freeBoardId}>
                 <StyledTableCell component="th" scope="row" align="center">
                   {post.freeBoardId}
                 </StyledTableCell>
