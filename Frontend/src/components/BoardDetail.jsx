@@ -108,20 +108,30 @@ const BoardDetail = props => {
           );
         }
       case "battleBoard":
-        <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
-          {/* TODO : 팀 정보 보여주기 */}
-          {post.teamName} 팀과 배틀하시겠습니까?
-          {/* 배틀 버튼 */}
-          <Button
-            sx={{ m: 0, color: "white", borderRadius: 8 }}
-            variant="contained"
-            color="mint"
-            size="large"
-            onClick={handleBattleClick}
+        return (
+          <Box
+            textAlign="left"
+            sx={{
+              mb: 2,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
-            <Typography textAlign="left">배틀</Typography>
-          </Button>
-        </Box>;
+            {/* 배틀 버튼 */}
+            <Button
+              sx={{ m: 0, color: "white", borderRadius: 8 }}
+              variant="contained"
+              color="mint"
+              size="large"
+              onClick={handleBattleClick}
+            >
+              <Typography textAlign="left">
+                {post.teamName} 팀과 배틀하시겠습니까?
+              </Typography>
+            </Button>
+          </Box>
+        );
       default:
         return <Box></Box>;
     }
