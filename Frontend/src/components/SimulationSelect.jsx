@@ -35,15 +35,10 @@ const SimulationSelect = props => {
       });
   };
 
-  const mockData = [
-    { myTeamId: 1, myTeamName: "싸피 이글스" },
-    { myTeamId: 2, myTeamName: "싸피 타이거즈" },
-    { myTeamId: 3, myTeamName: "토트넘" },
-    { myTeamId: 4, myTeamName: "리버풀" },
-  ];
-
   const handleTeamSelect = event => {
     setMyTeamName(event.target.value);
+
+    location.state.players;
     // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
 
@@ -101,9 +96,9 @@ const SimulationSelect = props => {
         {/* 상대 닉네임 : location.state.username */}
         <Box sx={{ width: "40%" }}>
           <Typography variant="h4" sx={{ mb: 1 }}>
-            상대 팀 이름
+            {location.state.teamName}
           </Typography>
-          <Typography variant="h6">상대 닉네임</Typography>
+          <Typography variant="h6">{location.state.username}</Typography>
         </Box>
       </Box>
 
