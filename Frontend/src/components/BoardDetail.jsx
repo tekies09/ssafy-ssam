@@ -48,7 +48,8 @@ const BoardDetail = props => {
             title: res.data.bbTitle,
             username: res.data.username,
             created_at: res.data.bbWriteTime.substring(0, 10),
-            my_team: res.data.myTeam,
+            teamName: res.data.teamName,
+            players: res.data.myTeamPlayerList,
           };
         } else if (boardType === "freeBoard") {
           postData = {
@@ -76,7 +77,11 @@ const BoardDetail = props => {
   const handleBattleClick = () => {
     // 팀 정보를 넘겨 시뮬레이션 페이지로 이동
     navigate("/simulation/select", {
-      state: { teamInfo: post.my_team, username: post.username },
+      state: {
+        teamName: post.teamName,
+        username: post.username,
+        players: post.players,
+      },
     });
   };
 
@@ -105,8 +110,7 @@ const BoardDetail = props => {
       case "battleBoard":
         <Box textAlign="left" sx={{ mb: 2, width: "100%" }}>
           {/* TODO : 팀 정보 보여주기 */}
-          {post.my_team}
-
+          {post.teamName} 팀과 배틀하시겠습니까?
           {/* 배틀 버튼 */}
           <Button
             sx={{ m: 0, color: "white", borderRadius: 8 }}
