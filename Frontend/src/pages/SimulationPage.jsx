@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Box, Grow, List, Button, Link } from "@mui/material";
+import { Typography, Box, Grow, List, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import MyTeamSummarySimulation from "../components/MyTeamSummarySimulation";
 
 import { styled } from "@mui/material/styles";
@@ -52,8 +53,7 @@ const testTeams = [
 const SimulationPage = props => {
   const [teams, setTeams] = useState(testTeams);
   const [checked, setChecked] = useState(false);
-  const [finished, setFinished] = useState(false);
-  const [logFinished, setLogFinished] = useState(false);
+  // const [finished, setFinished] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
 
   const logList = [];
@@ -815,7 +815,7 @@ const SimulationPage = props => {
         await new Promise((resolve, reject) => setTimeout(resolve, 200));
       }
 
-      setFinished(true);
+      // setFinished(true);
     }
 
     playSimulation();
@@ -925,23 +925,18 @@ const SimulationPage = props => {
 
       {/* 다시하기 버튼 */}
       {/* 작동 제대로 안 될 수 있음 */}
-      <Grow
-        in={finished}
-        style={{ transformOrigin: "0 0 0" }}
-        {...(finished ? { timeout: 2000 } : {})}
-      >
+      <Box>
         <Button
           sx={{ mt: 3, color: "white" }}
           variant="contained"
           color="mint"
           size="large"
-          onClick={() => {
-            window.location.reload();
-          }}
+          component={Link}
+          to="/board/battle"
         >
-          <Typography textAlign="left">RESTART?</Typography>
+          <Typography textAlign="left">Another Battle?</Typography>
         </Button>
-      </Grow>
+      </Box>
     </Box>
   );
 };
