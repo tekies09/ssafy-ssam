@@ -161,7 +161,7 @@ const SimulationSelect = props => {
     };
 
     // 4.5. 상대 팀 테이블 정보 넣기
-    yourTeamToServe["name"] = myTeamName;
+    yourTeamToServe["name"] = location.state.teamName;
 
     const yourMembersToServe = [];
 
@@ -182,21 +182,8 @@ const SimulationSelect = props => {
     dispatch({ type: "myTeamToServe", payload: myTeamToServe });
     dispatch({ type: "yourTeamToServe", payload: yourTeamToServe });
 
-    // 5. 시뮬레이션 화면으로 데이터와 함께 이동하기!
+    // 6. 시뮬레이션 페이지로 이동하기
     navigate("/simulation");
-    // navigate("/simulation", {
-    //   state: {
-    //     myPlayers: myPlayers,
-    //     yourPlayers: yourPlayers,
-    //     myTeamToServe: myTeamToServe,
-    //     yourTeamToServe: yourTeamToServe,
-    //   },
-    // });
-
-    // console.log(myPlayers);
-    // console.log(yourPlayers);
-    // console.log(myTeamToServe);
-    // console.log(yourTeamToServe);
   };
 
   return (
