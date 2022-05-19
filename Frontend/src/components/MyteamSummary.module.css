@@ -1,0 +1,56 @@
+.row {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+/* .memberitem {
+  display: inline-block;
+  width: 33%;
+} */
+
+.order {
+  display: inline-block;
+  text-align: end;
+  margin-right: 4px;
+  width: 15%;
+}
+
+.battleorder {
+  display: inline-block;
+  text-align: start;
+  margin-right: 4px;
+  width: 15%;
+}
+
+.name {
+  display: inline-block;
+  text-align: start;
+  margin-right: 4px;
+  width: 30%;
+}
+
+.battlename {
+  display: inline-block;
+  text-align: start;
+  margin-right: 4px;
+  width: 40%;
+}
+
+.year {
+  display: inline-block;
+  text-align: start;
+  margin-right: 4px;
+  width: 20%;
+}
+
+.position {
+  display: inline-block;
+  text-align: start;
+  width: 30%;
+}
+
+.battleposition {
+  display: inline-block;
+  text-align: start;
+  width: 10%;
+}

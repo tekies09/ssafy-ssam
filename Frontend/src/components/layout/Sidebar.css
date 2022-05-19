@@ -1,0 +1,7 @@
+.nav-item:hover {
+  background-color: #1fc4aa !important;
+}
+
+.nav-item.Mui-selected {
+  background-color: #1fc4aa !important;
+}
