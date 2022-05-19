@@ -199,7 +199,8 @@ public class PlayerController {
 
         try{
             List<HitterYearsDetailResDto> dtolist = playerService.getHitterList(page,limit,year);
-            hitterYearsListResDto = new HitterYearsListResDto(200,"OK",dtolist);
+            Long count = playerService.getHitterAllCount();
+            hitterYearsListResDto = new HitterYearsListResDto(200,"OK",dtolist,count);
             status=HttpStatus.OK;
         }
         catch (Exception e){
@@ -228,7 +229,8 @@ public class PlayerController {
 
         try{
             List<PitcherYearsDetailResDto> dtolist = playerService.getPitcherList(page,limit,year);
-            pitcherYearsListResDto = new PitcherYearsListResDto(200,"OK",dtolist);
+            Long count = playerService.getPitcherAllCount();
+            pitcherYearsListResDto = new PitcherYearsListResDto(200,"OK",dtolist,count);
             status=HttpStatus.OK;
         }
         catch (Exception e){

@@ -9,13 +9,15 @@ import java.util.List;
 @NoArgsConstructor
 public class HitterYearsListResDto extends BaseResponseBody{
     List<HitterYearsDetailResDto> detailList;
+    private Long allCount;
 
     public HitterYearsListResDto (Integer statusCode, String message){
         super(statusCode, message);
     }
-    public HitterYearsListResDto(Integer statusCode,String message, List<HitterYearsDetailResDto> list){
+    public HitterYearsListResDto(Integer statusCode,String message, List<HitterYearsDetailResDto> list,Long count){
         super(statusCode, message);
         this.detailList = list;
+        this.allCount=count;
     }
 
 }
