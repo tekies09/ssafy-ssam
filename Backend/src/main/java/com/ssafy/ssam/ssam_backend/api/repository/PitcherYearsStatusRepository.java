@@ -11,4 +11,6 @@ public interface PitcherYearsStatusRepository  extends JpaRepository<PitcherYear
     PitcherYearsStatus findByPlayerAndYears(Player player, String years);
 
     List<PitcherIdMapping> findAllIdByPlayerAndYears(Player player, String year);
+
+    List<PitcherYearsStatus> findAllIdByYears(String year);
 }
