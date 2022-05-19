@@ -668,8 +668,6 @@ const SimulationPage = props => {
       `\n==== 경기종료 ${a[10]["myTeamName"]}팀:${result["team1Point"]}점, ${b[10]["myTeamName"]}팀:${result["team2Point"]}점 ====`
     );
 
-    // 마지막 결과 => Snackbar로 표시하기
-
     if (result["team1Point"] > result["team2Point"]) {
       storeLog(`\n경기결과>> ${a[10]["myTeamName"]}팀 승리!`);
     } else if (result["team1Point"] === result["team2Point"]) {
@@ -678,8 +676,7 @@ const SimulationPage = props => {
       storeLog(`\n경기결과>> ${b[10]["myTeamName"]}팀 승리!`);
     }
 
-    // 경기 종료 처리
-    setLogFinished(true);
+    storeLog("endgame");
   }
 
   // const [logs, setLogs] = useState([]);
@@ -832,6 +829,11 @@ const SimulationPage = props => {
 
       // 3초 후 로그 보여주기 시작
       for (let i = 0; i < logList.length; i++) {
+        // 반복 실행 방지
+        if (logList[i] === "endgame") {
+          break;
+        }
+
         addLog(i, logList[i]);
         await new Promise((resolve, reject) => setTimeout(resolve, 200));
       }
