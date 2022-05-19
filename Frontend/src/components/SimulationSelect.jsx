@@ -50,21 +50,6 @@ const SimulationSelect = props => {
     const yourPlayers = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
     const myTeamToServe = { id: 1 };
     const yourTeamToServe = { id: 2 };
-    // {
-    //   name: "나만의 팀 1",
-    //   members: [
-    //     { id: 12345, ord: 1, pos: "2B", name: "김갑돌", year: "2020" },
-    //     { id: 12347, ord: 2, pos: "SS", name: "김납돌", year: "2020" },
-    //     { id: 23456, ord: 3, pos: "LF", name: "김답돌", year: "2020" },
-    //     { id: 23442, ord: 4, pos: "DH", name: "김랍돌", year: "2020" },
-    //     { id: 23313, ord: 5, pos: "1B", name: "김맙돌", year: "2020" },
-    //     { id: 26562, ord: 6, pos: "CF", name: "김밥돌", year: "2020" },
-    //     { id: 54356, ord: 7, pos: "RF", name: "김삽돌", year: "2020" },
-    //     { id: 45754, ord: 8, pos: "3B", name: "김압돌", year: "2020" },
-    //     { id: 45755, ord: 9, pos: "C", name: "김잡돌", year: "2020" },
-    //     { id: 95733, ord: 10, pos: "P", name: "김찹돌", year: "2020" },
-    //   ],
-    // },
 
     // 선수 정보가 순서대로 안 들어가는 문제 => 미리 객체 요소 만든 뒤, 인덱스로 삽입해서 해결
 
