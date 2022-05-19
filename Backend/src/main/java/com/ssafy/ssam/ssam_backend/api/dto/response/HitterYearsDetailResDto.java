@@ -14,6 +14,10 @@ public class HitterYearsDetailResDto {
 
     @ApiModelProperty(value = "팀")
     private String team;
+    @ApiModelProperty(value = "선수 playerID")
+    private Long playerId;
+    @ApiModelProperty(value = "이 기록 id")
+    private Long statusId;
     @ApiModelProperty(value = "선수 이름")
     private String name;
     @ApiModelProperty(value = "연도")
@@ -120,6 +124,8 @@ public class HitterYearsDetailResDto {
         this.sb_cn = hitterYearsStatus.getSb_cn();
         this.cs_cn= hitterYearsStatus.getCs_cn();
         this.e_cn= hitterYearsStatus.getE_cn();
+        this.playerId = hitterYearsStatus.getPlayer().getPlayerId();
+        this.statusId = hitterYearsStatus.getHitterYearsSId();
 
 
     }
