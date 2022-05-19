@@ -18,10 +18,21 @@ export default function PlayerlistTable(props) {
         </TableHead>
         <TableBody>
           {players.map((player, index) => (
-          <TableRow hover id={index} onClick={() => {handleClickRow(player.id)}}>
-            {columns.map((item, itemindex) => (
-              <TableCell id={itemindex}>{player[item]}</TableCell>
-            ))}
+          <TableRow hover id={index}
+          // onClick={() => {handleClickRow(player.id)}}
+          >
+            {columns.map((item, itemindex) => {
+              if (item === "era_rt") {
+                return (<TableCell id={itemindex}>{parseFloat(player[item]).toFixed(2)}</TableCell>)
+              }
+              if (item.slice(-2) === "rt") {
+                if (player[item] > 1) {
+                  return (<TableCell id={itemindex}>{parseFloat(player[item]).toFixed(2)}</TableCell>)
+                }
+                return (<TableCell id={itemindex}>{parseFloat(player[item]).toFixed(3)}</TableCell>)
+              }
+              return (<TableCell id={itemindex}>{player[item]}</TableCell>)
+            })}
           </TableRow>
           ))}
           {}
