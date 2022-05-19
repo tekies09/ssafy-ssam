@@ -29,7 +29,7 @@ const BattleUpdate = props => {
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "GET",
-      url: `myteam/userTeamList/${user.userId}`,
+      url: `myteam/userTeamList/${user.userid}`,
     })
       .then(res => {
         let tList = res.data.myTeamList;
