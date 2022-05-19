@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, Link, Navigate } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { Box, Button, Divider, Typography } from "@mui/material";
@@ -9,6 +9,7 @@ import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 
 const SimulationSelect = props => {
   const location = useLocation();
+  const navigate = useNavigate();
   const userInfo = useSelector(state => state.user);
   const players = location.state.players;
 
@@ -38,55 +39,32 @@ const SimulationSelect = props => {
   };
 
   const handleTeamSelect = event => {
-    // console.log(event.target.value);
-
-    // 우리 팀 정보 추가
+    console.log(event.target.value);
+    // 우리 팀 정보 저장
     setMyTeamPlayers(event.target.value["myTeamPlayerResDtoList"]);
     setMyTeamName(event.target.value["myTeamName"]);
   };
 
   const handleBattleStart = event => {
-    // 전달해야 하는 데이터
-    // 1. 우리 팀 선수 정보들
-    // 2. 상대 팀 선수 정보들
-    // location.state.players의 각 객체는 아래와 같은 정보를 가짐.
-    // {
-    //     "myTeamPlayerId": 25,
-    //     "statusId": 65,
-    //     "name": "최정",
-    //     "backNumber": 0,
-    //     "battingOrder": "1",
-    //     "defensePosition": "2B",
-    //     "pitcherOrHitter": "Hitter",
-    //     "years": "2022"
-    // },
-    // 어떻게 각 선수 스탯을 검색하지?
-    // player/yearsdetail (statusId, pOrh, years)
-    // 필요한 정보
-    // 투수 (0 ~ 8)
-    // {
-    //   ab_cn: 151, // 타수
-    //   so_cn: 14, // 삼진
-    //   h_cn: 60, // 안타
-    //   h2_cn: 11, // 2루타
-    //   h3_cn: 2, // 3루타
-    //   hr_cn: 5, // 홈런
-    //   name: "피렐라", // 타자 이름
-    // },
-    // 타자 (9)
-    // {
-    //   kbb_rt: 5.33,
-    //   name: "양현종",
-    // },
-    // 팀명 (10)
-    // {
-    //   myTeamName: "정열의 2팀",
-    // },
     const myPlayers = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
     const yourPlayers = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-
-    // console.log(myTeamName);
-    // console.log(myTeamPlayers);
+    const myTeamToServe = { id: 1 };
+    const yourTeamToServe = { id: 2 };
+    // {
+    //   name: "나만의 팀 1",
+    //   members: [
+    //     { id: 12345, ord: 1, pos: "2B", name: "김갑돌", year: "2020" },
+    //     { id: 12347, ord: 2, pos: "SS", name: "김납돌", year: "2020" },
+    //     { id: 23456, ord: 3, pos: "LF", name: "김답돌", year: "2020" },
+    //     { id: 23442, ord: 4, pos: "DH", name: "김랍돌", year: "2020" },
+    //     { id: 23313, ord: 5, pos: "1B", name: "김맙돌", year: "2020" },
+    //     { id: 26562, ord: 6, pos: "CF", name: "김밥돌", year: "2020" },
+    //     { id: 54356, ord: 7, pos: "RF", name: "김삽돌", year: "2020" },
+    //     { id: 45754, ord: 8, pos: "3B", name: "김압돌", year: "2020" },
+    //     { id: 45755, ord: 9, pos: "C", name: "김잡돌", year: "2020" },
+    //     { id: 95733, ord: 10, pos: "P", name: "김찹돌", year: "2020" },
+    //   ],
+    // },
 
     // 선수 정보가 순서대로 안 들어가는 문제 => 미리 객체 요소 만든 뒤, 인덱스로 삽입해서 해결
 
@@ -116,8 +94,6 @@ const SimulationSelect = props => {
               hr_cn: hitterInfo["hr_cn"],
               name: hitterInfo["name"],
             };
-
-            // console.log(hitterInfo["ab_cn"]);
           } else {
             let pitcherInfo = res.data.pitcherYearsDetailResDto;
 
@@ -136,9 +112,22 @@ const SimulationSelect = props => {
     myPlayers[10] = {
       myTeamName: myTeamName,
     };
-    // .push({
-    //   myTeamName: myTeamName,
-    // });
+
+    // 2.5. 우리 팀 테이블 정보 넣기
+    myTeamToServe["name"] = myTeamName;
+
+    const myMembersToServe = [];
+
+    myTeamPlayers.map(player => {
+      myMembersToServe.push({
+        ord: player["battingOrder"],
+        pos: player["defensePosition"],
+        name: player["name"],
+        year: player["years"],
+      });
+    });
+
+    myTeamToServe["members"] = myMembersToServe;
 
     // 3. 상대 팀 투수, 타자 정보 넣기
     players.map((player, idx) => {
@@ -166,8 +155,6 @@ const SimulationSelect = props => {
               hr_cn: hitterInfo["hr_cn"],
               name: hitterInfo["name"],
             };
-
-            console.log(hitterInfo["ab_cn"]);
           } else {
             let pitcherInfo = res.data.pitcherYearsDetailResDto;
 
@@ -187,9 +174,36 @@ const SimulationSelect = props => {
       myTeamName: location.state.teamName,
     };
 
+    // 4.5. 상대 팀 테이블 정보 넣기
+    yourTeamToServe["name"] = myTeamName;
+
+    const yourMembersToServe = [];
+
+    players.map(player => {
+      yourMembersToServe.push({
+        ord: player["battingOrder"],
+        pos: player["defensePosition"],
+        name: player["name"],
+        year: player["years"],
+      });
+    });
+
+    yourTeamToServe["members"] = yourMembersToServe;
+
     // 5. 시뮬레이션 화면으로 데이터와 함께 이동하기!
+    navigate("/simulation", {
+      state: {
+        myPlayers: myPlayers,
+        yourPlayers: yourPlayers,
+        myTeamToServe: myTeamToServe,
+        yourTeamToServe: yourTeamToServe,
+      },
+    });
+
     console.log(myPlayers);
     console.log(yourPlayers);
+    console.log(myTeamToServe);
+    console.log(yourTeamToServe);
   };
 
   return (
@@ -242,8 +256,6 @@ const SimulationSelect = props => {
           <Typography variant="h3">VS</Typography>
         </Box>
         {/* 상대 팀 */}
-        {/* 상대 팀 이름 : location.state.teamInfo.myTeamName */}
-        {/* 상대 닉네임 : location.state.username */}
         <Box sx={{ width: "40%" }}>
           <Typography variant="h4" sx={{ mb: 1 }}>
             {location.state.teamName}
@@ -264,7 +276,6 @@ const SimulationSelect = props => {
                 </Typography>
                 <Select
                   id="myTeam"
-                  // value={myTeamName}
                   onChange={handleTeamSelect}
                   sx={{
                     minWidth: "300px",

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Grow, List, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MyTeamSummarySimulation from "../components/MyTeamSummarySimulation";
 
 import { styled } from "@mui/material/styles";
@@ -51,6 +51,7 @@ const testTeams = [
 ];
 
 const SimulationPage = props => {
+  const location = useLocation();
   const [teams, setTeams] = useState(testTeams);
   const [checked, setChecked] = useState(false);
   // const [finished, setFinished] = useState(false);
@@ -805,8 +806,13 @@ const SimulationPage = props => {
   useEffect(() => {
     async function playSimulation() {
       setChecked(true);
-      teamFight(team1, team2);
-      await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+      await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+
+      teamFight(location.state.myPlayers, location.state.yourPlayers);
+      await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+
+      console.log(location.state.myPlayers);
+      console.log(location.state.yourPlayers);
 
       // 3초 후 로그 보여주기 시작
       for (let i = 0; i < logList.length; i++) {
