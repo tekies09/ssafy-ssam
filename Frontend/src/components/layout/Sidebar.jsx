@@ -83,7 +83,6 @@ const Sidebar = props => {
               sx={{ mt: 3, mb: 1, color: "white" }}
               align="left"
               size="large"
-              textAlign="left"
               startIcon={<AccountCircleIcon />}
               onClick={() => {
                 navigate("/account");

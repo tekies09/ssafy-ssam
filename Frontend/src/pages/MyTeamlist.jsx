@@ -92,7 +92,10 @@ export default function MyTeamlist() {
       </Grid>
       <Grid item xs={12} sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
         {teams.length === 0 && (<Typography>아직 나만의 팀을 작성하지 않았습니다.</Typography>)}
-        {teams.length > 0 && teams.map((team) => (<MyteamSummary team={team} />))}
+        {teams.length > 0 && teams.map((team, i) => (<div key={i}>
+          <MyteamSummary team={team} />
+        </div>
+        ))}
       </Grid>
     </Grid>
   )

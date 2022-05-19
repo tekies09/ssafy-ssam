@@ -205,8 +205,16 @@ const MemberInput = function (props) {
         onOpen={() => {setOpen(true)}}
         onClose={() => {setOpen(false)}}
         options={list}
-        getOptionLabel={(option) => `${option.name} ${option.pitcherOrHitter === "Pitcher" ? "투수" : "야수"}` || ""}
-        isOptionEqualToValue={(option, value) => option.statusId === value.statusId}
+        getOptionLabel={(option) => `${option.name} ${option.pitcherOrHitter === "Pitcher" ? "(투수)" : "(야수)"}` || ""}
+        renderOption={(props, option) => {
+          return (
+            <li {...props} key={`${option.playerId}-${option.statusId}`}>
+              {`${option.name} ${option.pitcherOrHitter === "Pitcher" ? "(투수)" : "(야수)"}` || ""}
+            </li>
+          )
+        }}
+
+        // isOptionEqualToValue={(option, value) => option.statusId === value.statusId}
         value={inputValue}
         onChange={(event, value) => {setInputValue(value)}}
         renderInput={(params) => (
