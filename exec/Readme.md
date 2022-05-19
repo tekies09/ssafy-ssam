@@ -13,13 +13,12 @@ http {
     server_tokens off;
 ## 빌드 및 배포
 1. 
-Hadoop
+
 Spring boot  
-Vue2  
+React
 JAVA : openjdk version "1.8.0_192"  
 InteliJ IDEA 2021.3.1  
 VSCode 1.64.2  
-Mongo:5.0.6   
 jenkins:lts-jdk8
 
 
