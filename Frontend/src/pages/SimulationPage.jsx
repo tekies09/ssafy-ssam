@@ -764,8 +764,10 @@ const SimulationPage = props => {
   const TableData = post => {
     return (
       <TableBody>
-        <TableRow key={post.freeBoardId}>
-          <StyledTableCell align="center">나의 팀</StyledTableCell>
+        <TableRow>
+          <StyledTableCell align="center">
+            {team1[10]["myTeamName"]}
+          </StyledTableCell>
           <StyledTableCell align="center" id="me-1"></StyledTableCell>
           <StyledTableCell align="center" id="me-2"></StyledTableCell>
           <StyledTableCell align="center" id="me-3"></StyledTableCell>
@@ -779,8 +781,10 @@ const SimulationPage = props => {
             0
           </StyledTableCell>
         </TableRow>
-        <TableRow key={post.freeBoardId}>
-          <StyledTableCell align="center">상대 팀</StyledTableCell>
+        <TableRow>
+          <StyledTableCell align="center">
+            {team2[10]["myTeamName"]}
+          </StyledTableCell>
           <StyledTableCell align="center" id="you-1"></StyledTableCell>
           <StyledTableCell align="center" id="you-2"></StyledTableCell>
           <StyledTableCell align="center" id="you-3"></StyledTableCell>
