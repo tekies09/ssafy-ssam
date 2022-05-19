@@ -199,7 +199,7 @@ public class PlayerController {
 
         try{
             List<HitterYearsDetailResDto> dtolist = playerService.getHitterList(page,limit,year);
-            Long count = playerService.getHitterAllCount();
+            Long count = playerService.getHitterYearCount(year);
             hitterYearsListResDto = new HitterYearsListResDto(200,"OK",dtolist,count);
             status=HttpStatus.OK;
         }
@@ -214,11 +214,7 @@ public class PlayerController {
         return new ResponseEntity<>(hitterYearsListResDto,status);
 
     }
-    @ApiOperation(value = "타자 전체 개수")
-    @GetMapping("/hitterAllCount")
-    public ResponseEntity<Long> hitterAllCount()throws Exception{
-        return new ResponseEntity<Long>(playerService.getHitterAllCount(),HttpStatus.OK);
-    }
+
 
 
     @ApiOperation(value = "투수 연간정보 + 이름 + 팀")
@@ -229,7 +225,7 @@ public class PlayerController {
 
         try{
             List<PitcherYearsDetailResDto> dtolist = playerService.getPitcherList(page,limit,year);
-            Long count = playerService.getPitcherAllCount();
+            Long count = playerService.getPitcherYearCount(year);
             pitcherYearsListResDto = new PitcherYearsListResDto(200,"OK",dtolist,count);
             status=HttpStatus.OK;
         }
@@ -242,10 +238,6 @@ public class PlayerController {
         return new ResponseEntity<>(pitcherYearsListResDto,status);
 
     }
-    @ApiOperation(value = "투수수 전체 개수")
-   @GetMapping("/pitcherAllCount")
-    public ResponseEntity<Long> pitcherAllCount()throws Exception{
-        return new ResponseEntity<Long>(playerService.getPitcherAllCount(),HttpStatus.OK);
-    }
+    
 
 }

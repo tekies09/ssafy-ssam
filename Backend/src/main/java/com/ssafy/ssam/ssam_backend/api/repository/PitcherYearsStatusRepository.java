@@ -18,5 +18,5 @@ public interface PitcherYearsStatusRepository  extends JpaRepository<PitcherYear
     List<PitcherYearsStatus> findAllIdByYears(String year);
 
     Page<PitcherYearsStatus> findAllByYears(String year, Pageable paging);
-
+    Long countAllByYears(String year);
 }

@@ -20,4 +20,6 @@ public interface HitterYearsStatusRepository extends JpaRepository<HitterYearsSt
 
     Page<HitterYearsStatus> findAllByYears(String year, Pageable pageable);
 
+    Long countAllByYears(String year);
+
 }

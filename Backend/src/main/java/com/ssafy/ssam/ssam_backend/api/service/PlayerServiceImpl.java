@@ -163,12 +163,12 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Long getHitterAllCount() throws Exception {
-        return hitterYearsStatusRepository.count();
+    public Long getHitterYearCount(String year) throws Exception {
+        return hitterYearsStatusRepository.countAllByYears(year);
     }
 
     @Override
-    public Long getPitcherAllCount() throws Exception {
-        return pitcherYearsStatusRepository.count();
+    public Long getPitcherYearCount(String year) throws Exception {
+        return pitcherYearsStatusRepository.countAllByYears(year);
     }
 }
