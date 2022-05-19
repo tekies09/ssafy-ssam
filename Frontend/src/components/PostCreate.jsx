@@ -11,7 +11,7 @@ import axios from "axios";
 
 const PostCreate = props => {
   const navigate = useNavigate();
-  const userId = useSelector(state => state.user.userId);
+  const user = useSelector((state) => state.user);
   const boardType = useSelector(state => state.boardType);
 
   const [form, setForm] = useState({
@@ -48,7 +48,7 @@ const PostCreate = props => {
         data: {
           title: form.title,
           content: form.content,
-          userId: userId,
+          userId: user.userId,
         },
       })
         .then(res => {
@@ -67,7 +67,7 @@ const PostCreate = props => {
         data: {
           title: form.title,
           content: form.content,
-          userId: userId,
+          userId: user.userId,
         },
       })
         .then(res => {
