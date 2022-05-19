@@ -4,6 +4,7 @@ import { Container, Box, Grid, Typography, FormControl, InputLabel, Paper, Selec
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Img = styled('img')({
   margin: 'auto',
@@ -92,18 +93,18 @@ const defaultValue = {
   playerId: 1,
   name: "",
   year: "",
-  team: "",
-  pos: "",
+  pitcherOrHitter: "",
+  statusId: 0,
 }
 
 // 선수 목록 예시값
 const samplePlayers = [
   defaultValue,
-  {playerId: 77829, name: '김광현', year: "2008", team: 'SSG', pos: "P", },
-  {playerId: 61101, name: '임찬규', year: "2021", team: 'LG', pos: "P", },
-  {playerId: 77248, name: '오재원', year: "2019", team: '두산', pos: "SS", },
-  {playerId: 71564, name: '이대호', year: "2021", team: '롯데', pos: "DH", },
-  {playerId: 71565, name: '이대호', year: "2022", team: '동명이인', pos: "DH",},
+  {playerId: 77829, name: '김광현', year: "2008", pitcherOrHitter: "Pitcher", statusId: 12342 },
+  {playerId: 61101, name: '임찬규', year: "2021", pitcherOrHitter: "Pitcher", statusId: 11222 },
+  {playerId: 77248, name: '오재원', year: "2019", pitcherOrHitter: "Hitter", statusId: 12322 },
+  {playerId: 71564, name: '이대호', year: "2021", pitcherOrHitter: "Hitter", statusId: 42334 },
+  {playerId: 71565, name: '이대호', year: "2022", pitcherOrHitter: "Hitter", statusId: 44333 },
 ]
 
 // 나만의 팀에 선수를 등록하는 컴포넌트
@@ -121,12 +122,13 @@ const MemberInput = function (props) {
   const loadPlayers = (year) => {
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
-      url: `player/yearNameList?year=${year}`,
+      url: `player/yearNameList?year=${year}&word=`,
+      // url: `player/yearsdetail?`,
       timeout: 3000,
       method: 'GET',
     })
     .then(response => {
-      setList(response.data)
+      setList(response.data.searchList)
     })
     .catch(error => {
       console.log(error)
@@ -149,13 +151,13 @@ const MemberInput = function (props) {
   }
 
   const handleAdd = (event) => {
-    if (inputValue.pos === 'P' && pos !== 'P') {
-      console.log("투수를 야수로 배치할 수 없습니다.")
+    if (inputValue.pitcherOrHitter === 'Pitcher' && pos !== 'P') {
+      alert("투수를 야수로 배치할 수 없습니다.")
       return
     }
     
-    if (inputValue.pos !== 'P' && pos === 'P') {
-      console.log("야수를 투수로 배치할 수 없습니다.")
+    if (inputValue.pitcherOrHitter !== 'Pitcher' && pos === 'P') {
+      alert("야수를 투수로 배치할 수 없습니다.")
       return
     }
 
@@ -164,12 +166,12 @@ const MemberInput = function (props) {
       pos: pos,
       name: inputValue.name,
       year: inputValue.year,
-      playerId: inputValue.playerId
+      playerId: inputValue.playerId,
+      statusId: inputValue.statusId,
     }
 
     console.log(newMember)
     props.addMember(newMember)
-    console.log(props.team)
     setInputValue(defaultValue)
     setOrd("")
     setPos("")
@@ -190,8 +192,8 @@ const MemberInput = function (props) {
         onOpen={() => {setOpen(true)}}
         onClose={() => {setOpen(false)}}
         options={list}
-        getOptionLabel={(option) => `${option.name} ${option.team}` || ""}
-        isOptionEqualToValue={(option, value) => option.id === value.id}
+        getOptionLabel={(option) => `${option.name} ${option.year}` || ""}
+        isOptionEqualToValue={(option, value) => option.statusId === value.statusId}
         value={inputValue}
         onChange={(event, value) => {setInputValue(value)}}
         renderInput={(params) => (
@@ -204,7 +206,7 @@ const MemberInput = function (props) {
       <FormControl fullWidth>
         <InputLabel id="batOrder">타순</InputLabel>
         <Select labelId="batOrder" label="타순" value={ord} onChange={handleOrdChange}>
-          <MenuItem value={"10"}>-</MenuItem>
+          <MenuItem value={"10"}>(투수)</MenuItem>
           <MenuItem value={"1"}>1</MenuItem>
           <MenuItem value={"2"}>2</MenuItem>
           <MenuItem value={"3"}>3</MenuItem>
@@ -248,21 +250,22 @@ export default function MyTeams(props) {
   // 나만의 팀 구성
   // 10번: 투수 (실제 타석에 서지 않음)
   const initMembers = [
-    {ord: "1", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "2", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "3", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "4", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "5", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "6", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "7", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "8", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "9", name: "", pos: "", year: "", playerId: undefined},
-    {ord: "10", name: "", pos: "", year: "", playerId: undefined},
+    {ord: "1", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "2", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "3", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "4", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "5", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "6", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "7", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "8", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "9", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
+    {ord: "10", name: "", pos: "", year: "", playerId: undefined, statusId: undefined},
   ]
 
   const [members, setMembers] = useState(initMembers)
   const [teamname, setTeamname] = useState("")
   const navigate = useNavigate()
+  const user = useSelector(state => state.user)
   
 
   // 선수 추가 / 삭제 메서드
@@ -285,12 +288,21 @@ export default function MyTeams(props) {
   }
   const deleteMember = (ord) => {
     let newMembers = members
-    newMembers[(ord - 1)] = {ord: String(ord), name: "", pos: "", year: "", playerId: undefined}
+    newMembers[(ord - 1)] = {ord: String(ord), name: "", pos: "", year: "", playerId: undefined, statusId: undefined}
     setMembers([...newMembers])
   }
 
   // 나만의 팀 작성
   const sendTeam = () => {
+    const sendMembers = members.map((member) => {
+      return {
+        battingOrder: member.ord,
+        defensePosition: member.pos,
+        pitcherOrHitter: member.ord === 10 ? "Pitcher" : "Hitter",
+        statusId: member.statusId
+      }
+    })
+
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       url: 'myteam/createMyTeam',
@@ -299,16 +311,18 @@ export default function MyTeams(props) {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       },
       data: {
+        userId: user.userid,
         myTeamName: teamname,
-        myTeamPlayerReqDtoList: members
+        myTeamPlayerReqDtoList: sendMembers
       }
-      .then(response => {
-        console.log(response)
-
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    })
+    .then(response => {
+      console.log(response)
+      console.log("나만의 팀 생성 완료")
+      navigate("/myteams")
+    })
+    .catch(error => {
+      console.log(error)
     })
   }
 
