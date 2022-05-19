@@ -193,4 +193,24 @@ public class PlayerController {
 
     }
 
+    @ApiOperation(value = "선수 기본정보 조회")
+    @GetMapping("/{playerId}")
+    public ResponseEntity<PlayerInfoResultResDto> getPlayerInfo(@PathVariable @ApiParam(value = "선수id") Long playerId) throws Exception{
+        PlayerInfoResultResDto playerInfoResultResDto;
+        HttpStatus status;
+        try{
+            PlayerInfoResDto playerInfoResDto = playerService.getPlayerInfo(playerId);
+
+            playerInfoResultResDto=new PlayerInfoResultResDto(200,"OK",playerInfoResDto);
+            status=HttpStatus.OK;
+        }
+        catch (Exception e){
+
+            playerInfoResultResDto=new PlayerInfoResultResDto(500,"INTERNAL_SERVER_ERROR");
+            status=HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(playerInfoResultResDto,status);
+    }
+
 }

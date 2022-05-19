@@ -5,6 +5,7 @@ import com.ssafy.ssam.ssam_backend.domain.PlayerType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,10 +23,10 @@ public class Player {
     private String playerName;
 
     @Column
-    private int birthYear;
+    private LocalDate birthYear;
 
     @Column
-    private int debutYear;
+    private String heightAndWeight;
 
     @Column
     private String graudate;

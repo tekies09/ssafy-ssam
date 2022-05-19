@@ -102,12 +102,12 @@ public class PlayerServiceImpl implements PlayerService {
 
             List<HitterIdMapping> hitterIdList = hitterYearsStatusRepository.findAllIdByPlayerAndYears(player, year);
             for(HitterIdMapping statusId : hitterIdList){
-                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(),statusId.getHitterYearsSId(),"Hitter",year);
+                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(), player.getPlayerId(), statusId.getHitterYearsSId(),"Hitter",year);
                 resultList.add(dto);
             }
             List<PitcherIdMapping> pitcherIdList = pitcherYearsStatusRepository.findAllIdByPlayerAndYears(player,year);
             for(PitcherIdMapping statusId : pitcherIdList){
-                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(),statusId.getPitcherYearsSId(),"Pitcher",year);
+                SearchResultResDto dto = new SearchResultResDto(player.getPlayerName(), player.getPlayerId(), statusId.getPitcherYearsSId(),"Pitcher",year);
                 resultList.add(dto);
             }
 
@@ -115,5 +115,14 @@ public class PlayerServiceImpl implements PlayerService {
 
         return resultList;
 
+    }
+
+    @Override
+    public PlayerInfoResDto getPlayerInfo(Long playerId) throws Exception {
+        PlayerInfoResDto dto;
+        Player entity = playerRepository.findById(playerId).get();
+        dto = new PlayerInfoResDto(entity);
+
+        return dto;
     }
 }
