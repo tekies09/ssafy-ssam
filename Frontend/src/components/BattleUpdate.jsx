@@ -6,8 +6,8 @@ import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-const BattleUpdate = props => {
-  const userId = useSelector(state => state.user.userId);
+const BattleUpdate = (props) => {
+  const user = useSelector((state) => state.user);
   const [teamList, setTeamList] = useState([]);
 
   const location = useLocation();
@@ -26,22 +26,22 @@ const BattleUpdate = props => {
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       method: "GET",
-      url: `myteam/userTeamList/${userId}`,
+      url: `myteam/userTeamList/${user.userId}`,
     })
-      .then(res => {
-        let teamList = res.data;
-        setTeamList(teamList);
+      .then((res) => {
+        let tList = res.data.myTeamList;
+        setTeamList(tList);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleTitleInput = event => {
+  const handleTitleInput = (event) => {
     setTitle(event.target.value);
   };
 
-  const handleTeamSelect = event => {
+  const handleTeamSelect = (event) => {
     setMyTeamId(event.target.value);
 
     // TODO: 화면에 팀 정보를 표 형태로 보여준다.
@@ -72,10 +72,10 @@ const BattleUpdate = props => {
         myTeamId: myTeamId,
       },
     })
-      .then(res => {
+      .then((res) => {
         navigate(`/board/battle/${boardId}`);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -161,13 +161,17 @@ const BattleUpdate = props => {
             <Typography sx={{ mb: 1 }} variant="h6">
               ⚾ My Team ⚾
             </Typography>
-            <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
-              {mockData.map(data => (
-                <MenuItem value={data.myTeamId} key={data.myTeamId}>
-                  {data.myTeamName}
-                </MenuItem>
-              ))}
-            </Select>
+            {teamList.length != 0 ? (
+              <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
+                {teamList.map((data) => (
+                  <MenuItem value={data.myTeamId} key={data.myTeamId}>
+                    {data.myTeamName}
+                  </MenuItem>
+                ))}
+              </Select>
+            ) : (
+              ""
+            )}
           </FormControl>
         </Box>
       </Box>
