@@ -146,4 +146,21 @@ public class PlayerServiceImpl implements PlayerService {
 
         return dtolist;
     }
+
+    @Override
+    public List<PitcherYearsDetailResDto> getPitcherList(int page, int limit, String year) throws Exception {
+        List<PitcherYearsDetailResDto> dtolist = new ArrayList<>();
+
+        Pageable paging = PageRequest.of(page,limit);
+
+        Page<PitcherYearsStatus> pitchers = pitcherYearsStatusRepository.findAllByYears(year,paging);
+
+        for(PitcherYearsStatus yearsStatus : pitchers){
+            PitcherYearsDetailResDto dto = new PitcherYearsDetailResDto(yearsStatus);
+            dtolist.add(dto);
+        }
+
+        return dtolist;
+
+    }
 }

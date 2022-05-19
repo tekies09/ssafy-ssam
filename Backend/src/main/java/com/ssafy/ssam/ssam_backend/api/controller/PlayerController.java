@@ -214,4 +214,27 @@ public class PlayerController {
 
     }
 
+    @ApiOperation(value = "타자 연간정보 + 이름 + 팀")
+    @GetMapping("/pitcherList")
+    public ResponseEntity<PitcherYearsListResDto> getPitcherList(@RequestParam @ApiParam(value = "연도") String year , @RequestParam @ApiParam(value = "페이지") int page, @RequestParam @ApiParam(value = "페이지 당 몇개") int limit)throws  Exception{
+        PitcherYearsListResDto pitcherYearsListResDto;
+        HttpStatus status;
+
+        try{
+            List<PitcherYearsDetailResDto> dtolist = playerService.getPitcherList(page,limit,year);
+            pitcherYearsListResDto = new PitcherYearsListResDto(200,"OK",dtolist);
+            status=HttpStatus.OK;
+        }
+        catch (Exception e){
+            pitcherYearsListResDto = new PitcherYearsListResDto(500,"INTERNAL_SERVER_ERROR");
+            status=HttpStatus.INTERNAL_SERVER_ERROR;
+
+        }
+
+
+
+        return new ResponseEntity<>(pitcherYearsListResDto,status);
+
+    }
+
 }
