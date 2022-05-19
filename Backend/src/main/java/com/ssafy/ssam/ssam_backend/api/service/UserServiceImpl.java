@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public boolean UpdateUser(String username, UserUpdateRequestDto requestDto) {
         User entity = userRepository.findUserByUsername(username);
         try {
-            entity.update(requestDto.getEmail(), requestDto.getPassword(), requestDto.getNickname());
+            entity.update(requestDto.getNickname());
         }
         catch (Exception e){
             return false;

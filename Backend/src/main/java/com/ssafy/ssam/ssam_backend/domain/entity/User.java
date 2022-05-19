@@ -55,9 +55,7 @@ public class User implements UserDetails {
         auth.add(new SimpleGrantedAuthority(role.toString()));
         return auth;
     }
-    public void update(String email, String password, String nickname){
-        this.email=email;
-        this.password=password;
+    public void update(String nickname){
         this.nickname=nickname;
     }
 
