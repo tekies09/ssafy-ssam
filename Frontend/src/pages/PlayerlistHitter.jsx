@@ -4,6 +4,7 @@ import axios from 'axios'
 import PlayerlistTable from '../components/PlayerlistTable'
 
 const seasonOptions = ["2022", "2021", "2020", "2019", "2018"]
+const limit = 10
 
 export default function PlayerlistHitter() {
 
@@ -41,7 +42,7 @@ export default function PlayerlistHitter() {
 
   const [players, setPlayers] = useState([])
   const [page, setPage] = useState(1)
-  const [maxPage, setMaxPage] = useState(20)
+  const [maxPage, setMaxPage] = useState(30)
   const [year, setYear] = useState("2022")
 
   const handlePaginationChange = (event, page) => {
@@ -57,12 +58,13 @@ export default function PlayerlistHitter() {
       params: {
         year: year,
         page: page,
-        limit: 10,
+        limit: limit,
       },
       timeout: 3000
     })
     .then(response => {
       setPlayers(response.data.detailList)
+      setMaxPage(parseInt(response.data.allCount / limit))
     })
     .catch(error => {
       console.log(error)
