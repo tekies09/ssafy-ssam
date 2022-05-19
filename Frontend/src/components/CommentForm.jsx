@@ -9,7 +9,7 @@ import axios from "axios";
 const CommentForm = props => {
   const inputRef = useRef(null);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
-  const userId = useSelector(state => state.user.userId);
+  const userId = useSelector(state => state.user.userid);
   const boardId = props.boardId;
 
   const [comments, setComments] = useState([]);
