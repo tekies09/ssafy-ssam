@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -9,6 +9,7 @@ import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 
 const SimulationSelect = props => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector(state => state.user);
   const players = location.state.players;
@@ -175,20 +176,27 @@ const SimulationSelect = props => {
 
     yourTeamToServe["members"] = yourMembersToServe;
 
-    // 5. 시뮬레이션 화면으로 데이터와 함께 이동하기!
-    navigate("/simulation", {
-      state: {
-        myPlayers: myPlayers,
-        yourPlayers: yourPlayers,
-        myTeamToServe: myTeamToServe,
-        yourTeamToServe: yourTeamToServe,
-      },
-    });
+    // 5. redux로 1 ~ 4의 정보 모두 store에 저장하기
+    dispatch({ type: "myPlayers", payload: myPlayers });
+    dispatch({ type: "yourPlayers", payload: yourPlayers });
+    dispatch({ type: "myTeamToServe", payload: myTeamToServe });
+    dispatch({ type: "yourTeamToServe", payload: yourTeamToServe });
 
-    console.log(myPlayers);
-    console.log(yourPlayers);
-    console.log(myTeamToServe);
-    console.log(yourTeamToServe);
+    // 5. 시뮬레이션 화면으로 데이터와 함께 이동하기!
+    navigate("/simulation");
+    // navigate("/simulation", {
+    //   state: {
+    //     myPlayers: myPlayers,
+    //     yourPlayers: yourPlayers,
+    //     myTeamToServe: myTeamToServe,
+    //     yourTeamToServe: yourTeamToServe,
+    //   },
+    // });
+
+    // console.log(myPlayers);
+    // console.log(yourPlayers);
+    // console.log(myTeamToServe);
+    // console.log(yourTeamToServe);
   };
 
   return (

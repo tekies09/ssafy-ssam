@@ -14,6 +14,7 @@ import {
   Paper,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
+import { useSelector } from "react-redux";
 
 const testTeams = [
   {
@@ -56,6 +57,11 @@ const SimulationPage = props => {
   const [checked, setChecked] = useState(false);
   // const [finished, setFinished] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
+
+  const myPlayers = useSelector(state => state.myPlayers);
+  const yourPlayers = useSelector(state => state.yourPlayers);
+  const myTeamToServe = useSelector(state => state.myTeamToServe);
+  const yourTeamToServe = useSelector(state => state.yourTeamToServe);
 
   const logList = [];
   const showedLogList = [];
@@ -808,11 +814,18 @@ const SimulationPage = props => {
       setChecked(true);
       await new Promise((resolve, reject) => setTimeout(resolve, 1000));
 
-      teamFight(location.state.myPlayers, location.state.yourPlayers);
+      // teamFight(location.state.myPlayers, location.state.yourPlayers);
       await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
-      console.log(location.state.myPlayers);
-      console.log(location.state.yourPlayers);
+      console.log(myPlayers);
+      console.log(yourPlayers);
+      console.log(myTeamToServe);
+      console.log(yourTeamToServe);
+
+      // console.log(location.state.myPlayers);
+      // console.log(location.state.yourPlayers);
+      // console.log(location.state.myTeamToServe);
+      // console.log(location.state.yourTeamToServe);
 
       // 3초 후 로그 보여주기 시작
       for (let i = 0; i < logList.length; i++) {
