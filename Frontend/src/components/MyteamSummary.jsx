@@ -7,7 +7,7 @@ export default function TeamSummary(props) {
   const { team, handleDelete } = props
 
   return (
-  <Card sx={{minWidth: 360, textAlign: "start", borderRadius: "24px", marginX: "24px", marginY: "12px"}}>
+  <Card sx={{minWidth: 360, textAlign: "start", borderRadius: "24px", margin: "12px"}}>
     <CardHeader title={team.myTeamName} sx={{borderRadius: "24px", backgroundColor: "primary.main", color: "white", margin: "6px"}}>
     </CardHeader>
     <CardContent>
