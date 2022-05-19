@@ -9,24 +9,24 @@ const defaultUser = {
   nickname: "AnonymousUser",
   exp: 0,
   iat: 0,
-  role: "GUEST"
+  role: "GUEST",
 };
 
 function getUserfromToken() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
   if (token === null) {
-    return defaultUser
+    return defaultUser;
   }
 
-  const user = jwt_decode(token)
+  const user = jwt_decode(token);
 
   // 토큰 만료
   if (user.exp * 1000 < Date.now()) {
-    console.log("token expired")
-    return defaultUser
+    console.log("token expired");
+    return defaultUser;
   }
 
-  return user
+  return user;
 }
 
 function reducer(currentState, action) {
@@ -41,60 +41,63 @@ function reducer(currentState, action) {
         deleteComment: false,
       },
       boardType: "freeBoard",
+      myPlayers: {},
+      yourPlayers: {},
+      myTeamToServe: [],
+      yourTeamToServe: [],
     };
   }
-  const newState = { ...currentState }
-  const newModal = { ...currentState.modal }
-  const newUser = {...currentState.user}
-
+  const newState = { ...currentState };
+  const newModal = { ...currentState.modal };
+  const newUser = { ...currentState.user };
 
   // store Dispatch 작성
   // case 'dispatch명': 하고 작성하시면 됩니다.
   switch (action.type) {
     case "login":
-      newState.user = action.payload
-      newState.isLoggedIn = true
-      break
+      newState.user = action.payload;
+      newState.isLoggedIn = true;
+      break;
 
     case "logout":
-      newState.user = defaultUser
-      newState.isLoggedIn = false
-      break
+      newState.user = defaultUser;
+      newState.isLoggedIn = false;
+      break;
 
     case "changeNickname":
-      newUser.nickname = action.payload
-      newState.user = newUser
-      break
+      newUser.nickname = action.payload;
+      newState.user = newUser;
+      break;
 
     case "openLoginModal":
-      newModal.login = true
-      newState.modal = newModal
-      break
-      
+      newModal.login = true;
+      newState.modal = newModal;
+      break;
+
     case "closeLoginModal":
-      newModal.login = false
-      newState.modal = newModal
-      break
-    
+      newModal.login = false;
+      newState.modal = newModal;
+      break;
+
     case "openPostDeleteModal":
-      newModal.deletePost = true
-      newState.modal = newModal
-      break
-      
+      newModal.deletePost = true;
+      newState.modal = newModal;
+      break;
+
     case "closePostDeleteModal":
-      newModal.deletePost = false
-      newState.modal = newModal
-      break
-      
+      newModal.deletePost = false;
+      newState.modal = newModal;
+      break;
+
     case "openCommentDeleteModal":
-      newModal.deleteComment = true
-      newState.modal = newModal
-      break
-    
+      newModal.deleteComment = true;
+      newState.modal = newModal;
+      break;
+
     case "closeCommentDeleteModal":
-      newModal.deleteComment = false
-      newState.modal = newModal
-      break
+      newModal.deleteComment = false;
+      newState.modal = newModal;
+      break;
 
     case "noticeType":
       newState.boardType = "notice";
@@ -106,6 +109,22 @@ function reducer(currentState, action) {
 
     case "battleBoardType":
       newState.boardType = "battleBoard";
+      break;
+
+    case "myPlayers":
+      newState.myPlayers = action.payload;
+      break;
+
+    case "yourPlayers":
+      newState.yourPlayers = action.payload;
+      break;
+
+    case "myTeamToServe":
+      newState.myTeamToServe = action.payload;
+      break;
+
+    case "yourTeamToServe":
+      newState.yourTeamToServe = action.payload;
       break;
 
     default:

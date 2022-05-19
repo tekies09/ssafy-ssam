@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Grow, List, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MyTeamSummarySimulation from "../components/MyTeamSummarySimulation";
 
 import { styled } from "@mui/material/styles";
@@ -14,47 +14,18 @@ import {
   Paper,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
-
-const testTeams = [
-  {
-    id: 1,
-    name: "나만의 팀 1",
-    members: [
-      { id: 12345, ord: 1, pos: "2B", name: "김갑돌", year: "2020" },
-      { id: 12347, ord: 2, pos: "SS", name: "김납돌", year: "2020" },
-      { id: 23456, ord: 3, pos: "LF", name: "김답돌", year: "2020" },
-      { id: 23442, ord: 4, pos: "DH", name: "김랍돌", year: "2020" },
-      { id: 23313, ord: 5, pos: "1B", name: "김맙돌", year: "2020" },
-      { id: 26562, ord: 6, pos: "CF", name: "김밥돌", year: "2020" },
-      { id: 54356, ord: 7, pos: "RF", name: "김삽돌", year: "2020" },
-      { id: 45754, ord: 8, pos: "3B", name: "김압돌", year: "2020" },
-      { id: 45755, ord: 9, pos: "C", name: "김잡돌", year: "2020" },
-      { id: 95733, ord: 10, pos: "P", name: "김찹돌", year: "2020" },
-    ],
-  },
-  {
-    id: 2,
-    name: "나만의 팀 2",
-    members: [
-      { id: 12345, ord: 1, pos: "2B", name: "김갑돌", year: "2020" },
-      { id: 12347, ord: 2, pos: "SS", name: "김납돌", year: "2020" },
-      { id: 23456, ord: 3, pos: "LF", name: "김답돌", year: "2020" },
-      { id: 23442, ord: 4, pos: "DH", name: "김랍돌", year: "2020" },
-      { id: 23313, ord: 5, pos: "1B", name: "김맙돌", year: "2020" },
-      { id: 26562, ord: 6, pos: "CF", name: "김밥돌", year: "2020" },
-      { id: 54356, ord: 7, pos: "RF", name: "김삽돌", year: "2020" },
-      { id: 45754, ord: 8, pos: "3B", name: "김압돌", year: "2020" },
-      { id: 45755, ord: 9, pos: "C", name: "김잡돌", year: "2020" },
-      { id: 95733, ord: 10, pos: "P", name: "김찹돌", year: "2020" },
-    ],
-  },
-];
+import { useSelector } from "react-redux";
 
 const SimulationPage = props => {
-  const [teams, setTeams] = useState(testTeams);
+  // const [teams, setTeams] = useState(testTeams);
   const [checked, setChecked] = useState(false);
   // const [finished, setFinished] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
+
+  const myPlayers = useSelector(state => state.myPlayers);
+  const yourPlayers = useSelector(state => state.yourPlayers);
+  const myTeamToServe = useSelector(state => state.myTeamToServe);
+  const yourTeamToServe = useSelector(state => state.yourTeamToServe);
 
   const logList = [];
   const showedLogList = [];
@@ -71,188 +42,6 @@ const SimulationPage = props => {
     team1takehitnum: 0,
     team2takehitnum: 0,
   };
-
-  const team1 = [
-    {
-      ab_cn: 151, // 타수
-      so_cn: 14, // 삼진
-      h_cn: 60, // 안타
-      h2_cn: 11, // 2루타
-      h3_cn: 2, // 3루타
-      hr_cn: 5, // 홈런
-      name: "피렐라", // 타자 이름
-    },
-    {
-      ab_cn: 141,
-      so_cn: 14,
-      h_cn: 52,
-      h2_cn: 4,
-      h3_cn: 0,
-      hr_cn: 5,
-      name: "김현수",
-    },
-    {
-      ab_cn: 144,
-      so_cn: 16,
-      h_cn: 51,
-      h2_cn: 11,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "이대호",
-    },
-    {
-      ab_cn: 136,
-      so_cn: 17,
-      h_cn: 46,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 1,
-      name: "한동희",
-    },
-    {
-      ab_cn: 145,
-      so_cn: 3,
-      h_cn: 48,
-      h2_cn: 9,
-      h3_cn: 0,
-      hr_cn: 4,
-      name: "김선빈",
-    },
-    {
-      ab_cn: 135,
-      so_cn: 17,
-      h_cn: 44,
-      h2_cn: 6,
-      h3_cn: 0,
-      hr_cn: 2,
-      name: "이정후",
-    },
-    {
-      ab_cn: 132,
-      so_cn: 30,
-      h_cn: 43,
-      h2_cn: 15,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "전준우",
-    },
-    {
-      ab_cn: 143,
-      so_cn: 38,
-      h_cn: 46,
-      h2_cn: 11,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "한유섬",
-    },
-    {
-      ab_cn: 140,
-      so_cn: 17,
-      h_cn: 45,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "나성범",
-    },
-    {
-      kbb_rt: 5.33,
-      name: "김광현",
-    },
-    {
-      myTeamName: "열정의 1팀",
-    },
-  ];
-
-  const team2 = [
-    {
-      ab_cn: 151,
-      so_cn: 14,
-      h_cn: 60,
-      h2_cn: 11,
-      h3_cn: 2,
-      hr_cn: 5,
-      name: "손아섭",
-    },
-    {
-      ab_cn: 141,
-      so_cn: 14,
-      h_cn: 52,
-      h2_cn: 4,
-      h3_cn: 0,
-      hr_cn: 5,
-      name: "홍창기",
-    },
-    {
-      ab_cn: 144,
-      so_cn: 16,
-      h_cn: 51,
-      h2_cn: 11,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "노시환",
-    },
-    {
-      ab_cn: 136,
-      so_cn: 17,
-      h_cn: 46,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 1,
-      name: "박건우",
-    },
-    {
-      ab_cn: 145,
-      so_cn: 3,
-      h_cn: 48,
-      h2_cn: 9,
-      h3_cn: 0,
-      hr_cn: 4,
-      name: "조용호",
-    },
-    {
-      ab_cn: 135,
-      so_cn: 17,
-      h_cn: 44,
-      h2_cn: 6,
-      h3_cn: 0,
-      hr_cn: 2,
-      name: "김지찬",
-    },
-    {
-      ab_cn: 132,
-      so_cn: 30,
-      h_cn: 43,
-      h2_cn: 15,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "허경민",
-    },
-    {
-      ab_cn: 143,
-      so_cn: 38,
-      h_cn: 46,
-      h2_cn: 11,
-      h3_cn: 1,
-      hr_cn: 5,
-      name: "안치홍",
-    },
-    {
-      ab_cn: 140,
-      so_cn: 17,
-      h_cn: 45,
-      h2_cn: 10,
-      h3_cn: 0,
-      hr_cn: 8,
-      name: "최정",
-    },
-    {
-      kbb_rt: 5.33,
-      name: "양현종",
-    },
-    {
-      myTeamName: "정열의 2팀",
-    },
-  ];
 
   function movePlayer(plusNum, teamNum) {
     if (plusNum === 1) {
@@ -695,16 +484,6 @@ const SimulationPage = props => {
     storeLog("endgame");
   }
 
-  // const [logs, setLogs] = useState([]);
-
-  // const printLog = setInterval(() => {
-  //   console.log(testLogs[logIdx++]);
-
-  //   if (logIdx === testLogs.length) {
-  //     clearInterval(printLog);
-  //   }
-  // }, 500);
-
   // 로그 내용을 logs 배열에 저장한다.
   const storeLog = log => {
     logList.push(log);
@@ -766,7 +545,7 @@ const SimulationPage = props => {
       <TableBody>
         <TableRow>
           <StyledTableCell align="center">
-            {team1[10]["myTeamName"]}
+            {myPlayers[10]["myTeamName"]}
           </StyledTableCell>
           <StyledTableCell align="center" id="me-1"></StyledTableCell>
           <StyledTableCell align="center" id="me-2"></StyledTableCell>
@@ -783,7 +562,7 @@ const SimulationPage = props => {
         </TableRow>
         <TableRow>
           <StyledTableCell align="center">
-            {team2[10]["myTeamName"]}
+            {yourPlayers[10]["myTeamName"]}
           </StyledTableCell>
           <StyledTableCell align="center" id="you-1"></StyledTableCell>
           <StyledTableCell align="center" id="you-2"></StyledTableCell>
@@ -805,8 +584,10 @@ const SimulationPage = props => {
   useEffect(() => {
     async function playSimulation() {
       setChecked(true);
-      teamFight(team1, team2);
-      await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+      await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+
+      teamFight(myPlayers, yourPlayers);
+      await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
       // 3초 후 로그 보여주기 시작
       for (let i = 0; i < logList.length; i++) {
@@ -836,8 +617,8 @@ const SimulationPage = props => {
       }}
     >
       <MyTeamSummarySimulation
-        team={teams[0]}
-        key={teams[0].id}
+        team={myTeamToServe}
+        key={myTeamToServe.id}
         isMyTeam={true}
       />
 
@@ -851,8 +632,8 @@ const SimulationPage = props => {
 
       {/* 상대 팀 */}
       <MyTeamSummarySimulation
-        team={teams[1]}
-        key={teams[1].id}
+        team={yourTeamToServe}
+        key={yourTeamToServe.id}
         isMyTeam={false}
       />
     </Box>
@@ -864,7 +645,6 @@ const SimulationPage = props => {
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#F6F6F6",
-        // border: "2px solid black",
         alignItems: "center",
         m: 4,
         p: 4,
@@ -910,8 +690,6 @@ const SimulationPage = props => {
         sx={{
           mt: 1,
           width: "100%",
-          // maxWidth: 360,
-          // bgcolor: "background.paper",
           position: "relative",
           overflow: "auto",
           minHeight: "25vh",
@@ -921,14 +699,8 @@ const SimulationPage = props => {
         }}
         id="log-box"
       ></List>
-      {/* <Box sx={{ mt: 4 }} id="log-box">
-        {logs.map(log => {
-          <Typography>{log}</Typography>;
-        })}
-      </Box> */}
 
       {/* 다시하기 버튼 */}
-      {/* 작동 제대로 안 될 수 있음 */}
       <Box>
         <Button
           sx={{ mt: 3, color: "white" }}
