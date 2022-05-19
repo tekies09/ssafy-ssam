@@ -1,43 +1,9 @@
-import { Grid, Typography, Autocomplete, TextField } from '@mui/material'
+import { Grid, Typography, Autocomplete, TextField, Pagination } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import PlayerlistTable from '../components/PlayerlistTable'
 
 const seasonOptions = ["2022", "2021", "2020", "2019", "2018"]
-const sampleHitterList = [
-  {
-    "name": "김타자",
-    "id": 123456,
-    "team": "SK",
-    "avg_rt": "111",
-    "gdp_cn": "111",
-    "pa_cn": "111",
-    "h_cn": "111",
-    "hr_cn": "111",
-    "rbi_cn": "111",
-    "r_cn": "111",
-    "bb_cn": "111",
-    "so_cn": "111",
-    "gdp_cn": "111",
-    "ops_rt": "111",
-  },
-  {
-    "name": "박타자",
-    "id": 123333,
-    "team": "SK",
-    "avg_rt": "111",
-    "gdp_cn": "111",
-    "pa_cn": "111",
-    "h_cn": "111",
-    "hr_cn": "111",
-    "rbi_cn": "111",
-    "r_cn": "111",
-    "bb_cn": "111",
-    "so_cn": "111",
-    "gdp_cn": "111",
-    "ops_rt": "111",
-  },
-]
 
 export default function PlayerlistHitter() {
 
@@ -54,7 +20,7 @@ export default function PlayerlistHitter() {
     "bb_cn",
     "so_cn",
     "gdp_cn",
-    "ops_rt",
+    // "ops_rt",
   ]
 
   const labels = [
@@ -70,12 +36,12 @@ export default function PlayerlistHitter() {
     "볼넷",
     "삼진",
     "병살",
-    "OPS",
+    // "OPS",
   ]
 
   const [players, setPlayers] = useState([])
   const [page, setPage] = useState(1)
-  const [maxPage, setMaxPage] = useState(1)
+  const [maxPage, setMaxPage] = useState(20)
   const [year, setYear] = useState("2022")
 
   const handlePaginationChange = (event, page) => {
@@ -86,19 +52,24 @@ export default function PlayerlistHitter() {
   useEffect(() => {
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
-      url: "players/hitter",
+      url: "player/hitterList",
       method: "GET",
+      params: {
+        year: year,
+        page: page,
+        limit: 10,
+      },
       timeout: 3000
     })
     .then(response => {
-      setPlayers(response.data.players)
+      setPlayers(response.data.detailList)
     })
     .catch(error => {
       console.log(error)
       // alert("선수 목록 로드에 실패했습니다.")
-      setPlayers([...sampleHitterList])
+      setPlayers([])
     })
-  }, [year])
+  }, [year, page])
 
   return (
     <Grid container mt={3} mx={1}>
@@ -113,6 +84,7 @@ export default function PlayerlistHitter() {
           id="season-combo"
           onChange={(event, value) => {setYear(value)}}
           options={seasonOptions}
+          value={year}
           sx={{ width: 160, marginLeft: "auto", marginRight: "16px" }}
           renderInput={(params) => <TextField {...params} label="시즌" />}
         />
@@ -121,15 +93,17 @@ export default function PlayerlistHitter() {
         <PlayerlistTable players={players} columns={columns} labels={labels} />
       </Grid>
       <Grid item xs={12}>
-        {/* <Pagination
-          sx={{ my: 3 }}
-          count={maxPage} // 페이지 수
-          showFirstButton
-          showLastButton
-          size="large"
-          color="sub_300"
-          onChange={handlePaginationChange}
-        /> */}
+        <div style={{display: "flex", justifyContent: "center"}}>
+          <Pagination
+            sx={{ my: 3 }}
+            count={maxPage} // 페이지 수
+            showFirstButton
+            showLastButton
+            size="large"
+            color="primary"
+            onChange={handlePaginationChange}
+          />
+        </div>
       </Grid>
     </Grid>
   )
