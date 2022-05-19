@@ -33,9 +33,6 @@ public class MyTeamPlayer {
     private String pitcherOrHitter;
 
     @Column
-    private int backNumber;
-
-    @Column
     private String battingOrder;
 
     @Column

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class HitterSituationStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pitcherSitSId;
+    private Long hitterSitSId;
 
     @Column
     private String years;
