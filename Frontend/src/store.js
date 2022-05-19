@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
+import jwt_decode from "jwt-decode";
+
 const defaultUser = {
   sub: "AnonymousUser",
   userid: 0,
@@ -16,7 +18,7 @@ function getUserfromToken() {
     return defaultUser
   }
 
-  const user = JSON.parse(atob(token.split('.')[1]))
+  const user = jwt_decode(token)
 
   // 토큰 만료
   if (user.exp * 1000 < Date.now()) {
