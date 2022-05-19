@@ -38,7 +38,7 @@ public class MyTeamPlayerResDto {
             this.years = myTeamPlayer.getPitcherYearsStatus().getYears();
             this.name = myTeamPlayer.getPitcherYearsStatus().getPlayer().getPlayerName();
         }
-        this.backNumber = myTeamPlayer.getBackNumber();
+
         this.battingOrder = myTeamPlayer.getBattingOrder();
         this.defensePosition = myTeamPlayer.getDefensePosition();
     }
