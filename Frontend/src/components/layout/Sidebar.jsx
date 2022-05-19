@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Box, Divider, Button, Typography, Drawer } from "@mui/material";
 import { List, ListItem, ListItemText, Collapse } from "@mui/material";
@@ -16,15 +16,16 @@ const Sidebar = props => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [playerInfoOpen, setPlayerInfoOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleMenuClick = (event, index) => {
     setSelectedIndex(index);
 
-    // if (index === 0) {
-    //   dispatch({ type: "noticeType" });
-    // }
+    if (index === 0) {
+      dispatch({ type: "noticeType" });
+    }
 
-    if (index === 0 || index === 1) {
+    if (index === 1) {
       dispatch({ type: "freeBoardType" });
     }
 
@@ -32,7 +33,7 @@ const Sidebar = props => {
       dispatch({ type: "battleBoardType" });
     }
 
-    if (index === 4) {
+    if (index === 3) {
       setPlayerInfoOpen(!playerInfoOpen);
     } else {
       setPlayerInfoOpen(false);
@@ -42,16 +43,16 @@ const Sidebar = props => {
   const handleLogout = () => {
     dispatch({ type: "logout" });
     localStorage.removeItem("token");
+    navigate("/");
   };
 
   const sidebarWidth = 202;
   const myPoint = 100;
-  // 로그인한 경우 => "나만의 팀" 메뉴 추가
   const menus = [
     { name: "공지사항", url: "/board/notice" },
     { name: "자유게시판", url: "/board/free" },
     { name: "배틀게시판", url: "/board/battle" },
-    { name: "시뮬레이션", url: "/" },
+    // { name: "시뮬레이션", url: "/simulation/select" },
   ];
 
   const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -62,7 +63,6 @@ const Sidebar = props => {
           <Button
             sx={{ color: "white" }}
             size="large"
-            // align="left"
             onClick={handleLogout}
             startIcon={<LogoutIcon />}
           >
@@ -83,8 +83,10 @@ const Sidebar = props => {
               sx={{ mt: 3, mb: 1, color: "white" }}
               align="left"
               size="large"
-              textAlign="left"
               startIcon={<AccountCircleIcon />}
+              onClick={() => {
+                navigate("/account");
+              }}
             >
               <Typography textAlign="left">마이 페이지</Typography>
             </Button>
@@ -173,8 +175,8 @@ const Sidebar = props => {
             <ListItem
               sx={{ borderRadius: 1 }}
               button
-              selected={selectedIndex === 4}
-              onClick={event => handleMenuClick(event, 4)}
+              selected={selectedIndex === 3}
+              onClick={event => handleMenuClick(event, 3)}
               key="선수정보"
               color="white"
               className="nav-item"
@@ -187,10 +189,24 @@ const Sidebar = props => {
             {/* 선수정보 하위 메뉴 */}
             <Collapse in={playerInfoOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem sx={{ borderRadius: 1 }} button key="타자">
+                <ListItem
+                  sx={{ borderRadius: 1 }}
+                  button
+                  key="타자"
+                  color="white"
+                  component={Link}
+                  to="players/hitter"
+                >
                   <ListItemText align="right" primary="타자" />
                 </ListItem>
-                <ListItem sx={{ borderRadius: 1 }} button key="투수">
+                <ListItem
+                  sx={{ borderRadius: 1 }}
+                  button
+                  key="투수"
+                  color="white"
+                  component={Link}
+                  to="players/pitcher"
+                >
                   <ListItemText align="right" primary="투수" />
                 </ListItem>
               </List>
@@ -198,13 +214,13 @@ const Sidebar = props => {
             <ListItem
               sx={{ borderRadius: 1 }}
               button
-              selected={selectedIndex === 5}
-              onClick={event => handleMenuClick(event, 5)}
+              selected={selectedIndex === 4}
+              onClick={event => handleMenuClick(event, 4)}
               key="나만의 팀"
               color="white"
               className="nav-item"
               component={Link}
-              to="/"
+              to="/myteams"
             >
               <ListItemText sx={{ mr: 1 }} align="right" primary="나만의 팀" />
             </ListItem>

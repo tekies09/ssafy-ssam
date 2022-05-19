@@ -25,45 +25,26 @@ const TabPanel = (props) => {
 }
 
 const BaseStat = (props) => {
-  const {playerName, team, birthYear, graudate, heightAndweight, state, payroll, playerType} = props.player
+  const {name, team, birth_year, debut_year, position, backnumber} = props.player
   return (
     <>
       <Grid item xs={12} m={3} sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-        <Typography variant="h4">{playerName}</Typography>
-        {/* <Typography variant="h5" textAlign="end" sx={{verticalAlign: "text-bottom"}}>{team} no.{backnumber}</Typography> */}
+        <Typography variant="h4">{name}</Typography>
+        <Typography variant="h5" textAlign="end" sx={{verticalAlign: "text-bottom"}}>{team} no.{backnumber}</Typography>
       </Grid>
       <Grid item xs={12} m={3}>
-        <Paper sx={{padding: "16px"}}>
-          <Typography>
-            생년월일
-          </Typography>
-          <Typography mb={2}>
-            <b>{birthYear}</b>
-          </Typography>
-          <Typography>
-            출신학교(팀)
-          </Typography>
-          <Typography mb={2}>
-            <b>{graudate}</b>
-          </Typography>
-          <Typography>
-            연봉
-          </Typography>
-          <Typography mb={2}>
-            <b>{payroll}</b>
-          </Typography>
-          <br />
-          <Typography>
-            {state === "ACTIVE" ? "현역" : "은퇴"} 선수입니다. {playerType !== "NOT" && "(용병)"}
-          </Typography>
-
-        </Paper>
+        <Typography>
+          {birth_year}년생 / {debut_year}년 데뷔
+        </Typography>
+        <Typography>
+          포지션: <b>{position}</b>
+        </Typography>
       </Grid>
     </>
   )
 }
 
-const HitterYearStat = (props) => {
+const PitcherYearStat = (props) => {
   const {year, team, avg, G, PA, AB, R, H, RBI} = props.stats
 
   const columns = ["", "소속팀", "타율", "경기", "타석", "타수", "안타", "타점", "득점"]
@@ -89,7 +70,7 @@ const HitterYearStat = (props) => {
   )
 }
 
-const HitterSituationalStat = (props) => {
+const PitcherSituationalStat = (props) => {
   const {runner, ballcount, batorder, pitcher, outcount} = props.stats
   const columns = ["구분", "타율", "타석", "안타"]
   const rows = ["cat", "avg", "AB", "H"]
@@ -139,23 +120,68 @@ const HitterSituationalStat = (props) => {
 }
 
 
-export default function Playerinfo(props) {
+export default function Pitcherinfo(props) {
   const defaultProps = {
     player: {
-      playerName: "이름",
-      birthYear: "2000-01-01",
-      heightAndweight: "123/123",
-      graudate: "이름",
-      state: "이름",      // 현역인지 아닌지
-      payroll: "10000",   // 만원 단위
-      playerType: "이름", // 용병인지 아닌지
-    },
-    pitcherStat: {
+      id: 76313,
+      name: "황재균",
+      debut_year: "2006",
+      birth_year: "1987",
+      team: "KT 위즈",
+      position: "내야수(우투우타)",
+      backnumber: "10",
+      stats: {
+        year: 2022,
+        team: "KT",
+        avg: 0.313,
+        G: 30,
+        PA: 128,
+        AB: 112,
+        R: 15,
+        H: 35,
+        RBI: 15, 
+      },
+      situational_stats: {
+        runner: [
+          {
+            cat: "주자없음",
+            avg: 0.281,
+            AB: 64,
+            H: 18,
+          },
+          {
+            cat: "1루",
+            avg: 0.300,
+            AB: 20,
+            H: 6,
+          },
+          {
+            cat: "2루",
+            avg: 0.462,
+            AB: 13,
+            H: 6,
+          },
+        ],
+        ballcount: [
+          {
+            cat: "0-0",
+            avg: 0.417,
+            AB: 12,
+            H: 5,
+          }
+        ],
+        batorder: [
 
-    },
-    hitterStat: {
+        ],
+        pitcher: [
 
-    },
+        ],
+        outcount: [
+
+        ],
+      },
+
+    }
   }
 
   const [player, setPlayer] = useState(defaultProps.player)
@@ -174,11 +200,16 @@ export default function Playerinfo(props) {
     if (playerid !== undefined) {
       axios({
         baseURL: process.env.REACT_APP_SERVER_URL,
-        url: `player/${playerid}`,
+        url: 'player/yearsdetail',
         method: 'GET',
+        params: {
+          playerId: playerid,
+          pOrh: 'p',
+          years: '2022',
+        }
       })
       .then(response => {
-        setPlayer(response.data.playerInfoResDto)
+        setPlayer(response.data.player)
       })
       .catch(error => {
         console.log(error)
@@ -193,27 +224,24 @@ export default function Playerinfo(props) {
       sx={{".tabpanel": {margin: 3}}}
     >
       <BaseStat player={player}></BaseStat>
-      {/* <Grid item xs={12} m={3}>
+      <Grid item xs={12} m={3}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label="player stats" color="primary">
             <Tab label="시즌 기록" {...a11yProps(0)} />
             <Tab label="상황별 기록" {...a11yProps(1)} />
           </Tabs>
-      </Grid> */}
+      </Grid>
 
-      {/* <Grid item xs={12}>
+      <Grid item xs={12}>
         <TabPanel value={tabValue} index={0}>
-          <HitterYearStat stats={player.stats}></HitterYearStat>    
+          <PitcherYearStat stats={player.stats}></PitcherYearStat>    
         </TabPanel>
-      </Grid> */}
+      </Grid>
 
-      {/* <Grid item xs={12}>
+      <Grid item xs={12}>
         <TabPanel value={tabValue} index={1}>
-          <HitterSituationalStat stats={player.situational_stats}></HitterSituationalStat>    
+          <PitcherSituationalStat stats={player.situational_stats}></PitcherSituationalStat>    
         </TabPanel>
-      </Grid> */}
-    
-    
-    
+      </Grid>   
     </Grid>
   )
 }

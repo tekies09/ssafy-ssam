@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Container, TextField, Button, Box, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import NewSnackbar from '../components/NewSnackbar'
 
 export default function Signup(props) {
   const navigate = useNavigate()
@@ -10,21 +11,27 @@ export default function Signup(props) {
 
   // 회원가입 폼
   const [form, setForm] = useState({
-    username: '',
-    password: '',
-    passwordConfirm: '',
-    email: '',
-    nickname: ''
+    username: "",
+    password: "",
+    passwordConfirm: "",
+    email: "",
+    nickname: ""
   })
 
   // 폼 Validation 상태
   const [errors, setErrors] = useState({
-    username: [false, ''],
-    password: [false, ''],
-    passwordConfirm: [false, ''],
-    email: [false, ''],
-    nickname: [false, ''],
+    username: "",
+    password: "",
+    passwordConfirm: "",
+    email: "",
+    nickname: "",
   })
+
+  // Snackbar 설정
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMsg, setSnackbarMsg] = useState("")
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info")
+
 
   // 폼 입력
   const onInput = (event) => {
@@ -35,10 +42,10 @@ export default function Signup(props) {
     // 폼 입력 시 해당 필드 validation 상태 초기화
     // 비밀번호(확인) 필드일 경우: 반대쪽 필드도 함께 초기화
     if (id === 'password' || id === 'passwordConfirm') {
-      setErrors((errors) => ({...errors, password: [false, '']}))
-      setErrors((errors) => ({...errors, passwordConfirm: [false, '']}))
+      setErrors((errors) => ({...errors, password: ""}))
+      setErrors((errors) => ({...errors, passwordConfirm: ""}))
     } else {
-      setErrors((errors) => ({...errors, [id]: [false, '']}))
+      setErrors((errors) => ({...errors, [id]: ""}))
     }
 
   }
@@ -51,26 +58,26 @@ export default function Signup(props) {
     // 빈값 체크
     required.forEach(field => {
       if (form[field] === '') {
-        setErrors((errors) => ({...errors, [field]: [true, '반드시 입력해야 합니다.']}))
+        setErrors((errors) => ({...errors, [field]: "반드시 입력해야 합니다."}))
         isValid = false
       }
     })
 
     // 이메일 주소 형식 체크
     if (form.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(form.email)) {
-      setErrors((errors) => ({...errors, email: [true, '잘못된 이메일입니다.']}))
+      setErrors((errors) => ({...errors, email: "잘못된 이메일입니다."}))
       isValid = false
     }
     
     // 비밀번호 확인 체크
     if (form.password !== form.passwordConfirm) {
-      setErrors((errors) => ({...errors, passwordConfirm: [true, '비밀번호가 일치하지 않습니다.']}))
+      setErrors((errors) => ({...errors, passwordConfirm: "비밀번호가 일치하지 않습니다."}))
       isValid = false
     }
-
+    
     return isValid
   }
-
+  
   // "회원가입" 버튼
   const onSignup = (event) => {
     event.preventDefault()
@@ -86,26 +93,77 @@ export default function Signup(props) {
         data: sendForm
       })
       .then(response => {
+        console.log(response)
+        setSnackbarSeverity("success")
+        setSnackbarMsg("회원가입이 완료되었습니다.")
+        setSnackbarOpen(true)
+        console.log("snackbar-ed")
+      })
+      .then(() => {
         navigate("/")
-        alert("회원가입이 완료되었습니다. 로그인해주세요.")
         dispatch({type: "openLoginModal"})
       })
       .catch(error => {
+        setSnackbarSeverity("error")
+        if (error.response) {
+          if (error.response.data.result) {
+            setSnackbarMsg(error.response.data.result)
+          } else {
+            setSnackbarMsg(error.message)
+          }
+        }
+        setSnackbarOpen(true)
         console.log(error)
       })
     }
   }
-
+  
   // "뒤로" 버튼
   const onBack = (event) => {
     navigate(-1)
   }
-
+  
+  
+  // 아이디 중복 확인
+  const checkUsername = (str) => {
+    if (str === "") {
+      setErrors((errors) => ({...errors, username: "반드시 입력해야 합니다."}))
+      return 
+    } else {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `user/iddupcheck/${str}`,
+        method: "GET",
+        timeout: 3000
+      })
+      .then(response => {
+        setSnackbarMsg("사용할 수 있는 아이디입니다.")
+        setSnackbarSeverity("success")
+        setSnackbarOpen(true)
+      })
+      .catch(error => {
+        if (error.response) {
+          if (error.response.status === 404) {
+            setSnackbarMsg("사용할 수 없는 아이디입니다.")
+          } else if (error.response.data.result) {
+            setSnackbarMsg(error.response.data.result)
+          }
+        } else {
+          setSnackbarMsg(error.message)
+        }
+        setSnackbarSeverity("error")
+        setSnackbarOpen(true)
+        console.log(error)
+      })
+    }
+  }
+  
+  
   return (
     <Container component="main" maxWidth="md" sx={{
-        display: "flex",
-        flexGrow: 1,
-      }}
+      display: "flex",
+      flexGrow: 1,
+    }}
     >
       <Box mt={5}
         sx={{
@@ -128,17 +186,17 @@ export default function Signup(props) {
                 onChange={onInput}
                 label="아이디"
                 fullWidth
-                error={errors.username[0]}
-                helperText={errors.username[1]}
+                error={errors.username!==""}
+                helperText={errors.username}
                 />
             </Grid>
             <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
               <Button
                 fullWidth
                 size="large"
-                type="submit"
                 color="primary"
                 variant="outlined"
+                onClick={() => {checkUsername(form.username)}}
                 >중복확인</Button>
             </Grid>
             <Grid item xs={12}>
@@ -150,8 +208,8 @@ export default function Signup(props) {
                 onChange={onInput}
                 label="비밀번호"
                 fullWidth
-                error={errors.password[0]}
-                helperText={errors.password[1]}
+                error={errors.password!==""}
+                helperText={errors.password}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -163,11 +221,11 @@ export default function Signup(props) {
                 onChange={onInput}
                 label="비밀번호 확인"
                 fullWidth
-                error={errors.passwordConfirm[0]}
-                helperText={errors.passwordConfirm[1]}
+                error={errors.passwordConfirm!==""}
+                helperText={errors.passwordConfirm}
                 />
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 required
                 id="email"
@@ -176,18 +234,18 @@ export default function Signup(props) {
                 onChange={onInput}
                 label="이메일"
                 fullWidth
-                error={errors.email[0]}
-                helperText={errors.email[1]}
+                error={errors.email!==""}
+                helperText={errors.email}
                 />
             </Grid>
-            <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
+            {/* <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
               <Button
                 fullWidth
                 type="submit"
                 color="primary"
                 variant="outlined"
                 >이메일 인증</Button>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 required
@@ -196,8 +254,8 @@ export default function Signup(props) {
                 onChange={onInput}
                 label="닉네임"
                 fullWidth
-                error={errors.nickname[0]}
-                helperText={errors.nickname[1]}
+                error={errors.nickname!==""}
+                helperText={errors.nickname}
                 />
             </Grid>
             <Grid item xs={12} alignItems="stretch" mt={5} sx={{display: "flex"}}>
@@ -216,6 +274,7 @@ export default function Signup(props) {
                 variant="contained"
                 onClick={onBack}
               >뒤로</Button>
+              <NewSnackbar open={snackbarOpen} setOpen={setSnackbarOpen} message={snackbarMsg} severity={snackbarSeverity} />
             </Grid>
           </Grid>
         </Box>

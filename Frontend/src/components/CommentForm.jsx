@@ -1,67 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Box, Button, Typography, Grid } from "@mui/material";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, TextField, Input } from "@mui/material";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const CommentForm = props => {
-  const user = useSelector(state => state.user);
+  const inputRef = useRef(null);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const userId = useSelector(state => state.user.userid);
+  const boardId = props.boardId;
 
-  // const [form, setForm] = useState({
-  //   id: "",
-  //   author: "",
-  //   content: "",
-  // });
-
-  const mockComment = [
-    {
-      id: 1,
-      author: "유지민",
-      content: "ㄹㅇㅋㅋ 솔직히 개오바였음 ㅋㅋ",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 2,
-      author: "최연준",
-      content: "2222",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 3,
-      author: "심자윤",
-      content: "3333",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 4,
-      author: "이동혁",
-      content:
-        "댓글은 최대 200자 이내로만 작성 가능합니다. 댓글은 최대 200자 이내로만 작성 가능합니다. 댓글은 최대 200자 이내로만 작성 가능합니다.",
-      created_at: "2022.05.03 21:52",
-    },
-    {
-      id: 5,
-      author: "김가을",
-      content: "this is english comment",
-      created_at: "2022.05.03 21:52",
-    },
-  ];
+  const [comments, setComments] = useState([]);
+  let content = "";
+  // const [content, setContent] = useState("");
+  // const commentInput = document.querySelector("#comment-input");
 
   const handleCommentInput = event => {
-    const value = event.target.value;
-    console.log(value);
+    content = event.target.value;
+  };
 
-    // TODO: 댓글 입력시 데이터 저장하기
+  // 최초 로딩시에만 실행 (이후 댓글 추가시마다 댓글 목록 업데이트)
+  useEffect(() => {
+    console.log("useEffect");
+    getReplyList({
+      boardId: boardId,
+    });
+  }, []);
+
+  // 댓글 등록
+  const handleSubmitClick = async () => {
+    if (content === "") {
+      return;
+    }
+
+    await axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "POST",
+      url: `/free/${boardId}/comments`,
+      data: {
+        content: content,
+        freeBoardId: boardId,
+        userId: userId,
+      },
+    })
+      .then(res => {
+        // 댓글 입력창 초기화
+        content = "";
+
+        // 댓글 목록 업데이트
+        getReplyList({
+          boardId: boardId,
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  // 토론 커뮤니티 댓글 목록 가져오기
+  const getReplyList = async props => {
+    await axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "GET",
+      url: `free/${props.boardId}/comments`,
+      params: props,
+    })
+      .then(res => {
+        setComments(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const CommentAddForm = props => {
-    if (user.isLoggedIn) {
+    if (isLoggedIn) {
       return (
-        <>
+        <Box>
           {/* 새로운 댓글 입력창 */}
           <FormControl sx={{ mt: 2, mb: 1 }} fullWidth>
-            <TextField
+            <Input
               sx={{
                 borderRadius: 4,
                 backgroundColor: "white",
@@ -69,12 +91,11 @@ const CommentForm = props => {
                 px: 2,
                 py: 1,
               }}
-              onChange={handleCommentInput}
-              placeholder="댓글을 입력해 주세요."
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-              }}
+              id="comment-input"
+              size="small"
+              disableUnderline="true"
+              // value={content}
+              onInput={handleCommentInput}
             />
           </FormControl>
           {/* 댓글 등록 버튼 */}
@@ -83,11 +104,12 @@ const CommentForm = props => {
               sx={{ m: 0, color: "white", borderRadius: 8 }}
               variant="contained"
               color="sub_300"
+              onClick={handleSubmitClick}
             >
               <Typography textAlign="left">등록</Typography>
             </Button>
           </Grid>
-        </>
+        </Box>
       );
     } else {
       return <></>;
@@ -97,6 +119,7 @@ const CommentForm = props => {
   return (
     <Box
       sx={{
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#F6F6F6",
@@ -106,9 +129,11 @@ const CommentForm = props => {
     >
       <Box sx={{ width: "100%" }}>
         <Box sx={{ my: 2 }}>
-          {mockComment.map(comment => (
-            <Comment comment={comment} />
-          ))}
+          {comments
+            ? comments.map((comment, idx) => (
+                <Comment comment={comment} boardId={boardId} idx={idx} />
+              ))
+            : ""}
           <CommentAddForm />
         </Box>
       </Box>

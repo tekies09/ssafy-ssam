@@ -16,15 +16,23 @@ import BattleCreatePage from "../pages/Board/BattleCreatePage";
 import BattleBoardDetail from "../pages/Board/BattleBoardDetail";
 import BattleUpdatePage from "../pages/Board/BattleUpdatePage";
 import MainPage from "../pages/MainPage";
+import MyTeams from "../pages/MyTeams";
+import MyTeamlist from "../pages/MyTeamlist";
 import Sidebar from "../components/layout/Sidebar";
 import Account from "../pages/Account";
 import Playerinfo from "../pages/Playerinfo";
 import ScrollTop from "../components/layout/ScrollTop";
+import Header from "../components/layout/Header";
+import PlayerlistHitter from "../pages/PlayerlistHitter";
+import PlayerlistPitcher from "../pages/PlayerlistPitcher";
+import SimulationPage from "../pages/SimulationPage";
+import SimulationSelectPage from "../pages/SimulationSelectPage";
 
 export default function RouterComponent() {
   return (
     <>
       <Router>
+        <Header />
         <Sidebar />
         {/* 사이드바 공간을 차지하는 pseudo-class */}
         <Box sx={{ minWidth: "250px", maxWidth: "250px" }}></Box>
@@ -34,6 +42,10 @@ export default function RouterComponent() {
             <Route path="/" element={<MainPage />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/account" element={<Account />} />
+
+            {/* 나만의 팀 */}
+            <Route path="/myteams" element={<MyTeamlist />} />
+            <Route path="/myteams/form" element={<MyTeams />} />
 
             {/* 공지사항 */}
             <Route path="/board/notice" element={<NoticeBoardList />} />
@@ -68,9 +80,17 @@ export default function RouterComponent() {
               path="/board/battle/:battleBoardId/update"
               element={<BattleUpdatePage />}
             />
+            {/* 시뮬레이션 */}
+            <Route
+              path="/simulation/select"
+              element={<SimulationSelectPage />}
+            />
+            <Route path="/simulation" element={<SimulationPage />} />
 
             {/* 선수 정보 */}
-            <Route path="/player/:id" element={<Playerinfo />} />
+            <Route path="/player/:playerid" element={<Playerinfo />} />
+            <Route path="/players/hitter" element={<PlayerlistHitter />} />
+            <Route path="/players/pitcher" element={<PlayerlistPitcher />} />
           </Routes>
           <ScrollTop />
         </Box>

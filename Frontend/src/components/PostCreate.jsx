@@ -6,12 +6,13 @@ import { FormControl, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const PostCreate = props => {
-  const navigate = useNavigate()
-  const user = useSelector(state => state.user);
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const boardType = useSelector(state => state.boardType);
 
   const [form, setForm] = useState({
     title: "",
@@ -29,34 +30,55 @@ const PostCreate = props => {
   // 게시글 등록
   const handleSubmitClick = () => {
     if (form.title === "") {
-      alert('제목을 입력해주세요.')
+      alert("제목을 입력해주세요.");
       return;
     }
 
     if (form.content === "") {
-      alert('내용을 입력해주세요.')
+      alert("내용을 입력해주세요.");
       return;
     }
 
-    axios({
-      baseURL: process.env.REACT_APP_SERVER_URL,
-      timeout: 3000,
-      method: "POST",
-      url: "/free/post",
-      data: {
-        "title": form.title,
-        "content": form.content,
-        // TODO: userId 추가!
-        "userId": 1,
-      }
-    })
-      .then(res => {
-        navigate("/board/free/")
+    if (boardType === "freeBoard") {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        timeout: 3000,
+        method: "POST",
+        url: "/free/post",
+        data: {
+          title: form.title,
+          content: form.content,
+          userId: user.userid,
+        },
       })
-      .catch(err => {
-        console.log(err);
+        .then(res => {
+          console.log(res.data);
+          navigate("/board/free/");
+        })
+        .catch(err => {
+          console.log(err.response.data);
+        });
+    } else {
+      axios({
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        timeout: 3000,
+        method: "POST",
+        url: "/notice/post",
+        data: {
+          title: form.title,
+          content: form.content,
+          userId: user.userid,
+        },
       })
-  }
+        .then(res => {
+          console.log(res.data);
+          navigate("/board/notice/");
+        })
+        .catch(err => {
+          console.log(err.response.data);
+        });
+    }
+  };
 
   return (
     <Box

@@ -1,27 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, TextField, Select, InputLabel } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const PostCreate = props => {
+const PostCreate = (props) => {
   const navigate = useNavigate();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
   const [title, setTitle] = useState("");
+  const [myTeamId, setMyTeamId] = useState(0);
+  const [teamList, setTeamList] = useState([]);
 
-  const handleFormInput = event => {
+  // const [form, setForm] = useState({
+  //   title: "",
+  //   myTeamId: undefined,
+  // });
+
+  useEffect(() => {
+    getMyTeamList();
+  }, []);
+
+  // 글 작성자의 나만의 팀 목록을 가져온다.
+  const getMyTeamList = () => {
+    // console.log(user);
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      timeout: 3000,
+      method: "GET",
+      url: `myteam/userTeamList/${user.userid}`,
+    })
+      .then((res) => {
+        let tList = res.data.myTeamList;
+        setTeamList(tList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const mockData = [
+    { myTeamId: 1, myTeamName: "싸피 이글스" },
+    { myTeamId: 2, myTeamName: "싸피 타이거즈" },
+    { myTeamId: 3, myTeamName: "토트넘" },
+    { myTeamId: 4, myTeamName: "리버풀" },
+  ];
+
+  const handleTitleInput = (event) => {
     setTitle(event.target.value);
+  };
+
+  const handleTeamSelect = (event) => {
+    setMyTeamId(event.target.value);
+
+    // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
 
   // 게시글 등록
   const handleSubmitClick = () => {
     if (title === "") {
       alert("제목을 입력해주세요.");
+      return;
+    }
+
+    if (myTeamId === "") {
+      alert("나의 팀을 선택해주세요.");
       return;
     }
 
@@ -32,18 +80,15 @@ const PostCreate = props => {
       url: "/battle/post",
       data: {
         bbTitle: title,
-        // 나의 팀 ID 선택하는 부분 추가하기!
-        // myTeamId, userId
-        myTeamId: 1,
-        userId: 1,
+        myTeamId: myTeamId,
+        userId: user.userid,
       },
     })
-      .then(res => {
+      .then((res) => {
         navigate("/board/battle/");
-        // 목록으로 이동
         console.log(res.data.message);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -84,67 +129,85 @@ const PostCreate = props => {
             <KeyboardBackspaceIcon fontSize="large" />
           </IconButton>
           {/* 등록 버튼 */}
-          <Button
-            sx={{ m: 0, color: "white", borderRadius: 8 }}
-            variant="contained"
-            color="sub_300"
-            size="large"
-            onClick={handleSubmitClick}
-          >
-            <Typography textAlign="left">등록</Typography>
-          </Button>
+          {teamList.length > 0 ? (
+            <Button
+              sx={{ m: 0, color: "white", borderRadius: 8 }}
+              variant="contained"
+              color="sub_300"
+              size="large"
+              onClick={handleSubmitClick}
+            >
+              <Typography textAlign="left">등록</Typography>
+            </Button>
+          ) : (
+            ""
+          )}
         </Box>
       </Box>
 
       <Divider sx={{ mt: 1, mb: 2, width: "100%" }} />
 
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ m: 2 }}>
-          {/* TODO: 제목/내용 입력시 outline 표시하기 */}
-          {/* 제목 입력창 */}
-          <FormControl sx={{ mb: 2 }} fullWidth>
-            <TextField
-              sx={{
-                borderRadius: 4,
-                backgroundColor: "white",
-                disableUnderline: true,
-                px: 2,
-                py: 1,
-              }}
-              id="title"
-              required
-              value={title}
-              onChange={handleFormInput}
-              placeholder="제목을 입력해 주세요."
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </FormControl>
-          {/* 내용 입력창 */}
-          {/* <FormControl fullWidth>
-            <TextField
-              sx={{
-                borderRadius: 4,
-                backgroundColor: "white",
-                disableUnderline: true,
-                p: 2,
-              }}
-              id="content"
-              required
-              value={form.content}
-              onChange={handleFormInput}
-              placeholder="내용을 입력해 주세요."
-              multiline
-              rows={10}
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </FormControl> */}
-        </Box>
+        {teamList.length > 0 ? (
+          <Box sx={{ m: 2 }}>
+            {/* 제목 입력창 */}
+            <FormControl sx={{ mb: 2 }} fullWidth>
+              <Typography sx={{ mb: 1 }} variant="h6">
+                Title
+              </Typography>
+              <TextField
+                sx={{
+                  borderRadius: 4,
+                  backgroundColor: "white",
+                  disableUnderline: true,
+                  px: 2,
+                  py: 1,
+                }}
+                id="title"
+                required
+                value={title}
+                onChange={handleTitleInput}
+                placeholder="제목을 입력해 주세요."
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                }}
+              />
+            </FormControl>
+            {/* 나만의 팀 선택 */}
+            <FormControl fullWidth>
+              <Typography sx={{ mb: 1 }} variant="h6">
+                ⚾ My Team ⚾
+              </Typography>
+              <Select id="myTeam" value={myTeamId} onChange={handleTeamSelect}>
+                {teamList.map((data) => (
+                  <MenuItem value={data.myTeamId} key={data.myTeamId}>
+                    {data.myTeamName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        ) : (
+          <Box>
+            <FormControl fullWidth>
+              <Typography sx={{ mb: 1 }} variant="h6">
+                ⚾ My Team ⚾
+              </Typography>
+            </FormControl>
+            <Button
+              sx={{ m: 1, p: 1, color: "white" }}
+              variant="contained"
+              color="sub_300"
+              component={Link}
+              to="/myteams"
+            >
+              <Typography textAlign="left" variant="subtitle2">
+                아직 나만의 팀이 없습니다. 나만의 팀을 만들러 가볼까요?
+              </Typography>
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );

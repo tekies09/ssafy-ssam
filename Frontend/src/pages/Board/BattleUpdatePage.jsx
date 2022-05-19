@@ -1,9 +1,8 @@
 import React from "react";
-import PostUpdate from "../../components/PostUpdate";
+import BattleUpdate from "../../components/BattleUpdate";
 
-// TODO: 수정
 const BattleUpdatePage = props => {
-  return <PostUpdate title="수정하기" />;
+  return <BattleUpdate title="수정하기" />;
 };
 
 export default BattleUpdatePage;

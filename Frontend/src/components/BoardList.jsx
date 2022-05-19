@@ -20,12 +20,13 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import CreateIcon from "@mui/icons-material/Create";
 import { useSelector } from "react-redux";
 
-const BoardList = props => {
+const BoardList = (props) => {
   const navigate = useNavigate();
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
-  const user = useSelector(state => state.user);
-  const boardType = useSelector(state => state.boardType);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const boardType = useSelector((state) => state.boardType);
+  const userRole = useSelector((state) => state.user.role);
 
   const [posts, setPosts] = useState([]);
 
@@ -53,6 +54,8 @@ const BoardList = props => {
       requestUrl = "/free/allcount";
     } else if (boardType === "battleBoard") {
       requestUrl = "/battle/allcount";
+    } else {
+      requestUrl = "/notice/allcount";
     }
 
     axios({
@@ -61,24 +64,26 @@ const BoardList = props => {
       method: "GET",
       url: requestUrl,
     })
-      .then(res => {
+      .then((res) => {
         let totalCount = res.data;
         setMaxPage(Math.ceil(totalCount / POST_PER_PAGE));
         console.log("총 페이지 수 : " + maxPage);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   // 게시글 목록 받아오기
-  const getPostList = async props => {
+  const getPostList = async (props) => {
     let requestUrl = "";
 
     if (boardType === "freeBoard") {
       requestUrl = "/free/list";
-    } else {
+    } else if (boardType === "battleBoard") {
       requestUrl = "/battle/list";
+    } else {
+      requestUrl = "/notice/list";
     }
 
     await axios({
@@ -88,27 +93,38 @@ const BoardList = props => {
       url: requestUrl,
       params: props,
     })
-      .then(res => {
-        console.log(res.data.content);
+      .then((res) => {
         let postList = [];
 
         if (boardType === "freeBoard") {
           postList = res.data.content;
-          postList.map(post => {
-            // 작성 시간 날짜만 표기하기
-            post.fbWriteTime = post.fbWriteTime.substring(0, 10);
-          });
-        } else {
+
+          if (postList) {
+            postList.map((post) => {
+              // 작성 시간 날짜만 표기하기
+              post.fbWriteTime = post.fbWriteTime.substring(0, 10);
+            });
+          }
+        } else if (boardType === "battleBoard") {
           postList = res.data.battleBoardList;
-          postList.map(post => {
+          postList.map((post) => {
             // 작성 시간 날짜만 표기하기
             post.bbWriteTime = post.bbWriteTime.substring(0, 10);
           });
+        } else {
+          postList = res.data.content;
+
+          if (postList) {
+            postList.map((post) => {
+              // 작성 시간 날짜만 표기하기
+              post.nwriteTime = post.nwriteTime.substring(0, 10);
+            });
+          }
         }
 
         setPosts(postList);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -143,7 +159,7 @@ const BoardList = props => {
     console.log("현재 페이지 : " + page);
   };
 
-  const handleSearchMenuChange = event => {
+  const handleSearchMenuChange = (event) => {
     setSearchMenu(event.target.value);
   };
 
@@ -165,33 +181,42 @@ const BoardList = props => {
   }));
 
   const CreateButton = () => {
-    // TODO: 공지사항의 경우 관리자만 쓸 수 있게 하기
-    if (user.isLoggedIn) {
+    if (boardType === "notice" && userRole !== "ADMIN") {
       return (
-        <Button
-          sx={{ m: 0, color: "white" }}
-          variant="contained"
-          color="mint"
-          size="large"
-          component={Link}
-          to="./create"
-          startIcon={<CreateIcon />}
-        >
-          <Typography textAlign="left">작성하기</Typography>
-        </Button>
+        <Box>
+          <Typography variant="subtitle2">
+            🔸 공지사항은 관리자만 작성 가능합니다 🔸
+          </Typography>
+        </Box>
       );
-    } else {
+    }
+
+    if (!isLoggedIn) {
       return <Box></Box>;
     }
+
+    return (
+      <Button
+        sx={{ m: 0, color: "white" }}
+        variant="contained"
+        color="mint"
+        size="large"
+        component={Link}
+        to="./create"
+        startIcon={<CreateIcon />}
+      >
+        <Typography textAlign="left">작성하기</Typography>
+      </Button>
+    );
   };
 
-  const PostData = post => {
+  const PostData = () => {
     switch (boardType) {
       case "freeBoard":
         return (
           <TableBody>
-            {posts.map(post => (
-              <TableRow key={post.freeBoardId}>
+            {posts.map((post) => (
+              <TableRow id={post.freeBoardId}>
                 <StyledTableCell component="th" scope="row" align="center">
                   {post.freeBoardId}
                 </StyledTableCell>
@@ -216,7 +241,7 @@ const BoardList = props => {
       case "battleBoard":
         return (
           <TableBody>
-            {posts.map(post => {
+            {posts.map((post) => (
               <TableRow key={post.battleBoardId} width="100%">
                 <StyledTableCell component="th" scope="row" align="center">
                   {post.battleBoardId}
@@ -235,8 +260,34 @@ const BoardList = props => {
                 <StyledTableCell align="center">
                   {post.bbWriteTime}
                 </StyledTableCell>
-              </TableRow>;
-            })}
+              </TableRow>
+            ))}
+          </TableBody>
+        );
+      case "notice":
+        return (
+          <TableBody>
+            {posts.map((post) => (
+              <TableRow key={post.noticeId}>
+                <StyledTableCell component="th" scope="row" align="center">
+                  {post.noticeId}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{ maxWidth: "300px", textDecoration: "none" }}
+                  align="center"
+                  component={Link}
+                  to={`./${post.noticeId}`}
+                >
+                  <Typography noWrap>{post.ntitle}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.author.username}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.nwriteTime}
+                </StyledTableCell>
+              </TableRow>
+            ))}
           </TableBody>
         );
       default:

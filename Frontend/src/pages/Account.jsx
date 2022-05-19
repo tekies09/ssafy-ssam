@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Route, useNavigate } from 'react-router-dom'
 import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 import axios from 'axios'
@@ -11,35 +11,40 @@ import Close from '@mui/icons-material/Close'
 const ChangeNickname = (props) => {
   const user = props.user
   const [input, setInput] = useState(user.nickname)
+  const dispatch = useDispatch()
   
   const handleNicknameButton = (event) => {
     event.preventDefault()
     console.log(input)
-
+    
     // console.log들은 snackbar, alert 등으로 바꿀 것
     if (input === user.nickname) {
       console.log('동일한 닉네임입니다.')
       return
     }
-
+    
     if (input === '') {
       console.log('올바르지 않은 닉네임입니다.')
       return
     }
-
+    
     const newuser = {...user, nickname: input}
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
       headers: {
-        'Authentication': ''
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
       },
-      url: '',
+      url: 'user/modify/',
       method: 'PUT',
-      data: newuser
+      data: {
+        "nickname": input
+      }
     })
     .then(response => {
       console.log('닉네임이 변경되었습니다.')
+      console.log(response)
+      dispatch({type: "changeNickname", payload: response.data.user.nickname})
       // 페이지 재로드
     })
     .catch(error => {
@@ -47,7 +52,8 @@ const ChangeNickname = (props) => {
       console.log(error)
     })
   }
-    
+  
+  
   return (<Box textAlign='start' m={3}>
   <h3>닉네임 변경</h3>
   <p>새로 사용할 닉네임을 작성해주세요.</p>
@@ -63,7 +69,7 @@ const ChangeNickname = (props) => {
 
 const SignOut = (props) => {
   const [open, setOpen] = useState(false)
-
+  
   return (<Box textAlign='start' m={3}>
     <h3>회원 탈퇴</h3>
     <Box textAlign='center'>
@@ -74,7 +80,26 @@ const SignOut = (props) => {
 }
 
 const SignOutModal = (props) => {
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleSignOut = () => {
+    axios({
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: "user/resign",
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      timeout: 3000
+    })
+    .then(response => {
+      dispatch({type: "logout"})
+      alert("회원탈퇴가 완료되었습니다.")
+      navigate("/")
+  
+    })
+  }
+  
   return (<Dialog open={props.open}>
     <DialogTitle>회원탈퇴</DialogTitle>
     <IconButton edge='end' onClick={() => {props.setOpen(false)}} sx={{position: 'absolute', right: 20, top: 20}}>
@@ -83,7 +108,7 @@ const SignOutModal = (props) => {
     <DialogContent>
       <p>SSAM에서 탈퇴하시면 더 이상 SSAM이 제공하는 야구 데이터 분석 / 시뮬레이션 정보를 이용하실 수 없습니다. 정말로 탈퇴하시겠습니까?</p>
       <DialogActions>
-        <Button fullWidth variant="contained">
+        <Button fullWidth variant="contained" onClick={handleSignOut}>
           탈퇴
         </Button>
       </DialogActions>
