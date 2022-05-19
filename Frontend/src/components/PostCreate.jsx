@@ -48,7 +48,7 @@ const PostCreate = props => {
         data: {
           title: form.title,
           content: form.content,
-          userId: user.userId,
+          userId: user.userid,
         },
       })
         .then(res => {
@@ -67,7 +67,7 @@ const PostCreate = props => {
         data: {
           title: form.title,
           content: form.content,
-          userId: user.userId,
+          userId: user.userid,
         },
       })
         .then(res => {
