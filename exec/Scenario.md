@@ -10,7 +10,7 @@
 
 메인 화면 경기 일정 및 차주의 일정을 확인할수있습니다.
 
-![MainPage](exec/ScenarioImg/main.PNG)
+![MainPage](ScenarioImg/main.PNG)
 
 
 
@@ -20,41 +20,41 @@
 
 > 공자사항 리스트
 
-![MapWeb](exec/ScenarioImg/noticeList.PNG)
+![MapWeb](ScenarioImg/noticeList.PNG)
 
 > 공지사항 생성
 
-![MapMobile](exec/ScenarioImg/noticeCreate.PNG)
+![MapMobile](ScenarioImg/noticeCreate.PNG)
 
 > 공지사항 확인
 
-![MapMobile](exec/ScenarioImg/noticeBoard.PNG)
+![MapMobile](ScenarioImg/noticeBoard.PNG)
 
 
 > 자유게시판 리스트
 
-![MapWeb](exec/ScenarioImg/FreeList.PNG)
+![MapWeb](ScenarioImg/FreeList.PNG)
 
 > 자유게시판 생성
 
-![MapMobile](exec/ScenarioImg/FreeCreate.PNG)
+![MapMobile](ScenarioImg/FreeCreate.PNG)
 
 > 자유게시판 확인
 
-![MapMobile](exec/ScenarioImg/FreeBoard.PNG)
+![MapMobile](ScenarioImg/FreeBoard.PNG)
 
 
 >  배틀게시판 리스트
 
-![MapWeb](exec/ScenarioImg/BattleList.PNG)
+![MapWeb](ScenarioImg/BattleList.PNG)
 
 > 배틀게시판 생성
 
-![MapMobile](exec/ScenarioImg/BattleCreate.PNG)
+![MapMobile](ScenarioImg/BattleCreate.PNG)
 
 > 배틀게시판 확인
 
-![BattleBoard](exec/ScenarioImg/BattleBoard.PNG)
+![BattleBoard](ScenarioImg/BattleBoard.PNG)
 
 
 #### 3. 나만의팀 
@@ -63,11 +63,11 @@
 
 > 나만의팀 리스트 
 
-![SearchEarth](exec/ScenarioImg/MyteamList.PNG)
+![SearchEarth](ScenarioImg/MyteamList.PNG)
 
 > 나만의팀 생성
 
-![SearchEarthDetail](exec/ScenarioImg/MyteamCreate.PNG)
+![SearchEarthDetail](ScenarioImg/MyteamCreate.PNG)
 
 #### 4. 시뮬레이션
 
@@ -75,15 +75,15 @@
 
 > 시뮬레이션 시작 전 팀 선택
 
-![NewsPage](exec/ScenarioImg/Simul1.PNG)
+![NewsPage](ScenarioImg/Simul1.PNG)
 
 > 시뮬레이션 시작
 
-![NewsChart](exec/ScenarioImg/Simul2.PNG)
+![NewsChart](ScenarioImg/Simul2.PNG)
 
 > 시뮬레이션 시작
 
-![NewsChart](exec/ScenarioImg/Simul3.PNG)
+![NewsChart](ScenarioImg/Simul3.PNG)
 
 
 #### 5. 선수들의 스텟을 확인할수있습니다.
@@ -92,8 +92,8 @@
 
 > 타자 정보
 
-![NewsPage](exec/ScenarioImg/Hitter.PNG)
+![NewsPage](ScenarioImg/Hitter.PNG)
 
 > 투수정보
 
-![NewsChart](exec/ScenarioImg/Patcher.PNG)
+![NewsChart](ScenarioImg/Patcher.PNG)
