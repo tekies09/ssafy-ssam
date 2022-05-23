@@ -1,21 +1,20 @@
-![image](https://user-images.githubusercontent.com/82515797/169730595-bfed677f-1a1d-49fd-bb5b-1ad48098fb38.png)
+<p align="center"><img src="https://user-images.githubusercontent.com/82515797/169730595-bfed677f-1a1d-49fd-bb5b-1ad48098fb38.png"></p>
 
-## <center> SSAM
 
 ---
+  <p align="center">시뮬레이션을 도입한 야구 커뮤니티 사이트</p>
+  
+  <b><p align="center">[와이어프레임](https://github.com/tekies09/ssafy-ssam/wiki/Wireframe) · [프로젝트 계획서](https://docs.google.com/document/d/1XweHVrVNPR53Bvo8SQjJGOaCeOtnX6W7RTjeEPowvxY/edit) </p></b>
 
-<center> 시뮬레이션을 도입한 야구 커뮤니티 사이트
 
-[UI/UX 기획안](https://www.figma.com/file/gKQCPq1L8VRCuXDg61NG2D/%ED%99%98%EC%98%81!-%ED%95%9C%EB%A6%BC%EC%A3%BC%ED%83%9D?node-id=0%3A1) , [프로젝트 계획서](https://docs.google.com/document/d/1XweHVrVNPR53Bvo8SQjJGOaCeOtnX6W7RTjeEPowvxY/edit)  
-</center>  
     
 <br>
 
 ## 프로젝트 소개
 --- 
-> 만들어서 붙어보자!  
+> 만들어서 붙어보자! , 야구 정보 및 시뮬레이션 SSAM! 
+<p align="center"><img src="https://user-images.githubusercontent.com/82515797/169730586-1675b85b-4262-4251-925e-9afa3b91930b.png"></p>
 
-![image](https://user-images.githubusercontent.com/82515797/169730586-1675b85b-4262-4251-925e-9afa3b91930b.png)
 
 SSAM은 직접 나만의 야구 팀을 만들고 시뮬레이션을 통해 대전을 할 수 있는 커뮤니티 사이트입니다.  
 
@@ -26,29 +25,27 @@ SSAM은 직접 나만의 야구 팀을 만들고 시뮬레이션을 통해 대�
 
 <br><br>
 
-#### 프로젝트 산출물
-* [프로젝트 계획서](https://docs.google.com/document/d/1XweHVrVNPR53Bvo8SQjJGOaCeOtnX6W7RTjeEPowvxY/edit)
-* [와이어 프레임](https://www.figma.com/file/gKQCPq1L8VRCuXDg61NG2D/%ED%99%98%EC%98%81!-%ED%95%9C%EB%A6%BC%EC%A3%BC%ED%83%9D?node-id=0%3A1)
-* [SSAM Wiki](https://github.com/tekies09/ssafy-ssam/wiki)
+### 프로젝트 산출물
+    
+* [프로젝트 계획서](https://docs.google.com/document/d/1XweHVrVNPR53Bvo8SQjJGOaCeOtnX6W7RTjeEPowvxY/edit) 
+* [와이어 프레임](https://www.figma.com/file/gKQCPq1L8VRCuXDg61NG2D/%ED%99%98%EC%98%81!-%ED%95%9C%EB%A6%BC%EC%A3%BC%ED%83%9D?node-id=0%3A1) 
+* [SSAM Wiki](https://github.com/tekies09/ssafy-ssam/wiki) 
 
+### Build
+    
+* [React.js](https://ko.reactjs.org/) 
+* [SpringBoot](https://spring.io/projects/spring-boot) 
 
+---
 ## 💻Stack
 
 #### Front
 
-<img src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=React&logoColor=white">
-<img src="https://img.shields.io/badge/-Redux-764ABC?style=flat-square&logo=Redux&logoColor=white">
-<img src="https://img.shields.io/badge/-MUI-007FFF?style=flat-square&logo=MUI&logoColor=white">
-<img src="https://img.shields.io/badge/-Axios-007396?style=flat-square"/>
+<img src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/-Redux-764ABC?style=flat-square&logo=Redux&logoColor=white"> <img src="https://img.shields.io/badge/-MUI-007FFF?style=flat-square&logo=MUI&logoColor=white"> <img src="https://img.shields.io/badge/-Axios-007396?style=flat-square"/>
 
 #### Backend
 
-<img src="https://img.shields.io/badge/-JAVA-007396?style=flat-square&logo=java&logoColor=white">
-<img src="https://img.shields.io/badge/-Spring Boot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/> 
-<img src="https://img.shields.io/badge/-Spring Security-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/> 
-<img src="https://img.shields.io/badge/-Spring%20AOP-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=black"/>
-<img src="https://img.shields.io/badge/-Gradle-02303A?style=flat-square&logo=Gradle"/>
+<img src="https://img.shields.io/badge/-JAVA-007396?style=flat-square&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/-Spring Boot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/>  <img src="https://img.shields.io/badge/-Spring Security-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/>  <img src="https://img.shields.io/badge/-Spring%20AOP-6DB33F?style=flat-square&logo=Spring&logoColor=white"/> <img src="https://img.shields.io/badge/-Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=black"/> <img src="https://img.shields.io/badge/-Gradle-02303A?style=flat-square&logo=Gradle"/>
 
 #### DB
 
@@ -56,15 +53,15 @@ SSAM은 직접 나만의 야구 팀을 만들고 시뮬레이션을 통해 대�
 
 #### DevOps
 
-<img src="https://img.shields.io/badge/-Amazon AWS-232F3E?style=flat-square&logo=AmazonAWS&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Kubernetes-326CE5?style=flat-square&logo=Kubernetes&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Ngnix-181717?style=flat-square"/>
-<img src="https://img.shields.io/badge/-Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=black"/>
-<img src="https://img.shields.io/badge/-Jira-0052CC?style=flat-square&logo=jira&logoColor=black"/>
+<img src="https://img.shields.io/badge/-Amazon AWS-232F3E?style=flat-square&logo=AmazonAWS&logoColor=white"/> <img src="https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/> <img src="https://img.shields.io/badge/-Kubernetes-326CE5?style=flat-square&logo=Kubernetes&logoColor=white"/> <img src="https://img.shields.io/badge/-Ngnix-181717?style=flat-square"/> <img src="https://img.shields.io/badge/-Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=black"/> <img src="https://img.shields.io/badge/-Jira-0052CC?style=flat-square&logo=jira&logoColor=black"/>
 
+---
+## 🌏Distribution flow
+    
+<p align="center"><img src="https://github.com/tekies09/ssafy-ssam/blob/master/img/Architecture.PNG?raw=true"></p>
 
-
+    
+---
 ## ✨ 환영 한림주택 !
 
 > ### 저희팀은 다음과 같이 분배했습니다.
@@ -89,84 +86,5 @@ SSAM은 직접 나만의 야구 팀을 만들고 시뮬레이션을 통해 대�
 <br><br><br>
 
 
-# 변경전
 
-
-
-
-
-
-
-
-
-
-## SSAFY MANAGER SSAM
-
-> 야구의 황금기를 대찾자~ MZ세대들과 함께~
-
-## 📌 Intro
-
-### 서비스 배경
-
-- 코로나 이슈가 아니여도 점점 식어가는 야구의 인기..
-
-- MZ 세대들은 보는 스포츠보다는 하는스포츠를 더선호..
-
-- 야구의 전성기도 되찾고 MZ세대들에게 컨텐츠를 제공하는 야구 시뮬레이션 플랫폼으로 두마리의 토끼를 다 잡자!
-
-### 서비스 목표
-
-#### 나만의 라인업을 통해 야구 시뮬레이션을 진행하고 야구 신규 팬의 유입을 활성화
-
-<br>
-
-## ✨ 환영 한림주택 !
-
-> ### 저희팀은 다음과 같이 분배했습니다.
-
-|  이름  | 직책 |         역할          |                                    세부 역할                                     |
-| :------: | :---: | :-------------------: | :------------------------------------------------------------------------------: |
-| 노문택 | 팀장 |        Backend        |                   CI/CD & User Api develop (With JWT&Security)                   |
-| 송민주 | 팀원 |  Backend & Frontend   | 게시판 API (Backend) 및 게시판 구성 (Frontend) & 메인화면 (경기일정 : Frontend ) |
-| 이재영 | 팀원 |        Backend        |                         Player & Schedule API & Crawling                         |
-| 조성한 | 팀원 |       Frontend        |     UserCustomTeam(나만의 팀) & PlayerArchives(선수 기록보관소) & UserManage     |
-| 이정환 | 팀원 |  Frontend & Backend   | 게시판 API (Backend) 및 게시판 구성 (Frontend) & 시뮬레이션 JS 변환 및 연동구현  |
-| 윤홍림 | 팀원 | Frontend & Simulation |                 Simulation 개발 및 Frontend 시뮬레이션 연동구현                  |
-
-## 💻Stack
-
-#### Front
-
-<img src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=React&logoColor=white">
-<img src="https://img.shields.io/badge/-Redux-764ABC?style=flat-square&logo=Redux&logoColor=white">
-<img src="https://img.shields.io/badge/-MUI-007FFF?style=flat-square&logo=MUI&logoColor=white">
-<img src="https://img.shields.io/badge/-Axios-007396?style=flat-square"/>
-
-#### Backend
-
-<img src="https://img.shields.io/badge/-JAVA-007396?style=flat-square&logo=java&logoColor=white">
-<img src="https://img.shields.io/badge/-Spring Boot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/> 
-<img src="https://img.shields.io/badge/-Spring Security-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/> 
-<img src="https://img.shields.io/badge/-Spring%20AOP-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=black"/>
-<img src="https://img.shields.io/badge/-Gradle-02303A?style=flat-square&logo=Gradle"/>
-
-#### DB
-
-<img src="https://img.shields.io/badge/mysql-4479A1?style=flat-square&logo=mysql&logoColor=white">
-
-#### DevOps
-
-<img src="https://img.shields.io/badge/-Amazon AWS-232F3E?style=flat-square&logo=AmazonAWS&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Kubernetes-326CE5?style=flat-square&logo=Kubernetes&logoColor=white"/>
-<img src="https://img.shields.io/badge/-Ngnix-181717?style=flat-square"/>
-<img src="https://img.shields.io/badge/-Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=black"/>
-<img src="https://img.shields.io/badge/-Jira-0052CC?style=flat-square&logo=jira&logoColor=black"/>
-
-## 🌏Distribution flow
-
-![Architecture](img/Architecture.PNG)
-
----
 
