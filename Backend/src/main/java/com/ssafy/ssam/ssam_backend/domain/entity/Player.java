@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Player {
@@ -39,8 +38,5 @@ public class Player {
 
     @Enumerated(EnumType.STRING)
     private PlayerType playerType;
-
-
-
 
 }

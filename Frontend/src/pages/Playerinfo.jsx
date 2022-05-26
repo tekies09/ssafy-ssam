@@ -193,27 +193,6 @@ export default function Playerinfo(props) {
       sx={{".tabpanel": {margin: 3}}}
     >
       <BaseStat player={player}></BaseStat>
-      {/* <Grid item xs={12} m={3}>
-        <Tabs value={tabValue} onChange={handleTabChange} aria-label="player stats" color="primary">
-            <Tab label="시즌 기록" {...a11yProps(0)} />
-            <Tab label="상황별 기록" {...a11yProps(1)} />
-          </Tabs>
-      </Grid> */}
-
-      {/* <Grid item xs={12}>
-        <TabPanel value={tabValue} index={0}>
-          <HitterYearStat stats={player.stats}></HitterYearStat>    
-        </TabPanel>
-      </Grid> */}
-
-      {/* <Grid item xs={12}>
-        <TabPanel value={tabValue} index={1}>
-          <HitterSituationalStat stats={player.situational_stats}></HitterSituationalStat>    
-        </TabPanel>
-      </Grid> */}
-    
-    
-    
     </Grid>
   )
 }

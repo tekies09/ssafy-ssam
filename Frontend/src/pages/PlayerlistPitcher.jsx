@@ -24,7 +24,6 @@ export default function PlayerlistPitcher() {
     "hbp_cn",
     "so_cn",
     "er_cn",
-    // "whip_rt",
   ]
 
   const labels = [
@@ -44,7 +43,6 @@ export default function PlayerlistPitcher() {
     "사구",
     "삼진",
     "자책점",
-    // "WHIP",
   ]
 
   const [players, setPlayers] = useState([])
@@ -74,7 +72,6 @@ export default function PlayerlistPitcher() {
     })
     .catch(error => {
       console.log(error)
-      // alert("선수 목록 로드에 실패했습니다.")
       setPlayers([])
     })
   }, [year, page])

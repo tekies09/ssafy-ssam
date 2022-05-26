@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Team {
@@ -24,8 +23,5 @@ public class Team {
 
     @Column
     private String homeTown;
-
-
-
 
 }

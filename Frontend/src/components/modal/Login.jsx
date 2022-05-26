@@ -160,11 +160,6 @@ function Login(props) {
             로그인
           </Button>
         </DialogActions>
-        {/* <DialogActions sx={{'mb': 2}}>
-          <Link to="#">
-            계정을 잃어버리셨나요? 아이디/비밀번호 찾기
-          </Link>
-        </DialogActions> */}
       </Box>
       <NewSnackbar open={snackbarOpen} setOpen={setSnackbarOpen} message={message} severity={severity} />
     </Dialog>

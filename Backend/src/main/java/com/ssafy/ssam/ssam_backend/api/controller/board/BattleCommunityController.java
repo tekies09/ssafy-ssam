@@ -12,7 +12,6 @@ import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardListResDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BattleBoardResDto;
 import com.ssafy.ssam.ssam_backend.api.service.BattleCommunityService;
-import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

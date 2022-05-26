@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { styled } from "@mui/material/styles";
@@ -21,7 +21,6 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useSelector } from "react-redux";
 
 const BoardList = (props) => {
-  const navigate = useNavigate();
   const [searchMenu, setSearchMenu] = useState("title");
   const [search, setSearch] = useState("");
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
@@ -155,8 +154,6 @@ const BoardList = (props) => {
 
   const handlePaginationChange = (event, page) => {
     setPage(page);
-
-    console.log("현재 페이지 : " + page);
   };
 
   const handleSearchMenuChange = (event) => {
@@ -164,10 +161,7 @@ const BoardList = (props) => {
   };
 
   const handleSearchClick = async () => {
-    // TODO: 검색 버튼 클릭시 1페이지로 이동하기
     setSearch(searchInput.value);
-
-    console.log("검색어 : " + search);
   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -339,19 +333,13 @@ const BoardList = (props) => {
             </TableRow>
           </TableHead>
           <PostData />
-          {/* <TableBody>
-            <PostData />
-            {/* {posts.map(post => (
-              <PostData post={post} />
-            ))}
-          </TableBody> */}
         </Table>
       </TableContainer>
 
       {/* 페이지네이션 */}
       <Pagination
         sx={{ my: 3 }}
-        count={maxPage} // 페이지 수
+        count={maxPage}  // 페이지 수
         showFirstButton
         showLastButton
         size="large"

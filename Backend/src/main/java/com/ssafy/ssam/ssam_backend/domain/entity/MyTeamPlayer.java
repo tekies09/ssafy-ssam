@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MyTeamPlayer {
@@ -19,7 +18,6 @@ public class MyTeamPlayer {
     @ManyToOne
     @JoinColumn(name="myTeamId")
     private MyTeam myTeam;
-
 
     @ManyToOne
     @JoinColumn (name = "HitterYearsSId")
@@ -37,6 +35,4 @@ public class MyTeamPlayer {
 
     @Column
     private String defensePosition;
-
-
 }

@@ -6,7 +6,6 @@ import com.ssafy.ssam.ssam_backend.domain.entity.BattleBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

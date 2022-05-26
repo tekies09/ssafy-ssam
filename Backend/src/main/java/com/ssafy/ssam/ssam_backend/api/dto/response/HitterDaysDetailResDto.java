@@ -1,12 +1,10 @@
 package com.ssafy.ssam.ssam_backend.api.dto.response;
 
 import com.ssafy.ssam.ssam_backend.domain.entity.HitterDaysStatus;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

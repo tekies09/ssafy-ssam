@@ -6,7 +6,6 @@ import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamListResDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamPlayerListResDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamResDto;
 import com.ssafy.ssam.ssam_backend.api.service.MyTeamService;
-import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

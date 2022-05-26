@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PitcherYearsStatus {
@@ -99,10 +98,8 @@ public class PitcherYearsStatus {
     @Column
     private int er_cn;
 
-
     //삼진/볼넷
     @Column(columnDefinition = "decimal(7,2)")
     private BigDecimal kbb_rt;
-
 
 }

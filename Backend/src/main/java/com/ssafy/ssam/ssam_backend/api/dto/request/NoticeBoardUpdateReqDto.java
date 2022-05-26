@@ -1,9 +1,7 @@
 package com.ssafy.ssam.ssam_backend.api.dto.request;
 import java.time.LocalDateTime;
 
-import com.ssafy.ssam.ssam_backend.domain.entity.FreeBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.Notice;
-import com.ssafy.ssam.ssam_backend.domain.entity.User;
 import com.sun.istack.NotNull;
 
 import io.swagger.annotations.ApiModelProperty;

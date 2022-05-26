@@ -2,15 +2,11 @@ package com.ssafy.ssam.ssam_backend.api.service;
 
 import com.ssafy.ssam.ssam_backend.api.dto.response.*;
 import com.ssafy.ssam.ssam_backend.api.repository.*;
-import com.ssafy.ssam.ssam_backend.api.repository.mapping.HitterIdMapping;
-import com.ssafy.ssam.ssam_backend.api.repository.mapping.PitcherIdMapping;
-import com.ssafy.ssam.ssam_backend.api.repository.mapping.PlayerMapping;
 import com.ssafy.ssam.ssam_backend.domain.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

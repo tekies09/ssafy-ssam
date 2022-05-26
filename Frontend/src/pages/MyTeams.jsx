@@ -126,10 +126,6 @@ const MemberInput = function (props) {
     })
   }
 
-  // useEffect(() => {
-  //   loadPlayers(year)
-  // }, [year])
-
   useEffect(() => {
     let active = true
     if (!loading) {
@@ -214,7 +210,6 @@ const MemberInput = function (props) {
             </li>
           )
         }}
-        // isOptionEqualToValue={(option, value) => option.statusId === value.statusId}
         value={inputValue}
         onChange={(event, value) => {
           setInputValue(value)

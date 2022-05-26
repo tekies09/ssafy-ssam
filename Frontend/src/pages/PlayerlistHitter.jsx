@@ -21,7 +21,6 @@ export default function PlayerlistHitter() {
     "bb_cn",
     "so_cn",
     "gdp_cn",
-    // "ops_rt",
   ]
 
   const labels = [
@@ -68,7 +67,6 @@ export default function PlayerlistHitter() {
     })
     .catch(error => {
       console.log(error)
-      // alert("선수 목록 로드에 실패했습니다.")
       setPlayers([])
     })
   }, [year, page])

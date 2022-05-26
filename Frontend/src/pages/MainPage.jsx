@@ -10,8 +10,6 @@ import {
   Paper,
   Box,
   Typography,
-  CardHeader,
-  Divider,
   Grid,
 } from "@mui/material";
 
@@ -370,14 +368,12 @@ const MainPage = (props) => {
     var min = today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
     const todayS = year + "-" + month + "-" + date + "T" + hour + ":" + min;
     axios({
-      // baseURL: process.env.REACT_APP_SERVER_URL,
       baseURL: "https://ssafy-ssam.com/api",
       timeout: 3000,
       method: "GET",
       url: `/schedule/today/${todayS}`,
     })
       .then((res) => {
-        // console.log(res.data.scheduleList);
         setTodayEvent(res.data.scheduleList);
       })
       .catch((err) => {
@@ -409,7 +405,6 @@ const MainPage = (props) => {
             // }}
             initialDate={selectDate}
             titleFormat={function (date) {
-              // console.log(date)
               return `${date.date.year}년 ${monthName[date.date.month]}`;
             }}
             locale={"ko"}
@@ -462,7 +457,6 @@ const MainPage = (props) => {
                     .getDate()
                     .toISOString()
                     .substring(0, 16);
-                  // console.log(day);
                   fetchEventList(day);
                 },
               },

@@ -100,7 +100,6 @@ const BoardDetail = (props) => {
   };
 
   const PostContent = (props) => {
-    // console.log(playerL)
     switch (boardType) {
       case "freeBoard":
       case "notice":
@@ -124,13 +123,11 @@ const BoardDetail = (props) => {
         }
       case "battleBoard":
         return (
-          // player 목록 보여줄 부분 (post.players)
           <Box
             textAlign="center"
             sx={{
               mb: 2,
               width: "100%",
-              // display: "flex",
               justifyContent: "center",
             }}
           >

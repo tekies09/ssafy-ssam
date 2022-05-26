@@ -18,7 +18,6 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name="freeBoardId")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     private FreeBoard freeBoard;
 
     @ManyToOne

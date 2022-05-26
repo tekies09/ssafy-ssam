@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MyTeam {

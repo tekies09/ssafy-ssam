@@ -4,13 +4,11 @@ import com.ssafy.ssam.ssam_backend.domain.GameState;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ScheduleAndScore {

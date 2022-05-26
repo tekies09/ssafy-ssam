@@ -4,13 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class FreeBoard {
@@ -35,10 +32,4 @@ public class FreeBoard {
     @JoinColumn(name="userId")
     private User author;
 
-//    @OneToMany(mappedBy = "freeBoard", cascade = CascadeType.ALL)
-//    private List<Reply> replies = new ArrayList<>();
-//
-//    public void createReply(Reply reply) {
-//        this.replies.add(reply);
-//    }
 }

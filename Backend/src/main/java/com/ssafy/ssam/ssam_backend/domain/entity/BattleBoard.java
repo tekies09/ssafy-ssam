@@ -1,17 +1,13 @@
 package com.ssafy.ssam.ssam_backend.domain.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
-
 import org.hibernate.annotations.DynamicUpdate;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @DynamicUpdate
 @Builder

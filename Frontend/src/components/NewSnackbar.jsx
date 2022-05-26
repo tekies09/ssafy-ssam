@@ -1,6 +1,5 @@
 import React from 'react'
-import { Alert, Snackbar, Button, IconButton } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
+import { Alert, Snackbar } from '@mui/material'
 
 export default function NewSnackbar(props) {
   const { open, setOpen, message, severity } = props

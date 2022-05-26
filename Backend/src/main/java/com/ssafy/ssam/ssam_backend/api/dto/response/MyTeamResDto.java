@@ -1,13 +1,10 @@
 package com.ssafy.ssam.ssam_backend.api.dto.response;
 
-import com.ssafy.ssam.ssam_backend.api.dto.request.MyTeamPlayerReqDto;
 import com.ssafy.ssam.ssam_backend.domain.entity.MyTeam;
-import com.ssafy.ssam.ssam_backend.domain.entity.MyTeamPlayer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

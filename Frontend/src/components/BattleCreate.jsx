@@ -17,18 +17,12 @@ const PostCreate = (props) => {
   const [myTeamId, setMyTeamId] = useState(0);
   const [teamList, setTeamList] = useState([]);
 
-  // const [form, setForm] = useState({
-  //   title: "",
-  //   myTeamId: undefined,
-  // });
-
   useEffect(() => {
     getMyTeamList();
   }, []);
 
   // 글 작성자의 나만의 팀 목록을 가져온다.
   const getMyTeamList = () => {
-    // console.log(user);
     axios({
       baseURL: process.env.REACT_APP_SERVER_URL,
       timeout: 3000,
@@ -44,21 +38,12 @@ const PostCreate = (props) => {
       });
   };
 
-  const mockData = [
-    { myTeamId: 1, myTeamName: "싸피 이글스" },
-    { myTeamId: 2, myTeamName: "싸피 타이거즈" },
-    { myTeamId: 3, myTeamName: "토트넘" },
-    { myTeamId: 4, myTeamName: "리버풀" },
-  ];
-
   const handleTitleInput = (event) => {
     setTitle(event.target.value);
   };
 
   const handleTeamSelect = (event) => {
     setMyTeamId(event.target.value);
-
-    // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
 
   // 게시글 등록

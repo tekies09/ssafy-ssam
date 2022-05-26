@@ -2,7 +2,6 @@ package com.ssafy.ssam.ssam_backend.api.service;
 
 import com.ssafy.ssam.ssam_backend.api.dto.request.MyTeamReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.MyTeamResDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

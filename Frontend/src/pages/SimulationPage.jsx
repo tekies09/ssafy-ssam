@@ -17,9 +17,7 @@ import { tableCellClasses } from "@mui/material/TableCell";
 import { useSelector } from "react-redux";
 
 const SimulationPage = props => {
-  // const [teams, setTeams] = useState(testTeams);
   const [checked, setChecked] = useState(false);
-  // const [finished, setFinished] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
 
   const myPlayers = useSelector(state => state.myPlayers);
@@ -168,10 +166,11 @@ const SimulationPage = props => {
   한번(ex. 3회초, 5회말 등) 동안의 공격 결과를 기록한다.
   
   Args:
-  result: 경기 진행 상황을 기록하는 곳
-  a: 현재 수비하는 팀
-  b: 현재 공격하는 팀
-  teamNum: 1이면 선공 팀(n회 초), 2면 후공 팀(n회 말)*/
+    - result: 경기 진행 상황을 기록하는 곳
+    - a: 현재 수비하는 팀
+    - b: 현재 공격하는 팀
+    - teamNum: 1이면 선공 팀(n회 초), 2면 후공 팀(n회 말)
+  */
 
   function hit(a, b, teamNum) {
     let hit = 0;
@@ -207,8 +206,6 @@ const SimulationPage = props => {
       let currentLog = "";
 
       while (true) {
-        // currentLog += `(${strike}S, ${ball}B) `;
-        // storeLog(`(${strike}S, ${ball}B)`);
         hit = Math.random() * 100;
 
         if (a[9]["kbb_rt"] >= 1.5) {
@@ -443,7 +440,6 @@ const SimulationPage = props => {
       // 전광판에 표시할 점수 저장 (나의 팀이 i회에 num점을 얻음.)
       pointChange[logCount] = ["me", i, num];
 
-      // storeLog(`\n===${a[10]["myTeamName"]}팀 ${num}점 증가===`);
       storeLog("\n");
 
       for (let j = 0; j < 3; j += 1) {
@@ -461,7 +457,6 @@ const SimulationPage = props => {
       // 전광판에 표시할 점수 저장 (상대 팀이 i회에 num점을 얻음.)
       pointChange[logCount] = ["you", i, num];
 
-      // storeLog(`\n===${b[10]["myTeamName"]}팀 ${num}점 증가===`);
       storeLog("\n");
 
       for (let j = 0; j < 3; j += 1) {
@@ -500,7 +495,6 @@ const SimulationPage = props => {
       let isScrollBottom =
         logBox.scrollHeight - logBox.scrollTop <= logBox.clientHeight + 2;
 
-      // logList.push(log);
       showedLogList.push(log);
       newLog.innerText = log;
       logBox.appendChild(newLog);
@@ -600,7 +594,6 @@ const SimulationPage = props => {
         await new Promise((resolve, reject) => setTimeout(resolve, 200));
       }
 
-      // setFinished(true);
     }
 
     playSimulation();

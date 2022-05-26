@@ -52,7 +52,6 @@ const Sidebar = props => {
     { name: "공지사항", url: "/board/notice" },
     { name: "자유게시판", url: "/board/free" },
     { name: "배틀게시판", url: "/board/battle" },
-    // { name: "시뮬레이션", url: "/simulation/select" },
   ];
 
   const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -168,7 +167,6 @@ const Sidebar = props => {
                 to={menu.url}
               >
                 <ListItemText align="right" primary={menu.name} />
-                {/* <ListItemText align="right" primary={menu.name} /> */}
               </ListItem>
             ))}
             {/* 선수정보 메뉴 */}

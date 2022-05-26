@@ -132,7 +132,6 @@ const PostCreate = props => {
 
       <Box sx={{ width: "100%" }}>
         <Box sx={{ m: 2 }}>
-          {/* TODO: 제목/내용 입력시 outline 표시하기 */}
           {/* 제목 입력창 */}
           <FormControl sx={{ mb: 2 }} fullWidth>
             <TextField

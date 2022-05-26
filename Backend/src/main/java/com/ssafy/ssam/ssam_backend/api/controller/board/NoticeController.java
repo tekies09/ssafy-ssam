@@ -1,15 +1,10 @@
 package com.ssafy.ssam.ssam_backend.api.controller.board;
 
-import com.ssafy.ssam.ssam_backend.api.dto.request.FreeBoardCreateReqDto;
-import com.ssafy.ssam.ssam_backend.api.dto.request.FreeBoardUpdateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.NoticeBoardCreateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.NoticeBoardUpdateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.BaseResponseBody;
-import com.ssafy.ssam.ssam_backend.api.dto.response.FreeBoardResDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.NoticeBoardResDto;
-import com.ssafy.ssam.ssam_backend.api.service.FreeCommunityService;
 import com.ssafy.ssam.ssam_backend.api.service.NoticeService;
-import com.ssafy.ssam.ssam_backend.domain.entity.FreeBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.Notice;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponses;

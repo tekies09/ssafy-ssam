@@ -238,14 +238,6 @@ export default function Signup(props) {
                 helperText={errors.email}
                 />
             </Grid>
-            {/* <Grid item xs={12} sm={4} alignItems="stretch" sx={{display: "flex"}}>
-              <Button
-                fullWidth
-                type="submit"
-                color="primary"
-                variant="outlined"
-                >이메일 인증</Button>
-            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 required

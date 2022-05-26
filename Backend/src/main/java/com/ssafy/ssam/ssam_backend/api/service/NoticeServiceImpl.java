@@ -1,17 +1,10 @@
 package com.ssafy.ssam.ssam_backend.api.service;
 import com.ssafy.ssam.ssam_backend.api.dto.request.NoticeBoardCreateReqDto;
 import com.ssafy.ssam.ssam_backend.api.dto.request.NoticeBoardUpdateReqDto;
-import com.ssafy.ssam.ssam_backend.api.dto.request.ReplyCreateReqDto;
-import com.ssafy.ssam.ssam_backend.api.dto.request.ReplyUpdateReqDto;
-import com.ssafy.ssam.ssam_backend.api.dto.response.FreeBoardResDto;
 import com.ssafy.ssam.ssam_backend.api.dto.response.NoticeBoardResDto;
-import com.ssafy.ssam.ssam_backend.api.repository.FreeBoardReplyRepository;
-import com.ssafy.ssam.ssam_backend.api.repository.FreeBoardRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.NoticeBoardRepository;
 import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
-import com.ssafy.ssam.ssam_backend.domain.entity.FreeBoard;
 import com.ssafy.ssam.ssam_backend.domain.entity.Notice;
-import com.ssafy.ssam.ssam_backend.domain.entity.Reply;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

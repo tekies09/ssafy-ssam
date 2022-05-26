@@ -1,9 +1,5 @@
 package com.ssafy.ssam.ssam_backend.api.dto.response;
 
-import com.ssafy.ssam.ssam_backend.domain.entity.HitterDaysStatus;
-import com.ssafy.ssam.ssam_backend.domain.entity.HitterYearsStatus;
-import com.ssafy.ssam.ssam_backend.domain.entity.PitcherDaysStatus;
-import com.ssafy.ssam.ssam_backend.domain.entity.PitcherYearsStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

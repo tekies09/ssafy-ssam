@@ -2,7 +2,6 @@ package com.ssafy.ssam.ssam_backend.api.service;
 
 import com.ssafy.ssam.ssam_backend.api.dto.response.ScheduleResultResDto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

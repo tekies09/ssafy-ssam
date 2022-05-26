@@ -6,7 +6,6 @@ import com.ssafy.ssam.ssam_backend.domain.entity.ScheduleAndScore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;

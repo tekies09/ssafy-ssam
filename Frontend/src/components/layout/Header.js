@@ -1,8 +1,5 @@
-// Header 컴포넌트입니다.
-
 import React from "react";
 import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import mainLogo from '../../assets/sidebar_logo.png';

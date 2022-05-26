@@ -1,21 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Box, Button, Typography, Grid } from "@mui/material";
-import { FormControl, TextField, Input } from "@mui/material";
+import { FormControl, Input } from "@mui/material";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
 const CommentForm = props => {
-  const inputRef = useRef(null);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const userId = useSelector(state => state.user.userid);
   const boardId = props.boardId;
 
   const [comments, setComments] = useState([]);
   let content = "";
-  // const [content, setContent] = useState("");
-  // const commentInput = document.querySelector("#comment-input");
 
   const handleCommentInput = event => {
     content = event.target.value;
@@ -23,7 +20,6 @@ const CommentForm = props => {
 
   // 최초 로딩시에만 실행 (이후 댓글 추가시마다 댓글 목록 업데이트)
   useEffect(() => {
-    console.log("useEffect");
     getReplyList({
       boardId: boardId,
     });
@@ -94,7 +90,6 @@ const CommentForm = props => {
               id="comment-input"
               size="small"
               disableUnderline="true"
-              // value={content}
               onInput={handleCommentInput}
             />
           </FormControl>

@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import { Button, Card, CardActions, CardContent, CardHeader, Grid, Typography } from '@mui/material'
 import styles from './MyteamSummary.module.css'
 

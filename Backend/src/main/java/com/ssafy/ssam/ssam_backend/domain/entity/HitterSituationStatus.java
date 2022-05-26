@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class HitterSituationStatus {

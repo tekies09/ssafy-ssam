@@ -1,10 +1,5 @@
 package com.ssafy.ssam.ssam_backend.api.dto.response;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.ssafy.ssam.ssam_backend.domain.entity.FreeBoard;
 
 import com.ssafy.ssam.ssam_backend.domain.entity.Notice;
 import io.swagger.annotations.ApiModel;

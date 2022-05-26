@@ -7,13 +7,11 @@ import com.ssafy.ssam.ssam_backend.api.dto.request.UserUpdateRequestDto;
 import com.ssafy.ssam.ssam_backend.api.repository.UserRepository;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 

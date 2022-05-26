@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box } from "@mui/material";
 import { Card, CardContent, CardActions, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CommentDeleteModal from "./modal/CommentDeleteModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,9 +19,6 @@ const Comment = props => {
     } else {
       return (
         <CardActions>
-          {/* <IconButton sx={{ p: 0 }} aria-label="edit" size="large">
-            <EditIcon />
-          </IconButton> */}
           <IconButton
             sx={{ p: 0, mr: 1 }}
             aria-label="delete"

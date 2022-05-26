@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class HitterDaysStatus {
@@ -95,7 +94,4 @@ public class HitterDaysStatus {
     //병살
     @Column
     private int gdp_cn;
-
-
-
 }

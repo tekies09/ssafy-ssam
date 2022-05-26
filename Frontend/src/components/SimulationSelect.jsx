@@ -52,8 +52,6 @@ const SimulationSelect = props => {
     const myTeamToServe = { id: 1 };
     const yourTeamToServe = { id: 2 };
 
-    // 선수 정보가 순서대로 안 들어가는 문제 => 미리 객체 요소 만든 뒤, 인덱스로 삽입해서 해결
-
     // 1. 우리 팀 투수, 타자 정보 넣기
     myTeamPlayers.map((player, idx) => {
       axios({
@@ -293,8 +291,6 @@ const SimulationSelect = props => {
             variant="contained"
             color="mint"
             size="large"
-            // component={Link}
-            // to="./.."
             startIcon={<SportsBaseballIcon />}
             endIcon={<SportsBaseballIcon />}
             onClick={handleBattleStart}

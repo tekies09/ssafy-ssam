@@ -46,8 +46,6 @@ const BattleUpdate = props => {
 
   const handleTeamSelect = event => {
     setMyTeamId(event.target.value);
-
-    // TODO: 화면에 팀 정보를 표 형태로 보여준다.
   };
 
   const handleUpdateClick = () => {

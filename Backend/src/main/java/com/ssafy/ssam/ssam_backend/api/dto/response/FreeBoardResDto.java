@@ -1,9 +1,6 @@
 package com.ssafy.ssam.ssam_backend.api.dto.response;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import com.ssafy.ssam.ssam_backend.domain.entity.FreeBoard;
 
@@ -21,8 +18,6 @@ public class FreeBoardResDto extends BaseResponseBody {
 	private LocalDateTime fbWriteTime;
 	private String username;
 	private String nickname;
-
-//	private List<ReplyResDto> replies = new ArrayList<>();
 	
 	public FreeBoardResDto(Integer statusCode, String message, FreeBoard board) {
 		this.message=message;
@@ -34,7 +29,6 @@ public class FreeBoardResDto extends BaseResponseBody {
 		this.fbWriteTime = board.getFbWriteTime();
 		this.username = board.getAuthor().getUsername();
 		this.nickname = board.getAuthor().getNickname();
-
-//		this.replies = board.getReplies().stream().map(ReplyResDto::new).collect(Collectors.toList());
 	}
+
 }

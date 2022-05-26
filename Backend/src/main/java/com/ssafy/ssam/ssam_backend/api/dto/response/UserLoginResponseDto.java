@@ -1,12 +1,9 @@
 package com.ssafy.ssam.ssam_backend.api.dto.response;
 import com.ssafy.ssam.ssam_backend.domain.RoleType;
 import com.ssafy.ssam.ssam_backend.domain.entity.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
