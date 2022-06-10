@@ -1,5 +1,4 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/82515797/169730595-bfed677f-1a1d-49fd-bb5b-1ad48098fb38.png"></p>
-
+<p align="center"><img src="https://user-images.githubusercontent.com/58842550/173010473-02edf9d4-1c8b-42bc-820d-3b8efd12f401.png"></p>
 
 ---
   <p align="center">시뮬레이션을 도입한 야구 커뮤니티 사이트</p>
